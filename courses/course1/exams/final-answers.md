@@ -286,4 +286,4 @@ Fine-tuning takes a pre-trained model and continues training it on a smaller, do
 
 ---
 
-*Answer key — GENAI 101 Final Exam, Fall 2026 — Dr. Sarah Chen*
+*Answer key — GENAI 101 Final Exam, Fall 2026 — Instructor*

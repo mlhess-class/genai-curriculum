@@ -1,7 +1,7 @@
 # GENAI 101: Final Exam
 
 **Foundations of Generative AI — Fall 2026**
-**Dr. Sarah Chen**
+**Instructor**
 **Time: 2 hours | Total Points: 100**
 
 ---
