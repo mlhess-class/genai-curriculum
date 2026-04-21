@@ -4,334 +4,336 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Graduate Certificate in Generative AI &amp; Intelligent Automation | University of Michigan</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Inter',sans-serif;color:#00274C;line-height:1.6;scroll-behavior:smooth}
-a{text-decoration:none;color:inherit}
-nav{position:fixed;top:0;width:100%;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);z-index:1000;box-shadow:0 1px 3px rgba(0,0,0,.08);padding:0 2rem}
-nav .nav-inner{max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center;height:64px}
-nav .logo{font-weight:800;font-size:1.1rem;color:#00274C}
-nav ul{list-style:none;display:flex;gap:1.5rem}
-nav ul li a{font-size:.875rem;font-weight:500;color:#555;transition:color .2s}
-nav ul li a:hover{color:#00274C}
-.btn{display:inline-block;padding:.75rem 2rem;border-radius:8px;font-weight:600;font-size:.95rem;transition:all .3s;cursor:pointer;border:none}
-.btn-primary{background:#00274C;color:#fff}
-.btn-primary:hover{background:#001A33;transform:translateY(-2px);box-shadow:0 8px 25px rgba(0,39,76,.3)}
-.btn-outline{border:2px solid #fff;color:#fff;background:transparent}
-.btn-outline:hover{background:#fff;color:#00274C}
-.btn-secondary{background:transparent;border:2px solid #00274C;color:#00274C}
-.btn-secondary:hover{background:#00274C;color:#fff}
-.hero{min-height:100vh;background:linear-gradient(135deg,#00274C 0%,#00274C 50%,#FFCB05 100%);display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;padding:6rem 2rem 4rem}
-.hero h1{font-size:3.5rem;font-weight:800;line-height:1.15;max-width:800px;margin:0 auto .5rem}
-.hero .subtitle{font-size:1.25rem;opacity:.85;max-width:650px;margin:0 auto 1rem}
-.hero .badge{display:inline-block;background:rgba(255,255,255,.15);padding:.4rem 1.2rem;border-radius:50px;font-size:.8rem;font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin-bottom:1.5rem}
-.hero .ctas{display:flex;gap:1rem;justify-content:center;margin-top:2rem;flex-wrap:wrap}
-section{padding:5rem 2rem}
-.container{max-width:1100px;margin:auto}
-.section-title{text-align:center;font-size:2.2rem;font-weight:800;margin-bottom:.5rem}
-.section-subtitle{text-align:center;color:#666;max-width:600px;margin:0 auto 3rem;font-size:1.05rem}
-.overview{background:#F2F2F2}
-.overview-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
-.overview-text h2{font-size:2rem;font-weight:800;margin-bottom:1rem}
-.overview-text p{color:#555;margin-bottom:1rem}
-.overview-stats{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
-.stat{background:#fff;padding:1.5rem;border-radius:12px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,.06)}
-.stat .num{font-size:2rem;font-weight:800;color:#00274C}
-.stat .label{font-size:.85rem;color:#777}
-.why{background:#fff}
-.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
-.why-card{padding:2rem;border-radius:12px;background:#F2F2F2;border:1px solid #d9d9d9;transition:transform .2s}
-.why-card:hover{transform:translateY(-4px)}
-.why-card .icon{font-size:2rem;margin-bottom:.75rem}
-.why-card h3{font-size:1.1rem;font-weight:700;margin-bottom:.5rem}
-.why-card p{font-size:.9rem;color:#666}
-.courses{background:#F2F2F2}
-.course-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.5rem}
-.course-card{background:#fff;border-radius:16px;padding:2rem;box-shadow:0 2px 15px rgba(0,0,0,.06);border-left:4px solid #00274C;transition:transform .2s}
-.course-card:hover{transform:translateY(-4px)}
-.course-card .code{font-size:.75rem;font-weight:700;color:#00274C;text-transform:uppercase;letter-spacing:1px;margin-bottom:.25rem}
-.course-card h3{font-size:1.15rem;font-weight:700;margin-bottom:.5rem}
-.course-card p{font-size:.9rem;color:#666}
-.course-card .meta{margin-top:1rem;display:flex;gap:1rem;font-size:.8rem;color:#999}
-.faculty{background:#fff}
-.faculty-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem}
-.faculty-card{text-align:center;padding:1.5rem}
-.faculty-card .avatar{width:100px;height:100px;border-radius:50%;background:linear-gradient(135deg,#00274C,#FFCB05);margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;font-size:2rem;color:#fff;font-weight:700}
-.faculty-card h3{font-size:1rem;font-weight:700}
-.faculty-card .title{font-size:.85rem;color:#00274C;font-weight:500;margin-bottom:.5rem}
-.faculty-card p{font-size:.8rem;color:#777}
-.outcomes{background:linear-gradient(135deg,#00274C,#00274C);color:#fff;position:relative}
-.outcomes .section-title,.outcomes .section-subtitle{color:#fff}
-.outcomes .section-subtitle{opacity:.8}
-.outcome-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2rem}
-.outcome-card{background:rgba(255,255,255,.1);backdrop-filter:blur(10px);border-radius:16px;padding:2rem;border:1px solid rgba(255,255,255,.15)}
-.outcome-card .description{font-size:.95rem;opacity:.9;margin-bottom:1.5rem;line-height:1.7}
-.outcome-card .author{display:flex;align-items:center;gap:1rem}
-.outcome-card .author .av{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem}
-.outcome-card .author .info .name{font-weight:600;font-size:.9rem}
-.outcome-card .author .info .role{font-size:.8rem;opacity:.7}
-.careers{background:#fff}
-.career-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem}
-.career-card{background:#F2F2F2;border-radius:12px;padding:1.5rem;text-align:center;border:1px solid #d9d9d9}
-.career-card h3{font-size:1rem;font-weight:700;margin-bottom:.25rem}
-.career-card .skills{font-size:.85rem;font-weight:600;color:#00274C;margin:.5rem 0}
-.career-card p{font-size:.8rem;color:#777}
-.faq{background:#F2F2F2}
-.faq-list{max-width:750px;margin:auto}
-.faq-item{background:#fff;border-radius:12px;margin-bottom:1rem;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.05)}
-.faq-q{padding:1.25rem 1.5rem;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:.95rem}
-.faq-q:hover{color:#00274C}
-.faq-q .arrow{transition:transform .3s;font-size:1.2rem}
+body{font-family:'Inter',sans-serif;color:#222;line-height:1.6}
+a{text-decoration:none;color:#00274C}
+a:hover{text-decoration:underline}
+.container{max-width:960px;margin:auto;padding:0 2rem}
+
+/* Header */
+header{background:#00274C;color:#fff;padding:2.5rem 0;border-bottom:4px solid #FFCB05}
+header .dept{font-size:.85rem;color:rgba(255,255,255,.7);margin-bottom:.25rem}
+header h1{font-size:1.8rem;font-weight:700;margin-bottom:.25rem}
+header .college{font-size:.95rem;color:#FFCB05}
+
+/* Nav */
+nav{background:#00274C;border-top:1px solid rgba(255,255,255,.1);position:sticky;top:0;z-index:100}
+nav .container{display:flex;gap:1.5rem;padding:.75rem 2rem;flex-wrap:wrap}
+nav a{color:rgba(255,255,255,.8);font-size:.85rem;font-weight:500}
+nav a:hover{color:#FFCB05;text-decoration:none}
+
+/* Sections */
+section{padding:3rem 0}
+section:nth-child(even){background:#f5f5f5}
+h2{font-size:1.4rem;font-weight:700;color:#00274C;margin-bottom:1rem;padding-bottom:.5rem;border-bottom:2px solid #FFCB05}
+h3{font-size:1.05rem;color:#00274C;margin-bottom:.5rem}
+p,li{font-size:.93rem;color:#444}
+ul{padding-left:1.25rem;margin-top:.5rem}
+ul li{margin-bottom:.35rem}
+
+/* Cards */
+.card{background:#fff;border:1px solid #ddd;border-radius:6px;padding:1.5rem;margin-bottom:1rem}
+section:nth-child(even) .card{background:#fff}
+
+/* Course list */
+.course-link{display:block;background:#fff;border:1px solid #ddd;border-left:4px solid #00274C;border-radius:6px;padding:1.25rem 1.5rem;margin-bottom:.75rem;transition:border-color .2s}
+.course-link:hover{border-left-color:#FFCB05;text-decoration:none}
+.course-link .code{font-size:.75rem;font-weight:700;color:#00274C;text-transform:uppercase;letter-spacing:.5px}
+.course-link h3{margin:0}
+.course-link p{margin-top:.25rem}
+.course-link .meta{margin-top:.5rem;font-size:.8rem;color:#888}
+
+/* Grid */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media(max-width:700px){.grid2{grid-template-columns:1fr}}
+
+/* Stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:1.5rem}
+.stat{text-align:center;padding:1rem;background:#fff;border:1px solid #ddd;border-radius:6px}
+.stat .num{font-size:1.5rem;font-weight:700;color:#00274C}
+.stat .label{font-size:.8rem;color:#777}
+
+/* Faculty grid */
+.faculty-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem}
+.faculty-card{padding:1rem;text-align:center}
+.faculty-card .initials{width:64px;height:64px;border-radius:50%;background:#00274C;color:#fff;display:flex;align-items:center;justify-content:center;margin:0 auto .75rem;font-weight:700;font-size:1.1rem}
+.faculty-card h3{font-size:.95rem;margin-bottom:.15rem}
+.faculty-card .title{font-size:.8rem;color:#00274C;font-weight:500;margin-bottom:.35rem}
+.faculty-card p{font-size:.78rem;color:#777}
+
+/* FAQ */
+.faq-item{background:#fff;border:1px solid #ddd;border-radius:6px;margin-bottom:.75rem;overflow:hidden}
+.faq-q{padding:1rem 1.25rem;font-weight:600;font-size:.93rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+.faq-q .arrow{transition:transform .3s;font-size:1.1rem}
 .faq-item.open .arrow{transform:rotate(180deg)}
-.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .35s ease;padding:0 1.5rem;font-size:.9rem;color:#666;line-height:1.7}
-.faq-item.open .faq-a{max-height:300px;padding:0 1.5rem 1.25rem}
-.apply{background:#fff}
-.apply-form{max-width:600px;margin:auto;background:#F2F2F2;padding:2.5rem;border-radius:16px}
-.apply-form .field{margin-bottom:1.25rem}
-.apply-form label{display:block;font-size:.85rem;font-weight:600;margin-bottom:.35rem}
-.apply-form input,.apply-form select,.apply-form textarea{width:100%;padding:.75rem 1rem;border:1px solid #ddd;border-radius:8px;font-family:'Inter',sans-serif;font-size:.9rem;transition:border-color .2s}
-.apply-form input:focus,.apply-form select:focus,.apply-form textarea:focus{outline:none;border-color:#00274C}
-.apply-form textarea{resize:vertical;min-height:100px}
-.apply-form .btn{width:100%;text-align:center}
-footer{background:#00274C;color:rgba(255,255,255,.7);padding:3rem 2rem;text-align:center;font-size:.85rem}
-footer .footer-links{display:flex;justify-content:center;gap:2rem;margin-bottom:1rem;flex-wrap:wrap}
-footer a{color:rgba(255,255,255,.7);transition:color .2s}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s ease;padding:0 1.25rem;font-size:.9rem;color:#555;line-height:1.7}
+.faq-item.open .faq-a{max-height:300px;padding:0 1.25rem 1rem}
+
+footer{background:#00274C;color:rgba(255,255,255,.7);padding:2rem;text-align:center;font-size:.83rem}
+footer a{color:rgba(255,255,255,.7)}
 footer a:hover{color:#fff}
-@media(max-width:900px){
-.hero h1{font-size:2.2rem}
-.overview-grid,.why-grid,.faculty-grid,.outcome-grid{grid-template-columns:1fr}
-.course-cards{grid-template-columns:1fr}
-nav ul{display:none}
+
+@media(max-width:700px){
+  header h1{font-size:1.4rem}
+  .stats{grid-template-columns:1fr 1fr}
+  nav{display:none}
 }
 </style>
 </head>
 <body>
 
-<nav>
-<div class="nav-inner">
-<a href="#" class="logo">🎓 U-M Graduate Certificate in GenAI</a>
-<ul>
-<li><a href="#overview">Overview</a></li>
-<li><a href="#courses">Curriculum</a></li>
-<li><a href="#faculty">Faculty</a></li>
-<li><a href="#outcomes">Research Outcomes</a></li>
-<li><a href="#pathways">Pathways</a></li>
-<li><a href="#faq">FAQ</a></li>
-<li><a href="#admissions" class="btn btn-primary" style="padding:.5rem 1.2rem;font-size:.8rem">Request Information</a></li>
-</ul>
-</div>
-</nav>
-
-<section class="hero">
-<div>
-<div class="badge">Fall 2026 Enrollment Open</div>
-<h1>Graduate Certificate in Generative AI &amp; Intelligent Automation</h1>
-<p class="subtitle">A rigorous, interdisciplinary program preparing graduate students and professionals for research and practice in generative AI systems.</p>
-<div class="ctas">
-<a href="#admissions" class="btn btn-primary">View Admissions Requirements</a>
-<a href="#courses" class="btn btn-outline">Explore Curriculum</a>
-</div>
-</div>
-</section>
-
-<section class="overview" id="overview">
+<header>
 <div class="container">
-<div class="overview-grid">
-<div class="overview-text">
+<div class="dept">College of Engineering &middot; Department of Computer Science &amp; Engineering</div>
+<h1>Graduate Certificate in Generative AI &amp; Intelligent Automation</h1>
+<div class="college">University of Michigan, Ann Arbor</div>
+</div>
+</header>
+
+<nav><div class="container">
+<a href="#overview">Overview</a>
+<a href="#distinctives">Distinctives</a>
+<a href="#curriculum">Curriculum</a>
+<a href="#faculty">Faculty</a>
+<a href="#research">Research</a>
+<a href="#outcomes">Outcomes</a>
+<a href="#admissions">Admissions</a>
+<a href="#faq">FAQ</a>
+</div></nav>
+
+<!-- Program Overview -->
+<section id="overview">
+<div class="container">
 <h2>Program Overview</h2>
 <p>This five-course graduate certificate provides a comprehensive foundation in generative AI theory, methods, and applications. Students engage with foundational concepts in machine learning, develop competency in system design and deployment, and complete an applied capstone integrating coursework into a substantive project.</p>
-<p>The program is designed to accommodate working professionals, with courses offered in evening and online formats across two to three semesters.</p>
-<a href="#admissions" class="btn btn-secondary" style="margin-top:1rem">View Academic Requirements</a>
-</div>
-<div class="overview-stats">
+<p style="margin-top:.75rem">The program is designed to accommodate working professionals, with courses offered in evening and online formats across two to three semesters.</p>
+<div class="stats">
 <div class="stat"><div class="num">15</div><div class="label">Credit Hours</div></div>
 <div class="stat"><div class="num">5</div><div class="label">Graduate Courses</div></div>
 <div class="stat"><div class="num">2–3</div><div class="label">Semesters</div></div>
 <div class="stat"><div class="num">1</div><div class="label">Capstone Project</div></div>
 </div>
 </div>
+</section>
+
+<!-- Program Distinctives -->
+<section id="distinctives">
+<div class="container">
+<h2>Program Distinctives</h2>
+<div class="grid2">
+<div class="card"><h3>Research-Informed Curriculum</h3><p>Coursework reflects current advances in generative AI research, with readings drawn from peer-reviewed publications and active areas of inquiry.</p></div>
+<div class="card"><h3>Applied Project Work</h3><p>Each course incorporates substantive projects with real-world datasets, emphasizing reproducibility, evaluation, and technical documentation.</p></div>
+<div class="card"><h3>Active Research Faculty</h3><p>Courses are taught by faculty with active research programs in NLP, machine learning systems, and AI safety.</p></div>
+<div class="card"><h3>Flexible Modality</h3><p>Evening and synchronous online sections accommodate students balancing professional and academic commitments.</p></div>
+<div class="card"><h3>Interdisciplinary Cohort</h3><p>Students represent diverse academic and professional backgrounds, fostering cross-disciplinary collaboration and peer learning.</p></div>
+<div class="card"><h3>Pathway to Further Study</h3><p>Certificate credits may be applied toward select graduate degree programs at the University of Michigan, subject to departmental approval.</p></div>
+</div>
 </div>
 </section>
 
-<section class="why" id="why">
+<!-- Curriculum -->
+<section id="curriculum">
 <div class="container">
-<h2 class="section-title">Learning Outcomes &amp; Program Strengths</h2>
-<p class="section-subtitle">An interdisciplinary curriculum grounded in research and applied practice.</p>
-<div class="why-grid">
-<div class="why-card"><div class="icon">🧠</div><h3>Research-Informed Curriculum</h3><p>Coursework reflects current advances in generative AI research, with readings drawn from peer-reviewed publications and active areas of inquiry.</p></div>
-<div class="why-card"><div class="icon">🛠️</div><h3>Applied Projects</h3><p>Each course incorporates substantive project work with real-world datasets, emphasizing reproducibility, evaluation, and technical documentation.</p></div>
-<div class="why-card"><div class="icon">👩‍🏫</div><h3>Active Research Faculty</h3><p>Courses are taught by faculty with active research programs in natural language processing, machine learning systems, and AI safety.</p></div>
-<div class="why-card"><div class="icon">🌐</div><h3>Flexible Modality</h3><p>Evening and synchronous online sections accommodate students balancing professional and academic commitments.</p></div>
-<div class="why-card"><div class="icon">🤝</div><h3>Interdisciplinary Cohort</h3><p>Students represent diverse academic and professional backgrounds, fostering cross-disciplinary collaboration and peer learning.</p></div>
-<div class="why-card"><div class="icon">📚</div><h3>Pathway to Further Study</h3><p>Certificate credits may be applied toward select graduate degree programs at the University of Michigan, subject to departmental approval.</p></div>
-</div>
-</div>
-</section>
+<h2>Curriculum</h2>
+<p style="margin-bottom:1.25rem">Five graduate courses spanning foundational theory, applied methods, and integrative design.</p>
 
-<section class="courses" id="courses">
-<div class="container">
-<h2 class="section-title">Curriculum</h2>
-<p class="section-subtitle">Five graduate courses spanning foundational theory, applied methods, and integrative design.</p>
-<div class="course-cards">
-<div class="course-card">
-<div class="code">GENAI 501</div>
+<a href="../courses/course1/site/index.html" class="course-link">
+<div class="code">GENAI 501 &middot; Course 1</div>
 <h3>Foundations of Generative AI</h3>
-<p>Introduces core concepts underlying large language models, diffusion models, and transformer architectures. Topics include tokenization, embedding representations, attention mechanisms, and the mathematical foundations of modern generative systems.</p>
-<div class="meta"><span>3 Credits</span><span>Fall Semester</span></div>
-</div>
-<div class="course-card">
-<div class="code">GENAI 502</div>
+<p>Core concepts underlying large language models, diffusion models, and transformer architectures. Tokenization, embedding representations, attention mechanisms, and mathematical foundations.</p>
+<div class="meta">3 Credits &middot; Fall Semester</div>
+</a>
+
+<a href="../courses/course2/site/index.html" class="course-link">
+<div class="code">GENAI 502 &middot; Course 2</div>
 <h3>AI-Augmented Workflows &amp; Automation</h3>
-<p>Examines the design of intelligent automation pipelines using APIs, prompt engineering, and orchestration frameworks. Students develop and evaluate AI-integrated workflows for domains including document processing, information retrieval, and decision support.</p>
-<div class="meta"><span>3 Credits</span><span>Fall Semester</span></div>
-</div>
-<div class="course-card">
-<div class="code">GENAI 601</div>
+<p>Design of intelligent automation pipelines using APIs, prompt engineering, and orchestration frameworks for document processing, information retrieval, and decision support.</p>
+<div class="meta">3 Credits &middot; Fall Semester</div>
+</a>
+
+<a href="../courses/course3/site/index.html" class="course-link">
+<div class="code">GENAI 601 &middot; Course 3</div>
 <h3>Retrieval-Augmented Generation &amp; Agent Frameworks</h3>
-<p>Provides an in-depth study of the LangChain ecosystem and related frameworks — including chains, agents, memory architectures, and retrieval-augmented generation. Students build and evaluate applications such as research assistants and domain-specific question-answering systems.</p>
-<div class="meta"><span>3 Credits</span><span>Spring Semester</span></div>
-</div>
-<div class="course-card">
-<div class="code">GENAI 602</div>
+<p>In-depth study of chains, agents, memory architectures, and RAG. Students build research assistants and domain-specific question-answering systems.</p>
+<div class="meta">3 Credits &middot; Spring Semester</div>
+</a>
+
+<a href="../courses/course4/site/index.html" class="course-link">
+<div class="code">GENAI 602 &middot; Course 4</div>
 <h3>Advanced AI Systems &amp; Architecture</h3>
-<p>Addresses the design of production-grade AI systems, covering scalability, evaluation methodology, safety considerations, fine-tuning, and multi-agent orchestration. Additional topics include MLOps practices, deployment strategies, and responsible AI frameworks.</p>
-<div class="meta"><span>3 Credits</span><span>Spring Semester</span></div>
-</div>
-<div class="course-card">
-<div class="code">GENAI 690</div>
+<p>Production-grade AI systems: scalability, evaluation methodology, safety, fine-tuning, multi-agent orchestration, MLOps, and responsible AI frameworks.</p>
+<div class="meta">3 Credits &middot; Spring Semester</div>
+</a>
+
+<a href="../courses/course5/site/index.html" class="course-link">
+<div class="code">GENAI 690 &middot; Course 5</div>
 <h3>Capstone: Applied AI System Design</h3>
-<p>Students undertake a substantial applied project in collaboration with an industry or research partner. The capstone requires the design, implementation, evaluation, and formal presentation of an end-to-end AI system addressing a defined problem.</p>
-<div class="meta"><span>3 Credits</span><span>Spring Semester</span></div>
-</div>
-</div>
+<p>Substantial applied project in collaboration with an industry or research partner. Design, implementation, evaluation, and formal presentation of an end-to-end AI system.</p>
+<div class="meta">3 Credits &middot; Spring Semester</div>
+</a>
 </div>
 </section>
 
-<section class="faculty" id="faculty">
+<!-- Faculty -->
+<section id="faculty">
 <div class="container">
-<h2 class="section-title">Faculty</h2>
-<p class="section-subtitle">Courses are taught by faculty with active research programs and extensive publication records.</p>
+<h2>Faculty</h2>
+<p style="margin-bottom:1.25rem">Courses are taught by faculty with active research programs and extensive publication records.</p>
 <div class="faculty-grid">
 <div class="faculty-card">
-<div class="avatar">DR</div>
+<div class="initials">DR</div>
 <h3>Dr. Diana Reyes</h3>
 <div class="title">Program Director &amp; Associate Professor</div>
-<p>Research interests: NLP, generative modeling, few-shot learning. 50+ peer-reviewed publications. Ph.D., Stanford University.</p>
+<p>NLP, generative modeling, few-shot learning. 50+ peer-reviewed publications. Ph.D., Stanford.</p>
 </div>
 <div class="faculty-card">
-<div class="avatar">MK</div>
+<div class="initials">MK</div>
 <h3>Prof. Marcus Kim</h3>
 <div class="title">Assistant Professor, AI Systems</div>
-<p>Research interests: large-scale model deployment, distributed systems, inference optimization. M.S., MIT.</p>
+<p>Large-scale model deployment, distributed systems, inference optimization. M.S., MIT.</p>
 </div>
 <div class="faculty-card">
-<div class="avatar">SP</div>
+<div class="initials">SP</div>
 <h3>Dr. Sarah Patel</h3>
 <div class="title">Lecturer, Automation &amp; Workflows</div>
-<p>Research interests: human-AI collaboration, process automation, enterprise AI adoption. Ph.D., Carnegie Mellon University.</p>
+<p>Human-AI collaboration, process automation, enterprise AI adoption. Ph.D., Carnegie Mellon.</p>
 </div>
 <div class="faculty-card">
-<div class="avatar">JT</div>
+<div class="initials">JT</div>
 <h3>Prof. James Torres</h3>
 <div class="title">Associate Professor, Applied AI</div>
-<p>Research interests: production ML systems, model evaluation, responsible AI. Author of <em>Production AI Systems</em> (O'Reilly). M.S., UC Berkeley.</p>
+<p>Production ML systems, model evaluation, responsible AI. Author of <em>Production AI Systems</em> (O'Reilly). M.S., UC Berkeley.</p>
 </div>
 </div>
 </div>
 </section>
 
-<section class="outcomes" id="outcomes">
+<!-- Research & Scholarship -->
+<section id="research">
 <div class="container">
-<h2 class="section-title">Alumni Accomplishments</h2>
-<p class="section-subtitle">Select research and professional outcomes from recent certificate recipients.</p>
-<div class="outcome-grid">
-<div class="outcome-card">
-<div class="description">Developed a retrieval-augmented generation framework for clinical decision support, presented at the AAAI 2026 Workshop on AI in Healthcare. The capstone project led to a full publication and ongoing collaboration with Michigan Medicine.</div>
-<div class="author"><div class="av">AW</div><div class="info"><div class="name">Aisha Washington, M.S.</div><div class="role">Doctoral Candidate, Health Informatics</div></div></div>
+<h2>Research &amp; Scholarship</h2>
+<p style="margin-bottom:1.25rem">Sample student research topics and scholarly contributions from the certificate program.</p>
+<div class="grid2">
+<div class="card">
+<h3>Clinical Decision Support via RAG</h3>
+<p>Retrieval-augmented generation framework for clinical decision support, presented at the AAAI 2026 Workshop on AI in Healthcare. Ongoing collaboration with Michigan Medicine.</p>
 </div>
-<div class="outcome-card">
-<div class="description">Designed and deployed a multi-agent system for automated code review at scale. Research was presented at ICSE 2026 and the system is now integrated into the engineering workflow at a major technology firm.</div>
-<div class="author"><div class="av">RL</div><div class="info"><div class="name">Ryan Liu, M.S.E.</div><div class="role">Research Engineer, Software Systems Lab</div></div></div>
+<div class="card">
+<h3>Multi-Agent Code Review Systems</h3>
+<p>Multi-agent system for automated code review at scale. Research presented at ICSE 2026; system integrated into production engineering workflows.</p>
 </div>
-<div class="outcome-card">
-<div class="description">Completed a capstone investigating bias propagation in generative text models, contributing to the lab's ongoing work on AI fairness. Findings were published in the proceedings of FAccT 2026.</div>
-<div class="author"><div class="av">EM</div><div class="info"><div class="name">Elena Martinez, M.A.</div><div class="role">Research Associate, Center for AI &amp; Society</div></div></div>
+<div class="card">
+<h3>Bias Propagation in Generative Text</h3>
+<p>Investigation of bias propagation in generative text models, contributing to ongoing work on AI fairness. Findings published in FAccT 2026 proceedings.</p>
 </div>
-<div class="outcome-card">
-<div class="description">Built an open-source evaluation benchmark for retrieval-augmented generation systems, now adopted by several academic research groups. Presented at NeurIPS 2025 Datasets &amp; Benchmarks track.</div>
-<div class="author"><div class="av">DO</div><div class="info"><div class="name">David Okonkwo, M.S.</div><div class="role">Research Scientist, AI Systems Group</div></div></div>
+<div class="card">
+<h3>RAG Evaluation Benchmarks</h3>
+<p>Open-source evaluation benchmark for retrieval-augmented generation systems, adopted by several academic research groups. Presented at NeurIPS 2025 Datasets &amp; Benchmarks track.</p>
 </div>
 </div>
 </div>
 </section>
 
-<section class="careers" id="pathways">
+<!-- Academic & Professional Outcomes -->
+<section id="outcomes">
 <div class="container">
-<h2 class="section-title">Professional Pathways</h2>
-<p class="section-subtitle">Certificate recipients pursue roles across research, industry, and the public sector.</p>
-<div class="career-grid">
-<div class="career-card"><h3>AI Research Engineer</h3><div class="skills">ML Systems · Model Development · Evaluation</div><p>Design, train, and evaluate generative AI models in research or applied settings</p></div>
-<div class="career-card"><h3>ML Systems Architect</h3><div class="skills">Infrastructure · Scalability · MLOps</div><p>Architect and maintain scalable AI infrastructure for organizations</p></div>
-<div class="career-card"><h3>AI Product Strategist</h3><div class="skills">Product Design · Technical Leadership · UX</div><p>Lead the design and development of AI-integrated products and services</p></div>
-<div class="career-card"><h3>Intelligent Automation Specialist</h3><div class="skills">Workflow Design · APIs · Process Engineering</div><p>Design and implement AI-augmented workflows and organizational processes</p></div>
-<div class="career-card"><h3>AI Policy &amp; Ethics Analyst</h3><div class="skills">Responsible AI · Governance · Compliance</div><p>Advise organizations on responsible AI practices, governance, and regulatory compliance</p></div>
-<div class="career-card"><h3>Applied NLP Engineer</h3><div class="skills">Language Models · RAG · Fine-Tuning</div><p>Develop and deploy language model applications for domain-specific use cases</p></div>
+<h2>Academic &amp; Professional Outcomes</h2>
+<p style="margin-bottom:1.25rem">Graduates of this certificate are prepared to:</p>
+<div class="grid2">
+<div class="card">
+<h3>AI Research &amp; Development</h3>
+<p>Design, train, and evaluate generative AI models in academic or applied research settings. Contribute to peer-reviewed research in NLP, ML systems, and AI safety.</p>
+</div>
+<div class="card">
+<h3>ML Systems Engineering</h3>
+<p>Architect and maintain scalable AI infrastructure. Apply MLOps practices for production deployment, monitoring, and cost optimization.</p>
+</div>
+<div class="card">
+<h3>Intelligent Automation Design</h3>
+<p>Design and implement AI-augmented workflows and organizational processes using APIs, orchestration frameworks, and agent systems.</p>
+</div>
+<div class="card">
+<h3>AI Governance &amp; Policy</h3>
+<p>Advise organizations on responsible AI practices, governance frameworks, and regulatory compliance. Conduct ethical assessments of AI systems.</p>
+</div>
+<div class="card">
+<h3>Applied NLP Engineering</h3>
+<p>Develop and deploy language model applications for domain-specific use cases including RAG systems, conversational agents, and document processing.</p>
+</div>
+<div class="card">
+<h3>Further Graduate Study</h3>
+<p>Pursue doctoral research or advanced master's work in computer science, information science, or related fields with a strong AI foundation.</p>
+</div>
 </div>
 </div>
 </section>
 
-<section class="faq" id="faq">
+<!-- Admissions Requirements -->
+<section id="admissions">
 <div class="container">
-<h2 class="section-title">Frequently Asked Questions</h2>
-<p class="section-subtitle">Academic policies, prerequisites, and program details.</p>
-<div class="faq-list">
-<div class="faq-item"><div class="faq-q">What are the prerequisite requirements?<span class="arrow">▾</span></div><div class="faq-a">Applicants should hold a bachelor's degree from an accredited institution. Familiarity with Python programming is recommended. Students without prior programming experience may fulfill the prerequisite through the department's preparatory module offered before the fall semester.</div></div>
+<h2>Admissions Requirements</h2>
+<div class="grid2">
+<div class="card">
+<h3>Prerequisites</h3>
+<ul>
+<li>Bachelor's degree from an accredited institution</li>
+<li>Minimum cumulative GPA of 3.0 on a 4.0 scale</li>
+<li>Familiarity with Python programming (or completion of the department's preparatory module)</li>
+<li>Basic knowledge of statistics and linear algebra is recommended</li>
+</ul>
+</div>
+<div class="card">
+<h3>Application Materials</h3>
+<ul>
+<li>Completed online application via the Rackham Graduate School</li>
+<li>Official transcripts from all post-secondary institutions</li>
+<li>Statement of purpose (500–750 words)</li>
+<li>Current résumé or CV</li>
+<li>One letter of recommendation (academic or professional)</li>
+</ul>
+</div>
+<div class="card">
+<h3>Deadlines</h3>
+<ul>
+<li><strong>Fall admission:</strong> June 1 (priority); July 15 (final)</li>
+<li><strong>Spring admission:</strong> November 1 (priority); December 1 (final)</li>
+</ul>
+</div>
+<div class="card">
+<h3>Tuition &amp; Financial Support</h3>
+<ul>
+<li>Tuition for the 15-credit certificate: $12,500</li>
+<li>Graduate financial aid, departmental assistantships, and employer tuition support may be available</li>
+<li>Contact the Office of Financial Aid for details</li>
+</ul>
+</div>
+</div>
+<p style="margin-top:1.25rem;font-size:.9rem">For questions, contact the program office at <a href="mailto:genai-cert@umich.edu">genai-cert@umich.edu</a>.</p>
+</div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+<div class="container">
+<h2>Frequently Asked Questions</h2>
 <div class="faq-item"><div class="faq-q">Can certificate credits be applied toward a graduate degree?<span class="arrow">▾</span></div><div class="faq-a">Credits earned in the certificate program may be applied toward select master's degree programs at the University of Michigan, subject to review and approval by the receiving department. Students considering this pathway are encouraged to consult with their academic advisor.</div></div>
-<div class="faq-item"><div class="faq-q">Are there opportunities for research involvement?<span class="arrow">▾</span></div><div class="faq-a">Students in the certificate program may pursue independent study or research assistantship opportunities with program faculty, subject to availability. The capstone course (GENAI 690) also provides a structured framework for applied research projects.</div></div>
+<div class="faq-item"><div class="faq-q">Are there opportunities for research involvement?<span class="arrow">▾</span></div><div class="faq-a">Students may pursue independent study or research assistantship opportunities with program faculty, subject to availability. The capstone course (GENAI 690) also provides a structured framework for applied research projects.</div></div>
 <div class="faq-item"><div class="faq-q">What is the expected time commitment?<span class="arrow">▾</span></div><div class="faq-a">Full-time students typically complete the certificate in two semesters. Part-time students may extend enrollment to three semesters. Each 3-credit course requires approximately 8–10 hours per week, including lectures, readings, and project work.</div></div>
 <div class="faq-item"><div class="faq-q">Is the program available fully online?<span class="arrow">▾</span></div><div class="faq-a">All courses are offered in both in-person (evening) and synchronous online formats. Online students participate in the same lectures, discussions, and project experiences as on-campus students.</div></div>
-<div class="faq-item"><div class="faq-q">What are the tuition and financial aid options?<span class="arrow">▾</span></div><div class="faq-a">Tuition for the 15-credit certificate is $12,500. Students may be eligible for graduate financial aid, departmental assistantships, or employer tuition support. Contact the Office of Financial Aid for details on available funding.</div></div>
-</div>
-</div>
-</section>
-
-<section class="apply" id="admissions">
-<div class="container">
-<h2 class="section-title">Request Information</h2>
-<p class="section-subtitle">Submit your information to receive details about admissions requirements, academic advising, and program materials.</p>
-<div class="apply-form">
-<div class="field"><label>Full Name</label><input type="text" placeholder="Full name"></div>
-<div class="field"><label>Email Address</label><input type="email" placeholder="email@umich.edu"></div>
-<div class="field"><label>Phone Number (Optional)</label><input type="tel" placeholder="(555) 123-4567"></div>
-<div class="field"><label>Highest Degree Earned</label>
-<select><option value="">Select...</option><option>Bachelor's</option><option>Master's</option><option>Doctorate</option><option>Other</option></select>
-</div>
-<div class="field"><label>Current Affiliation / Institution</label><input type="text" placeholder="University or organization"></div>
-<div class="field"><label>Areas of Interest or Questions</label><textarea placeholder="Describe your academic or professional interests and any questions about the program..."></textarea></div>
-<button class="btn btn-primary" onclick="alert('Thank you for your inquiry. An admissions advisor will respond within 5–7 business days.')">Submit Inquiry</button>
 </div>
 </div>
 </section>
 
 <footer>
 <div class="container">
-<div class="footer-links">
-<a href="#overview">Overview</a>
-<a href="#courses">Curriculum</a>
-<a href="#faculty">Faculty</a>
-<a href="#outcomes">Alumni</a>
-<a href="#pathways">Pathways</a>
-<a href="#faq">FAQ</a>
-<a href="#admissions">Admissions</a>
-</div>
-<p>© 2026 University of Michigan — Graduate Certificate in Generative AI &amp; Intelligent Automation</p>
-<p style="margin-top:.5rem;font-size:.75rem;opacity:.6">Office of Graduate &amp; Professional Programs · University of Michigan</p>
+<p>&copy; 2026 Regents of the University of Michigan &middot; Graduate Certificate in Generative AI &amp; Intelligent Automation</p>
+<p style="margin-top:.5rem;font-size:.75rem;opacity:.7">College of Engineering &middot; Department of Computer Science &amp; Engineering &middot; Ann Arbor, MI 48109</p>
 </div>
 </footer>
 
 <script>
-document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{e.preventDefault();const t=document.querySelector(a.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth'})})});
 document.querySelectorAll('.faq-item').forEach(item=>{item.querySelector('.faq-q').addEventListener('click',()=>{document.querySelectorAll('.faq-item').forEach(i=>{if(i!==item)i.classList.remove('open')});item.classList.toggle('open')})});
 </script>
 </body>
