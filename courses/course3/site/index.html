@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GENAI 301: Building with LangChain</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0a1628;--navy-light:#132240;--green:#00c896;--green-dark:#00a67d;--text:#e0e6ed;--muted:#8892a4;--card:#162040;--border:#1e3055}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--navy);color:var(--text);line-height:1.6}
+a{color:var(--green);text-decoration:none}
+a:hover{text-decoration:underline}
+.container{max-width:1100px;margin:0 auto;padding:0 24px}
+
+/* Hero */
+.hero{background:linear-gradient(135deg,var(--navy) 0%,#0d2137 50%,var(--navy-light) 100%);padding:80px 0 60px;border-bottom:3px solid var(--green)}
+.hero h1{font-size:2.8rem;font-weight:800;margin-bottom:8px}
+.hero .badge{display:inline-block;background:var(--green);color:var(--navy);padding:4px 14px;border-radius:20px;font-weight:700;font-size:.85rem;margin-bottom:16px}
+.hero p.desc{font-size:1.15rem;color:var(--muted);max-width:700px;margin-bottom:24px}
+.hero .meta{display:flex;flex-wrap:wrap;gap:24px;color:var(--muted);font-size:.95rem}
+.hero .meta span{display:flex;align-items:center;gap:6px}
+
+/* Sections */
+section{padding:60px 0}
+section h2{font-size:1.8rem;font-weight:700;margin-bottom:24px;border-left:4px solid var(--green);padding-left:16px}
+
+/* Professor */
+.prof-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:32px;display:flex;gap:24px;align-items:center;flex-wrap:wrap}
+.prof-avatar{width:90px;height:90px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:2.2rem;font-weight:700;color:var(--navy);flex-shrink:0}
+.prof-info h3{font-size:1.3rem;margin-bottom:4px}
+.prof-info p{color:var(--muted);font-size:.95rem}
+
+/* Schedule */
+.week-grid{display:grid;gap:12px}
+.week{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px 20px;display:flex;gap:16px;align-items:center;transition:border-color .2s}
+.week:hover{border-color:var(--green)}
+.week-num{background:var(--green);color:var(--navy);font-weight:800;font-size:.85rem;padding:6px 12px;border-radius:6px;white-space:nowrap}
+.week-num.midterm{background:#f59e0b}
+.week-num.final{background:#ef4444;color:#fff}
+.week-title{font-weight:600}
+.week-desc{color:var(--muted);font-size:.9rem}
+
+/* Grading */
+.grade-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.grade-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:24px;text-align:center}
+.grade-card .pct{font-size:2rem;font-weight:800;color:var(--green)}
+.grade-card .label{color:var(--muted);margin-top:4px}
+
+/* Prerequisites */
+.prereq{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:24px}
+.prereq ul{list-style:none;padding:0}
+.prereq li{padding:8px 0;border-bottom:1px solid var(--border);color:var(--muted)}
+.prereq li::before{content:"✓ ";color:var(--green);font-weight:700}
+.prereq li:last-child{border-bottom:none}
+
+footer{text-align:center;padding:40px 0;color:var(--muted);font-size:.85rem;border-top:1px solid var(--border)}
+
+@media(max-width:600px){
+  .hero h1{font-size:1.8rem}
+  .prof-card{flex-direction:column;text-align:center}
+  .week{flex-direction:column;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+<div class="container">
+  <span class="badge">Certificate Course 3 of 5</span>
+  <h1>GENAI 301: Building with LangChain</h1>
+  <p class="desc">Design and deploy production-grade LLM applications using LangChain, RAG pipelines, agents, memory systems, and LangGraph. Hands-on, code-first.</p>
+  <div class="meta">
+    <span>📅 15 Weeks</span>
+    <span>🎓 3 Credits</span>
+    <span>💻 Python + LangChain v0.2+</span>
+    <span>📋 Prereq: GENAI 201</span>
+  </div>
+</div>
+</header>
+
+<section>
+<div class="container">
+  <h2>Instructor</h2>
+  <div class="prof-card">
+    <div class="prof-avatar">AP</div>
+    <div class="prof-info">
+      <h3>Dr. Aisha Patel</h3>
+      <p>Machine Learning Engineer &amp; Researcher | Former Senior ML Engineer at Google Brain</p>
+      <p>Specializes in LLM application architecture, retrieval-augmented generation, and agent systems. Published 20+ papers on applied NLP. Built production LLM systems serving millions of users.</p>
+      <p style="margin-top:8px"><a href="mailto:apatel@university.edu">apatel@university.edu</a> · Office Hours: Tue/Thu 2–3:30 PM</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<section style="background:var(--navy-light)">
+<div class="container">
+  <h2>Weekly Schedule</h2>
+  <div class="week-grid">
+    <div class="week"><span class="week-num">WK 1</span><div><div class="week-title">Python Crash Course for AI Developers</div><div class="week-desc">Async, type hints, decorators, virtual envs, packaging — everything you need before LangChain</div></div></div>
+    <div class="week"><span class="week-num">WK 2</span><div><div class="week-title">LangChain Architecture Overview</div><div class="week-desc">Models, prompts, chains, agents, memory — the component taxonomy and LCEL fundamentals</div></div></div>
+    <div class="week"><span class="week-num">WK 3</span><div><div class="week-title">Working with LLMs</div><div class="week-desc">OpenAI, Anthropic, HuggingFace, Ollama — provider integrations, streaming, fallbacks</div></div></div>
+    <div class="week"><span class="week-num">WK 4</span><div><div class="week-title">Prompt Templates &amp; Output Parsers</div><div class="week-desc">ChatPromptTemplate, few-shot, PydanticOutputParser, StrOutputParser, structured output</div></div></div>
+    <div class="week"><span class="week-num">WK 5</span><div><div class="week-title">Chains</div><div class="week-desc">Sequential chains, router chains, transform chains, RunnablePassthrough, RunnableParallel</div></div></div>
+    <div class="week"><span class="week-num">WK 6</span><div><div class="week-title">Introduction to RAG</div><div class="week-desc">Why RAG? Document loaders, text splitting, embeddings, retrieval chain patterns</div></div></div>
+    <div class="week"><span class="week-num">WK 7</span><div><div class="week-title">Vector Databases</div><div class="week-desc">ChromaDB, Pinecone, FAISS — indexing strategies, similarity search, metadata filtering</div></div></div>
+    <div class="week"><span class="week-num midterm">WK 8</span><div><div class="week-title">MIDTERM — Build a RAG Application</div><div class="week-desc">In-class build: end-to-end RAG pipeline with evaluation. Open-book, open-docs.</div></div></div>
+    <div class="week"><span class="week-num">WK 9</span><div><div class="week-title">Advanced RAG</div><div class="week-desc">Chunking strategies, reranking, hybrid search, multi-query retrieval, parent-document retriever</div></div></div>
+    <div class="week"><span class="week-num">WK 10</span><div><div class="week-title">Agents &amp; Tools</div><div class="week-desc">ReAct pattern, function calling, custom tools, tool selection, agent executors</div></div></div>
+    <div class="week"><span class="week-num">WK 11</span><div><div class="week-title">Memory Systems</div><div class="week-desc">Buffer, summary, conversation, entity memory — persistence patterns and token management</div></div></div>
+    <div class="week"><span class="week-num">WK 12</span><div><div class="week-title">LangGraph</div><div class="week-desc">Stateful multi-step workflows, nodes, edges, conditional routing, checkpointing</div></div></div>
+    <div class="week"><span class="week-num">WK 13</span><div><div class="week-title">Evaluation</div><div class="week-desc">LangSmith tracing, custom metrics, automated testing, dataset management</div></div></div>
+    <div class="week"><span class="week-num">WK 14</span><div><div class="week-title">Production Patterns</div><div class="week-desc">Streaming, caching, cost management, error handling, deployment strategies</div></div></div>
+    <div class="week"><span class="week-num final">WK 15</span><div><div class="week-title">Final Project Presentations</div><div class="week-desc">Demo day — present your production-grade LangChain application to the class</div></div></div>
+  </div>
+</div>
+</section>
+
+<section>
+<div class="container">
+  <h2>Grading Breakdown</h2>
+  <div class="grade-grid">
+    <div class="grade-card"><div class="pct">40%</div><div class="label">Homework (6 assignments)</div></div>
+    <div class="grade-card"><div class="pct">20%</div><div class="label">Midterm Project</div></div>
+    <div class="grade-card"><div class="pct">30%</div><div class="label">Final Project</div></div>
+    <div class="grade-card"><div class="pct">10%</div><div class="label">Participation &amp; Peer Review</div></div>
+  </div>
+</div>
+</section>
+
+<section style="background:var(--navy-light)">
+<div class="container">
+  <h2>Prerequisites</h2>
+  <div class="prereq">
+    <ul>
+      <li><strong>GENAI 201</strong> — Foundations of Generative AI (or equivalent)</li>
+      <li>Intermediate Python (functions, classes, decorators, async basics)</li>
+      <li>Familiarity with REST APIs and JSON</li>
+      <li>Basic understanding of how LLMs work (tokenization, attention, generation)</li>
+      <li>Git &amp; command line proficiency</li>
+      <li>Recommended: experience with at least one LLM API (OpenAI, Anthropic, etc.)</li>
+    </ul>
+  </div>
+</div>
+</section>
+
+<section>
+<div class="container">
+  <h2>Required Tools &amp; Setup</h2>
+  <div class="prereq">
+    <ul>
+      <li>Python 3.11+ with pip/uv</li>
+      <li><code>langchain</code>, <code>langchain-openai</code>, <code>langchain-anthropic</code>, <code>langchain-community</code></li>
+      <li><code>chromadb</code>, <code>faiss-cpu</code>, <code>pinecone-client</code></li>
+      <li><code>langgraph</code>, <code>langsmith</code></li>
+      <li>OpenAI API key (required) — $20 credit provided</li>
+      <li>Ollama (local models) — free, recommended</li>
+      <li>VS Code or PyCharm with Python extension</li>
+    </ul>
+  </div>
+</div>
+</section>
+
+<footer>
+<div class="container">
+  <p>GENAI 301: Building with LangChain — Spring 2026 · Certificate in Generative AI Engineering</p>
+</div>
+</footer>
+
+</body>
+</html>
