@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>GENAI 490: Capstone</title>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#00274C;color:#FFF;overflow:hidden}
+.deck{height:100vh;display:flex;flex-direction:column}
+.slide{flex:1;display:flex;flex-direction:column;justify-content:center;padding:60px 80px}
+.slide h1{font-size:2.4rem;color:#FFCB05;margin-bottom:8px}
+.slide h2{font-size:1.6rem;margin-bottom:24px;font-weight:400;opacity:.85}
+.slide ul{list-style:none;font-size:1.3rem;line-height:2}
+.slide ul li::before{content:"▸ ";color:#FFCB05}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:12px 30px;background:rgba(0,0,0,.3)}
+.nav button{background:#FFCB05;color:#00274C;border:none;padding:8px 20px;border-radius:4px;font-size:1rem;cursor:pointer;font-weight:600}
+.nav button:disabled{opacity:.3;cursor:default}
+.nav span{font-size:.9rem;opacity:.7}
+.week-tag{font-size:.85rem;opacity:.5;margin-bottom:4px}
+.title-slide h1{font-size:3rem}
+.title-slide h2{font-size:1.8rem;color:#FFCB05}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+const S = [
+{t:"GENAI 490",s:"Capstone Project",w:"",b:["University of Michigan","15-Week Course","Build a real AI system from concept to showcase"],title:true},
+// Week 1
+{t:"Capstone Overview",w:"Week 1",b:["Apply everything from GENAI 101-401 in one project","Build a production-quality AI system for a real problem","Individual or team (2-3) with defined roles"]},
+{t:"Project Expectations",w:"Week 1",b:["Working prototype with real users or stakeholders","Technical documentation and architecture decisions","Final showcase presentation to faculty and industry"]},
+{t:"Timeline & Milestones",w:"Week 1",b:["Weeks 1-6: ideation, planning, and proposal","Weeks 7-12: build sprints with regular check-ins","Weeks 13-15: polish, documentation, and showcase"]},
+{t:"Lab: Brainstorming Session",w:"Week 1",b:["Generate 10+ project ideas in rapid brainstorm","Filter by feasibility, impact, and learning value","Select top 3 candidates for further exploration"]},
+// Week 2
+{t:"Problem Identification",w:"Week 2",b:["Great projects solve real problems for real people","Interview potential users to validate the problem","A clear problem statement guides all decisions"]},
+{t:"User Research Methods",w:"Week 2",b:["Stakeholder interviews: 15-minute structured conversations","Pain point mapping: where does the current process break?","Competitive analysis: what solutions already exist?"]},
+{t:"Problem Scoping",w:"Week 2",b:["Narrow scope to something achievable in 15 weeks","Define what's in scope and explicitly what's not","MVP mindset: what's the smallest valuable thing?"]},
+{t:"Lab: Problem Validation",w:"Week 2",b:["Conduct 3+ user interviews about your problem area","Synthesize findings into a problem statement","Validate that AI is the right approach for this problem"]},
+// Week 3
+{t:"Requirements Gathering",w:"Week 3",b:["Functional: what must the system do?","Non-functional: performance, security, scalability","User stories: as a [user], I want [feature], so that [benefit]"]},
+{t:"Technical Requirements",w:"Week 3",b:["Which AI capabilities are needed (RAG, agents, etc.)?","Data requirements: what data, how much, what format?","Infrastructure: hosting, compute, storage needs"]},
+{t:"Constraints & Risks",w:"Week 3",b:["Budget: API costs, hosting, third-party services","Data availability and quality risks","Technical complexity vs time available"]},
+{t:"Lab: Requirements Document",w:"Week 3",b:["Write user stories for your core features","Define technical requirements and constraints","Identify top 5 risks with mitigation strategies"]},
+// Week 4
+{t:"System Architecture",w:"Week 4",b:["Architecture = how components fit and communicate","Choose patterns from GENAI 401: agents, RAG, pipelines","Document decisions and reasoning, not just diagrams"]},
+{t:"Architecture Decision Records",w:"Week 4",b:["ADRs document why you chose each technology","Format: context, decision, consequences","Future-you will thank present-you for these"]},
+{t:"Technology Selection",w:"Week 4",b:["LLM provider and model selection with justification","Vector store, database, and infrastructure choices","Framework decisions: LangChain, LangGraph, etc."]},
+{t:"Lab: Architecture Design",w:"Week 4",b:["Create system architecture diagram","Write 3+ architecture decision records","Peer review with another team for feedback"]},
+// Week 5
+{t:"Project Planning",w:"Week 5",b:["Break the project into 2-week sprint cycles","Each sprint delivers working, testable functionality","Plan for things to take 2x longer than expected"]},
+{t:"Sprint Planning",w:"Week 5",b:["Sprint 1: core AI pipeline working end-to-end","Sprint 2: user interface and error handling","Sprint 3: polish, testing, and documentation"]},
+{t:"Development Workflow",w:"Week 5",b:["Git branching strategy for team collaboration","Code review process for quality assurance","Weekly standups to track progress and blockers"]},
+{t:"Lab: Sprint Backlog",w:"Week 5",b:["Create detailed task breakdown for Sprint 1","Estimate effort for each task in hours","Set up project board (GitHub Projects or similar)"]},
+// Week 6
+{t:"Proposal Presentations",w:"Week 6",b:["Present your project proposal to the class","10-minute presentation + 5-minute Q&A","Get feedback before building begins"]},
+{t:"Proposal Components",w:"Week 6",b:["Problem statement and user research findings","Architecture design and technology choices","Timeline with milestones and risk mitigation"]},
+{t:"Feedback Integration",w:"Week 6",b:["Collect feedback from peers and instructors","Revise scope or approach based on input","Finalize proposal and get instructor approval"]},
+{t:"Lab: Proposal Finalization",w:"Week 6",b:["Incorporate all feedback into final proposal","Submit written proposal document","Begin Sprint 1 development immediately"]},
+// Week 7
+{t:"Data Strategy & Preparation",w:"Week 7",b:["Data quality determines AI system quality","Clean, label, and validate data before building","Plan for data updates and maintenance over time"]},
+{t:"Data Collection Approaches",w:"Week 7",b:["Public datasets: Kaggle, HuggingFace, government data","Web scraping with respect for robots.txt and ToS","Synthetic data generation for testing and augmentation"]},
+{t:"Data Pipeline Design",w:"Week 7",b:["Automated ingestion from source to vector store","Data validation checks at every stage","Version your data alongside your code"]},
+{t:"Lab: Data Pipeline",w:"Week 7",b:["Build automated data ingestion for your project","Implement validation and quality checks","Load data into your chosen storage system"]},
+// Week 8
+{t:"Sprint 1 Review",w:"Week 8",b:["Demo your Sprint 1 progress to the class","Core AI pipeline should be functional","Identify what worked and what needs adjustment"]},
+{t:"Sprint Retrospective",w:"Week 8",b:["What went well during Sprint 1?","What was harder than expected?","What will you change for Sprint 2?"]},
+{t:"Technical Debt Check",w:"Week 8",b:["Identify shortcuts taken during Sprint 1","Prioritize: fix now vs fix later vs accept","Don't let debt compound into Sprint 2"]},
+{t:"Sprint 2 Planning",w:"Week 8",b:["Adjust scope based on Sprint 1 velocity","Plan Sprint 2 tasks with realistic estimates","Focus on user-facing features and reliability"]},
+// Week 9
+{t:"User Testing Fundamentals",w:"Week 9",b:["Test with real users, not just yourself","5 users find 85% of usability issues","Observe behavior — don't guide or explain"]},
+{t:"Testing Protocol Design",w:"Week 9",b:["Define 3-5 tasks for users to attempt","Prepare test scenarios with realistic data","Record observations: where do users struggle?"]},
+{t:"Collecting Feedback",w:"Week 9",b:["Post-task questionnaire for structured feedback","Think-aloud protocol captures real-time reactions","Prioritize findings by severity and frequency"]},
+{t:"Lab: User Testing Round 1",w:"Week 9",b:["Recruit 3-5 test users outside your team","Run testing sessions with your protocol","Synthesize findings and prioritize fixes"]},
+// Week 10
+{t:"Sprint 2 Review",w:"Week 10",b:["Demo Sprint 2 progress with user feedback integration","System should be feature-complete at this point","Begin shifting focus from features to quality"]},
+{t:"Quality & Performance",w:"Week 10",b:["Run evaluation metrics on real user queries","Profile latency and identify bottlenecks","Optimize the critical path for user experience"]},
+{t:"Edge Case Handling",w:"Week 10",b:["Test with unexpected inputs and adversarial queries","Handle errors gracefully with helpful messages","Implement fallbacks for when AI components fail"]},
+{t:"Sprint 3 Planning",w:"Week 10",b:["Focus: polish, documentation, and presentation prep","Fix critical bugs and usability issues","No new features — only improvements"]},
+// Week 11
+{t:"Documentation Best Practices",w:"Week 11",b:["README: what it does, how to run it, how to deploy","Architecture doc: system design and decisions","API documentation for any endpoints you expose"]},
+{t:"Technical Writing for AI",w:"Week 11",b:["Document prompt strategies and their rationale","Explain evaluation metrics and baseline results","Write honest limitations and known issues"]},
+{t:"User Documentation",w:"Week 11",b:["User guide: how to use the system effectively","FAQ: common questions and troubleshooting","Video walkthrough for complex features"]},
+{t:"Lab: Documentation Sprint",w:"Week 11",b:["Write comprehensive README and architecture doc","Create user guide with screenshots","Record a 3-minute demo video"]},
+// Week 12
+{t:"Building the Business Case",w:"Week 12",b:["Technical excellence alone doesn't ensure adoption","Quantify value: time saved, errors reduced, revenue impact","Compare cost of your solution vs current approach"]},
+{t:"ROI Analysis",w:"Week 12",b:["Calculate: development cost + ongoing operational cost","Measure: productivity gains, error reduction, user satisfaction","Present break-even timeline and long-term value"]},
+{t:"Go-to-Market Thinking",w:"Week 12",b:["Who are the decision-makers for adoption?","What's the deployment and rollout plan?","How will you measure success post-launch?"]},
+{t:"Lab: Business Case Document",w:"Week 12",b:["Write 1-page business case for your project","Include ROI analysis with real numbers","Plan a hypothetical rollout strategy"]},
+// Week 13
+{t:"Security & Compliance Review",w:"Week 13",b:["Review your system against OWASP LLM Top 10","Check data handling: PII, retention, access controls","Document security measures and remaining risks"]},
+{t:"Security Checklist",w:"Week 13",b:["Prompt injection protection implemented?","Sensitive data filtered from AI outputs?","API keys and credentials properly secured?"]},
+{t:"Compliance Considerations",w:"Week 13",b:["Data privacy: GDPR, FERPA, HIPAA applicability","AI disclosure: when must you inform users?","Accessibility: can all users access your system?"]},
+{t:"Lab: Security Audit",w:"Week 13",b:["Run security checklist against your system","Test for prompt injection vulnerabilities","Document findings and implement critical fixes"]},
+// Week 14
+{t:"Dress Rehearsal",w:"Week 14",b:["Full practice run of your showcase presentation","Test demo in the actual presentation environment","Get final feedback from peers and instructor"]},
+{t:"Presentation Skills for Tech",w:"Week 14",b:["Start with the problem, not the technology","Demo > slides for showing your system works","Anticipate questions and prepare concise answers"]},
+{t:"Demo Preparation",w:"Week 14",b:["Prepare scripted demo path that shows key features","Have backup plan if live demo fails","Pre-load data and test environment thoroughly"]},
+{t:"Lab: Final Polish",w:"Week 14",b:["Fix any issues found during dress rehearsal","Finalize all documentation and submission materials","Practice presentation timing: 15 min + 10 min Q&A"]},
+// Week 15
+{t:"Capstone Showcase",w:"Week 15",b:["Present to faculty, industry guests, and peers","Live demo of your working AI system","Q&A with technical and business questions"]},
+{t:"Showcase Format",w:"Week 15",b:["15-minute presentation + 10-minute Q&A","Cover: problem, solution, architecture, demo, lessons","Celebrate what you built — this is a real achievement"]},
+{t:"Course Reflections",w:"Week 15",b:["From AI fundamentals (101) to production systems (490)","You've designed, built, and presented a real AI system","These skills are immediately valuable in the workforce"]},
+{t:"What's Next",w:"Week 15",b:["Publish your project on GitHub as portfolio piece","Continue iterating — many capstones become startups","The AI field needs builders — that's now you"]}
+];
+
+const e=React.createElement;
+function App(){
+const[i,setI]=React.useState(0);
+const s=S[i];
+React.useEffect(()=>{
+const h=ev=>{if(ev.key==='ArrowRight'&&i<S.length-1)setI(i+1);if(ev.key==='ArrowLeft'&&i>0)setI(i-1)};
+window.addEventListener('keydown',h);return()=>window.removeEventListener('keydown',h);
+},[i]);
+return e('div',{className:'deck'},
+e('div',{className:'slide'+(s.title?' title-slide':'')},
+s.w&&e('div',{className:'week-tag'},s.w),
+e('h1',null,s.t),
+s.s&&e('h2',null,s.s),
+e('ul',null,...s.b.map((x,j)=>e('li',{key:j},x)))
+),
+e('div',{className:'nav'},
+e('button',{onClick:()=>setI(i-1),disabled:i===0},'← Prev'),
+e('span',null,(i+1)+' / '+S.length),
+e('button',{onClick:()=>setI(i+1),disabled:i===S.length-1},'Next →')
+)
+);
+}
+ReactDOM.createRoot(document.getElementById('root')).render(e(App));
+</script>
+</body>
+</html>

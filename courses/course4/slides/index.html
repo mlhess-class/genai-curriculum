@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>GENAI 401: Advanced AI Systems</title>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#00274C;color:#FFF;overflow:hidden}
+.deck{height:100vh;display:flex;flex-direction:column}
+.slide{flex:1;display:flex;flex-direction:column;justify-content:center;padding:60px 80px}
+.slide h1{font-size:2.4rem;color:#FFCB05;margin-bottom:8px}
+.slide h2{font-size:1.6rem;margin-bottom:24px;font-weight:400;opacity:.85}
+.slide ul{list-style:none;font-size:1.3rem;line-height:2}
+.slide ul li::before{content:"▸ ";color:#FFCB05}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:12px 30px;background:rgba(0,0,0,.3)}
+.nav button{background:#FFCB05;color:#00274C;border:none;padding:8px 20px;border-radius:4px;font-size:1rem;cursor:pointer;font-weight:600}
+.nav button:disabled{opacity:.3;cursor:default}
+.nav span{font-size:.9rem;opacity:.7}
+.week-tag{font-size:.85rem;opacity:.5;margin-bottom:4px}
+.title-slide h1{font-size:3rem}
+.title-slide h2{font-size:1.8rem;color:#FFCB05}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+const S = [
+{t:"GENAI 401",s:"Advanced AI Systems",w:"",b:["University of Michigan","15-Week Course","Architecting production-grade AI systems"],title:true},
+// Week 1
+{t:"Multi-Agent Architectures",w:"Week 1",b:["Multiple specialized agents collaborating on complex tasks","Supervisor pattern: orchestrator delegates to worker agents","Swarm pattern: agents self-organize without central control"]},
+{t:"Architecture Patterns",w:"Week 1",b:["Sequential: agents pass work in a pipeline","Hierarchical: manager agents coordinate specialists","Competitive: multiple agents solve, best answer wins"]},
+{t:"When to Use Multi-Agent",w:"Week 1",b:["Single agent struggles with complex, multi-domain tasks","Specialization improves quality for each sub-task","Trade-off: coordination overhead vs task decomposition gains"]},
+{t:"Lab: Supervisor Agent System",w:"Week 1",b:["Build supervisor that routes tasks to 3 specialist agents","Implement result aggregation and quality checking","Measure vs single-agent performance on same tasks"]},
+// Week 2
+{t:"Agent Communication Protocols",w:"Week 2",b:["Agents need structured ways to share information","Message passing: agents exchange typed messages","Shared state: agents read/write common state object"]},
+{t:"Coordination Strategies",w:"Week 2",b:["Turn-based: agents take turns in defined order","Event-driven: agents react to state changes","Consensus: agents must agree before proceeding"]},
+{t:"Conflict Resolution",w:"Week 2",b:["Agents may disagree on approach or output","Voting mechanisms for democratic decisions","Escalation to human-in-the-loop for critical conflicts"]},
+{t:"Lab: Debate System",w:"Week 2",b:["Build two agents that argue opposing positions","Implement a judge agent that evaluates arguments","Add structured turn-taking and rebuttal rounds"]},
+// Week 3
+{t:"Advanced RAG Architectures",w:"Week 3",b:["Beyond basic RAG: production-grade retrieval systems","Agentic RAG: agent decides when and how to retrieve","Graph RAG: combine knowledge graphs with vector search"]},
+{t:"Agentic RAG",w:"Week 3",b:["Agent decides if retrieval is needed for each query","Iterative retrieval: search, evaluate, refine, search again","Self-correcting: detect when retrieved context is insufficient"]},
+{t:"Multi-Index RAG",w:"Week 3",b:["Different indexes for different content types","Route queries to the most appropriate index","Merge results from multiple retrieval strategies"]},
+{t:"Lab: Agentic RAG System",w:"Week 3",b:["Build agent that dynamically decides retrieval strategy","Implement query routing across multiple indexes","Add self-correction when initial retrieval fails"]},
+// Week 4
+{t:"Knowledge Graphs for AI",w:"Week 4",b:["Knowledge graphs represent entities and relationships","Complement vector search with structured reasoning","Enable multi-hop reasoning across connected facts"]},
+{t:"Building Knowledge Graphs",w:"Week 4",b:["Entity extraction from unstructured documents","Relationship identification and typing","Graph databases: Neo4j, Amazon Neptune"]},
+{t:"Graph + Vector Hybrid",w:"Week 4",b:["Vector search for semantic similarity","Graph traversal for relational reasoning","Combined approach handles diverse query types"]},
+{t:"Lab: Knowledge Graph RAG",w:"Week 4",b:["Extract entities and relationships from documents","Build a Neo4j knowledge graph","Query with hybrid graph + vector retrieval"]},
+// Week 5
+{t:"Fine-Tuning LLMs",w:"Week 5",b:["Fine-tuning adapts a base model to your specific domain","When to fine-tune vs when to use RAG or prompting","Requires curated training data in the right format"]},
+{t:"Fine-Tuning Approaches",w:"Week 5",b:["Full fine-tuning: update all model parameters","LoRA/QLoRA: efficient parameter-efficient fine-tuning","Instruction tuning: teach model to follow your format"]},
+{t:"Training Data Preparation",w:"Week 5",b:["Quality matters more than quantity for fine-tuning","Format: instruction/input/output or conversation format","Data cleaning, deduplication, and validation"]},
+{t:"Lab: Fine-Tune a Model",w:"Week 5",b:["Prepare a dataset of 500+ high-quality examples","Fine-tune an open model with LoRA on cloud GPU","Evaluate fine-tuned vs base model performance"]},
+// Week 6
+{t:"AI Evaluation at Scale",w:"Week 6",b:["Systematic evaluation is critical for production AI","Define metrics aligned with business objectives","Automated evaluation pipelines for continuous testing"]},
+{t:"Evaluation Frameworks",w:"Week 6",b:["RAGAS: specialized metrics for RAG systems","DeepEval: comprehensive LLM evaluation toolkit","Custom metrics for domain-specific requirements"]},
+{t:"Human Evaluation Design",w:"Week 6",b:["Annotation guidelines for consistent human judgment","Inter-annotator agreement measures reliability","Combine human and automated evaluation for coverage"]},
+{t:"Lab: Evaluation Dashboard",w:"Week 6",b:["Build automated evaluation pipeline for your system","Implement 5+ metrics covering different quality aspects","Create dashboard to track quality over time"]},
+// Week 7
+{t:"Deployment Strategies",w:"Week 7",b:["Cloud deployment: AWS, GCP, Azure managed services","Self-hosted: Docker, Kubernetes for full control","Serverless: Lambda/Cloud Functions for bursty workloads"]},
+{t:"API Design for AI",w:"Week 7",b:["REST vs WebSocket for streaming responses","API versioning for backward compatibility","Rate limiting and authentication for AI endpoints"]},
+{t:"Infrastructure as Code",w:"Week 7",b:["Terraform/Pulumi for reproducible deployments","Docker Compose for local development parity","CI/CD pipelines for automated deployment"]},
+{t:"Lab: Cloud Deployment",w:"Week 7",b:["Containerize your AI application with Docker","Deploy to cloud with infrastructure as code","Set up CI/CD pipeline for automated updates"]},
+// Week 8
+{t:"Midterm: System Design",w:"Week 8",b:["Design a complete AI system from requirements","Architecture document with component diagrams","Justify technology choices and trade-offs"]},
+{t:"Review: Architecture Patterns",w:"Week 8",b:["Multi-agent: supervisor, swarm, hierarchical","RAG: naive, agentic, graph, multi-index","Deployment: cloud, self-hosted, serverless"]},
+{t:"Review: Implementation",w:"Week 8",b:["Knowledge graphs and hybrid retrieval","Fine-tuning strategies and data preparation","Evaluation metrics and testing frameworks"]},
+{t:"Midterm Tips",w:"Week 8",b:["Focus on clear architecture diagrams","Justify every technology choice with trade-offs","Address scalability, cost, and failure modes"]},
+// Week 9
+{t:"Cost Optimization",w:"Week 9",b:["LLM API costs can spiral quickly at scale","Token usage is your primary cost driver","Optimize without sacrificing quality"]},
+{t:"Cost Reduction Strategies",w:"Week 9",b:["Semantic caching: reuse answers for similar queries","Model routing: cheap model first, expensive as fallback","Prompt optimization: shorter prompts = fewer tokens"]},
+{t:"Monitoring Costs",w:"Week 9",b:["Track cost per request, per user, per feature","Set budget alerts and hard spending limits","Regular cost audits identify optimization opportunities"]},
+{t:"Lab: Cost-Optimized Pipeline",w:"Week 9",b:["Implement semantic caching layer for your system","Add model routing with cost-based fallback","Measure cost reduction vs quality impact"]},
+// Week 10
+{t:"AI Security",w:"Week 10",b:["Prompt injection: malicious inputs hijack AI behavior","Data leakage: AI reveals sensitive training data","New attack surfaces require new security thinking"]},
+{t:"Threat Modeling for AI",w:"Week 10",b:["Identify attack vectors specific to your AI system","Prompt injection, jailbreaking, data extraction","Supply chain risks in models and dependencies"]},
+{t:"Defense Strategies",w:"Week 10",b:["Input sanitization and prompt shielding","Output filtering for PII and sensitive content","Guardrails: NeMo Guardrails, Lakera Guard"]},
+{t:"Lab: Security Hardening",w:"Week 10",b:["Implement input validation and prompt injection detection","Add output filtering for sensitive data","Penetration test your AI system with adversarial inputs"]},
+// Week 11
+{t:"Observability for AI",w:"Week 11",b:["Traditional monitoring isn't enough for AI systems","Trace every LLM call: input, output, latency, cost","LangSmith, Langfuse, Phoenix for AI observability"]},
+{t:"Logging & Tracing",w:"Week 11",b:["Structured logging for every AI interaction","Distributed tracing across multi-agent systems","Correlation IDs link user requests to all AI calls"]},
+{t:"Alerting & Dashboards",w:"Week 11",b:["Alert on quality degradation, not just errors","Track latency percentiles (p50, p95, p99)","Business metrics: user satisfaction, task completion"]},
+{t:"Lab: Observability Stack",w:"Week 11",b:["Instrument your system with LangSmith tracing","Build monitoring dashboard with key metrics","Set up alerts for quality and performance regression"]},
+// Week 12
+{t:"Scaling AI Systems",w:"Week 12",b:["Horizontal scaling: add more instances behind load balancer","Async processing: queue long-running AI tasks","Caching layers reduce redundant LLM calls"]},
+{t:"Queue Architecture",w:"Week 12",b:["Message queues decouple request intake from processing","Workers process AI tasks at their own pace","Dead letter queues handle persistent failures"]},
+{t:"Load Testing AI",w:"Week 12",b:["AI systems have unique scaling characteristics","LLM latency varies with prompt length and model load","Test concurrent users, not just requests per second"]},
+{t:"Lab: Scaled System",w:"Week 12",b:["Add Redis queue for async AI processing","Implement horizontal scaling with Docker Compose","Load test and identify bottlenecks"]},
+// Week 13
+{t:"MLOps for LLM Applications",w:"Week 13",b:["MLOps adapts DevOps practices for AI systems","Version control: models, prompts, evaluation data","Experiment tracking: compare approaches systematically"]},
+{t:"CI/CD for AI",w:"Week 13",b:["Automated testing on every code change","Evaluation suite runs before deployment","Canary deployments for gradual rollout"]},
+{t:"Prompt Management",w:"Week 13",b:["Version control prompts like code","A/B test prompt variations in production","Prompt registries for team collaboration"]},
+{t:"Lab: MLOps Pipeline",w:"Week 13",b:["Set up prompt versioning and experiment tracking","Build CI pipeline with automated evaluation","Implement canary deployment strategy"]},
+// Week 14
+{t:"Industry Case Studies",w:"Week 14",b:["Enterprise search: multi-tenant RAG at scale","Customer service: agents handling complex workflows","Content platforms: AI-assisted creation pipelines"]},
+{t:"Architecture Deep Dives",w:"Week 14",b:["How companies handle millions of AI requests daily","Cost management strategies at enterprise scale","Lessons learned from production failures"]},
+{t:"Emerging Patterns",w:"Week 14",b:["Compound AI systems: multiple models cooperating","AI middleware: abstraction layers for model providers","Edge AI: running models closer to users"]},
+{t:"Final Project Prep",w:"Week 14",b:["Select a real-world problem for final project","Design complete system architecture","Plan implementation with clear milestones"]},
+// Week 15
+{t:"Final Project Presentations",w:"Week 15",b:["Present your advanced AI system architecture","Live demo with focus on production features","Peer review: security, scalability, observability"]},
+{t:"Course Retrospective",w:"Week 15",b:["Multi-agent → RAG → Fine-tuning → Production","Security, observability, and cost optimization","You can now architect enterprise AI systems"]},
+{t:"Looking Ahead",w:"Week 15",b:["GENAI 490: Apply everything in a real capstone project","Research opportunities in AI systems","Industry is hiring — these skills are in high demand"]},
+{t:"Final Reflections",w:"Week 15",b:["What production concern surprised you most?","How would you redesign your Week 1 architecture now?","What area of AI systems excites you most?"]}
+];
+
+const e=React.createElement;
+function App(){
+const[i,setI]=React.useState(0);
+const s=S[i];
+React.useEffect(()=>{
+const h=ev=>{if(ev.key==='ArrowRight'&&i<S.length-1)setI(i+1);if(ev.key==='ArrowLeft'&&i>0)setI(i-1)};
+window.addEventListener('keydown',h);return()=>window.removeEventListener('keydown',h);
+},[i]);
+return e('div',{className:'deck'},
+e('div',{className:'slide'+(s.title?' title-slide':'')},
+s.w&&e('div',{className:'week-tag'},s.w),
+e('h1',null,s.t),
+s.s&&e('h2',null,s.s),
+e('ul',null,...s.b.map((x,j)=>e('li',{key:j},x)))
+),
+e('div',{className:'nav'},
+e('button',{onClick:()=>setI(i-1),disabled:i===0},'← Prev'),
+e('span',null,(i+1)+' / '+S.length),
+e('button',{onClick:()=>setI(i+1),disabled:i===S.length-1},'Next →')
+)
+);
+}
+ReactDOM.createRoot(document.getElementById('root')).render(e(App));
+</script>
+</body>
+</html>

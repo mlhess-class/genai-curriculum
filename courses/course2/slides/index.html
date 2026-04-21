@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>GENAI 201: AI-Powered Workflows & Automation</title>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#00274C;color:#FFF;overflow:hidden}
+.deck{height:100vh;display:flex;flex-direction:column}
+.slide{flex:1;display:flex;flex-direction:column;justify-content:center;padding:60px 80px}
+.slide h1{font-size:2.4rem;color:#FFCB05;margin-bottom:8px}
+.slide h2{font-size:1.6rem;margin-bottom:24px;font-weight:400;opacity:.85}
+.slide ul{list-style:none;font-size:1.3rem;line-height:2}
+.slide ul li::before{content:"▸ ";color:#FFCB05}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:12px 30px;background:rgba(0,0,0,.3)}
+.nav button{background:#FFCB05;color:#00274C;border:none;padding:8px 20px;border-radius:4px;font-size:1rem;cursor:pointer;font-weight:600}
+.nav button:disabled{opacity:.3;cursor:default}
+.nav span{font-size:.9rem;opacity:.7}
+.week-tag{font-size:.85rem;opacity:.5;margin-bottom:4px}
+.title-slide h1{font-size:3rem}
+.title-slide h2{font-size:1.8rem;color:#FFCB05}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+const S = [
+{t:"GENAI 201",s:"AI-Powered Workflows & Automation",w:"",b:["University of Michigan","15-Week Course","From manual tasks to intelligent automation"],title:true},
+// Week 1
+{t:"Workflow Thinking",w:"Week 1",b:["Workflows = repeatable sequences of steps toward a goal","Identify inputs, processes, outputs, and decision points","Map your daily tasks to find automation opportunities"]},
+{t:"Process Mapping Fundamentals",w:"Week 1",b:["Flowcharts visualize decision logic and branching paths","Swimlane diagrams show handoffs between people/systems","Document current state before designing automation"]},
+{t:"Automation Readiness Assessment",w:"Week 1",b:["High volume + low complexity = best automation candidates","Rule-based tasks automate better than judgment calls","Calculate time saved vs effort to automate"]},
+{t:"Lab: Map Your First Workflow",w:"Week 1",b:["Choose a repetitive task you do weekly","Document every step including decisions","Identify which steps could be automated"]},
+// Week 2
+{t:"The Automation Landscape",w:"Week 2",b:["No-code: Zapier, Make, n8n — visual workflow builders","Low-code: Retool, Appsmith — UI + logic","Code: Python scripts, APIs — maximum flexibility"]},
+{t:"Choosing the Right Tool",w:"Week 2",b:["Complexity determines which tier you need","Integration availability is often the deciding factor","Start simple, graduate to more complex tools as needed"]},
+{t:"iPaaS Platforms Compared",w:"Week 2",b:["Zapier: easiest, most integrations, highest cost","Make: visual, powerful, moderate pricing","n8n: open-source, self-hostable, most flexible"]},
+{t:"Why We Use n8n",w:"Week 2",b:["Open-source with active community and development","Self-hosted = full data control and privacy","AI-native features built into the platform"]},
+// Week 3
+{t:"n8n Fundamentals",w:"Week 3",b:["Node-based visual workflow editor","Trigger → Process → Output pattern","Each node performs one specific action"]},
+{t:"n8n Interface Tour",w:"Week 3",b:["Canvas: drag, drop, and connect nodes visually","Execution panel: test and debug step by step","Credentials vault: securely store API keys"]},
+{t:"Your First Workflow",w:"Week 3",b:["Trigger: webhook receives incoming data","Process: transform and filter the data","Output: send result to email or Slack"]},
+{t:"Lab: Build a Notification Bot",w:"Week 3",b:["Create a workflow triggered by a schedule","Fetch data from a public API","Send formatted notification via email"]},
+// Week 4
+{t:"Working with APIs",w:"Week 4",b:["APIs let software talk to other software","REST APIs: GET, POST, PUT, DELETE operations","JSON is the universal data format for APIs"]},
+{t:"API Authentication",w:"Week 4",b:["API keys: simple but less secure","OAuth 2.0: token-based, industry standard","Bearer tokens: common for modern APIs"]},
+{t:"HTTP Request Node in n8n",w:"Week 4",b:["Configure method, URL, headers, and body","Parse JSON responses automatically","Handle pagination for large result sets"]},
+{t:"Lab: API Integration",w:"Week 4",b:["Connect to a real API (weather, news, or data)","Parse and transform the response data","Route results based on conditional logic"]},
+// Week 5
+{t:"Core n8n Nodes",w:"Week 5",b:["IF node: branch workflows based on conditions","Switch node: route to multiple paths","Merge node: combine data from parallel branches"]},
+{t:"Data Manipulation Nodes",w:"Week 5",b:["Set node: create or modify data fields","Function node: write custom JavaScript logic","Split In Batches: process large datasets safely"]},
+{t:"Utility Nodes",w:"Week 5",b:["Wait node: add delays between steps","No Operation: placeholder for testing","Execute Command: run shell scripts from workflows"]},
+{t:"Lab: Multi-Branch Workflow",w:"Week 5",b:["Build a workflow with 3+ conditional branches","Use merge nodes to combine results","Handle edge cases with error outputs"]},
+// Week 6
+{t:"AI Nodes in n8n",w:"Week 6",b:["AI Agent node: autonomous task completion","LLM Chain node: sequential AI processing","Text Classifier node: categorize content automatically"]},
+{t:"Connecting LLM Providers",w:"Week 6",b:["Configure OpenAI, Anthropic, or local model credentials","Choose models based on task complexity and cost","Set temperature and other generation parameters"]},
+{t:"AI-Powered Workflow Patterns",w:"Week 6",b:["Summarize incoming emails and route by priority","Extract structured data from unstructured text","Generate responses based on templates and context"]},
+{t:"Lab: AI Email Processor",w:"Week 6",b:["Receive email via trigger node","Use AI to classify urgency and extract action items","Route to appropriate handler based on classification"]},
+// Week 7
+{t:"Data Transformation",w:"Week 7",b:["Clean, reshape, and enrich data between systems","Map fields from source format to destination format","Handle missing data, type conversion, and validation"]},
+{t:"JSON & Expression Language",w:"Week 7",b:["n8n expressions access data from previous nodes","JSONPath queries extract nested values","Template literals build dynamic strings"]},
+{t:"Advanced Data Operations",w:"Week 7",b:["Aggregate: summarize arrays into single values","Pivot: restructure data orientation","Lookup: enrich records from reference data"]},
+{t:"Lab: Data Pipeline",w:"Week 7",b:["Ingest CSV data from cloud storage","Transform and validate each record","Load clean data into destination system"]},
+// Week 8
+{t:"Midterm Review",w:"Week 8",b:["Covers Weeks 1-7: workflow design through data transformation","Format: build a complete workflow from requirements","Demonstrate end-to-end automation competency"]},
+{t:"Concepts Review",w:"Week 8",b:["Workflow mapping and automation readiness","API fundamentals and authentication methods","n8n node types and their use cases"]},
+{t:"Skills Review",w:"Week 8",b:["Building multi-branch workflows with error handling","Integrating AI nodes for intelligent processing","Data transformation and expression language"]},
+{t:"Midterm Prep",w:"Week 8",b:["Review all lab workflows you've built","Practice building workflows from scratch","Focus on clean design and error handling"]},
+// Week 9
+{t:"Error Handling & Reliability",w:"Week 9",b:["Workflows fail — plan for it from the start","Error triggers catch and handle failures gracefully","Retry logic handles transient API failures"]},
+{t:"Error Handling Patterns",w:"Week 9",b:["Try/catch with error trigger workflows","Dead letter queues for failed items","Alert on failure: email/Slack notifications"]},
+{t:"Logging & Monitoring",w:"Week 9",b:["Log execution data for debugging and auditing","Monitor workflow health with execution statistics","Set up alerts for failure rate thresholds"]},
+{t:"Lab: Bulletproof Workflow",w:"Week 9",b:["Add error handling to a previous lab workflow","Implement retry logic with exponential backoff","Create an error notification workflow"]},
+// Week 10
+{t:"Working with Databases",w:"Week 10",b:["Databases store persistent state for workflows","SQL basics: SELECT, INSERT, UPDATE, DELETE","n8n nodes for Postgres, MySQL, MongoDB, SQLite"]},
+{t:"Database Integration Patterns",w:"Week 10",b:["Lookup: enrich workflow data from database records","Sync: keep two systems in sync via database","Queue: use database as simple job queue"]},
+{t:"State Management",w:"Week 10",b:["Workflows need memory between executions","Store processed IDs to avoid duplicates","Track workflow state for multi-step processes"]},
+{t:"Lab: Stateful Workflow",w:"Week 10",b:["Create a database to track processed items","Build workflow that checks for new items only","Implement deduplication and state tracking"]},
+// Week 11
+{t:"Advanced Workflow Patterns",w:"Week 11",b:["Sub-workflows: reusable workflow components","Parallel execution: process multiple items simultaneously","Webhook chains: workflows triggering workflows"]},
+{t:"Scheduling & Orchestration",w:"Week 11",b:["Cron triggers for time-based automation","Event-driven: respond to external triggers","Batch processing: scheduled bulk operations"]},
+{t:"Performance Optimization",w:"Week 11",b:["Minimize API calls with batching and caching","Use pagination to handle large datasets","Profile execution time to find bottlenecks"]},
+{t:"Lab: Orchestrated Pipeline",w:"Week 11",b:["Build a main workflow that calls sub-workflows","Implement parallel processing with merge","Add scheduling and performance monitoring"]},
+// Week 12
+{t:"AI Agents in n8n",w:"Week 12",b:["Agents = AI that can use tools and make decisions","Agent node connects LLM to tools and memory","Define available tools the agent can invoke"]},
+{t:"Agent Tool Configuration",w:"Week 12",b:["Calculator, web search, database query tools","Custom tools: wrap any API as an agent tool","Tool descriptions guide the agent's decisions"]},
+{t:"Agent Memory & Context",w:"Week 12",b:["Window memory: keep recent conversation history","Vector store memory: retrieve relevant past context","Buffer memory: simple conversation tracking"]},
+{t:"Lab: Build an AI Agent",w:"Week 12",b:["Create an agent with 3+ tools available","Give it a specific task requiring tool use","Evaluate decision quality and reliability"]},
+// Week 13
+{t:"Production Readiness",w:"Week 13",b:["Development → staging → production pipeline","Version control for workflow definitions","Backup and disaster recovery planning"]},
+{t:"Security Best Practices",w:"Week 13",b:["Never hardcode credentials in workflows","Encrypt sensitive data at rest and in transit","Implement access controls and audit logging"]},
+{t:"Scaling Workflows",w:"Week 13",b:["Queue mode for high-volume processing","Worker nodes distribute load across machines","Monitor resource usage and set capacity limits"]},
+{t:"Lab: Production Deployment",w:"Week 13",b:["Export workflow as JSON for version control","Set up environment-specific credentials","Create monitoring and alerting configuration"]},
+// Week 14
+{t:"Real-World Case Studies",w:"Week 14",b:["Customer onboarding automation pipeline","Content publishing workflow with AI review","Data synchronization across SaaS platforms"]},
+{t:"Measuring Automation ROI",w:"Week 14",b:["Calculate time saved per execution × frequency","Factor in error reduction and consistency gains","Compare build cost vs ongoing manual cost"]},
+{t:"Building an Automation Culture",w:"Week 14",b:["Document workflows for team knowledge sharing","Create templates for common automation patterns","Train colleagues to build their own workflows"]},
+{t:"Portfolio Preparation",w:"Week 14",b:["Select your best 3 workflows for final portfolio","Document design decisions and business impact","Prepare live demo of most impressive workflow"]},
+// Week 15
+{t:"Final Project Presentations",w:"Week 15",b:["Present your automation portfolio to the class","Live demo of your most complex workflow","Peer evaluation and feedback"]},
+{t:"Course Retrospective",w:"Week 15",b:["From workflow thinking to production automation","Key skills: API integration, AI nodes, error handling","You can now automate real business processes"]},
+{t:"Looking Ahead",w:"Week 15",b:["GENAI 301: Build custom AI apps with LangChain","GENAI 401: Advanced multi-agent systems","Continue building — automation compounds over time"]},
+{t:"Final Reflections",w:"Week 15",b:["What workflow are you most proud of building?","How will you apply automation in your career?","Commit to automating one new task per month"]}
+];
+
+const e=React.createElement;
+function App(){
+const[i,setI]=React.useState(0);
+const s=S[i];
+React.useEffect(()=>{
+const h=ev=>{if(ev.key==='ArrowRight'&&i<S.length-1)setI(i+1);if(ev.key==='ArrowLeft'&&i>0)setI(i-1)};
+window.addEventListener('keydown',h);return()=>window.removeEventListener('keydown',h);
+},[i]);
+return e('div',{className:'deck'},
+e('div',{className:'slide'+(s.title?' title-slide':'')},
+s.w&&e('div',{className:'week-tag'},s.w),
+e('h1',null,s.t),
+s.s&&e('h2',null,s.s),
+e('ul',null,...s.b.map((x,j)=>e('li',{key:j},x)))
+),
+e('div',{className:'nav'},
+e('button',{onClick:()=>setI(i-1),disabled:i===0},'← Prev'),
+e('span',null,(i+1)+' / '+S.length),
+e('button',{onClick:()=>setI(i+1),disabled:i===S.length-1},'Next →')
+)
+);
+}
+ReactDOM.createRoot(document.getElementById('root')).render(e(App));
+</script>
+</body>
+</html>

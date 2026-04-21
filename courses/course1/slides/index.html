@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>GENAI 101: Foundations of Generative AI</title>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#00274C;color:#FFF;overflow:hidden}
+.deck{height:100vh;display:flex;flex-direction:column}
+.slide{flex:1;display:flex;flex-direction:column;justify-content:center;padding:60px 80px}
+.slide h1{font-size:2.4rem;color:#FFCB05;margin-bottom:8px}
+.slide h2{font-size:1.6rem;margin-bottom:24px;font-weight:400;opacity:.85}
+.slide ul{list-style:none;font-size:1.3rem;line-height:2}
+.slide ul li::before{content:"▸ ";color:#FFCB05}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:12px 30px;background:rgba(0,0,0,.3)}
+.nav button{background:#FFCB05;color:#00274C;border:none;padding:8px 20px;border-radius:4px;font-size:1rem;cursor:pointer;font-weight:600}
+.nav button:disabled{opacity:.3;cursor:default}
+.nav span{font-size:.9rem;opacity:.7}
+.week-tag{font-size:.85rem;opacity:.5;margin-bottom:4px}
+.title-slide h1{font-size:3rem}
+.title-slide h2{font-size:1.8rem;color:#FFCB05}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+const S = [
+// Title
+{t:"GENAI 101",s:"Foundations of Generative AI",w:"",b:["University of Michigan","15-Week Course","Your journey into AI starts here"],title:true},
+// Week 1
+{t:"What is Artificial Intelligence?",w:"Week 1",b:["AI = machines performing tasks that typically require human intelligence","Three types: narrow AI, general AI, and superintelligence","We are currently in the narrow/specialized AI era"]},
+{t:"Brief History of AI",w:"Week 1",b:["1950s: Turing Test and early symbolic AI","2012: Deep learning revolution with AlexNet","2022-present: Large Language Models go mainstream"]},
+{t:"Generative AI Explained",w:"Week 1",b:["Generative AI creates new content: text, images, code, audio","Differs from traditional AI which classifies or predicts","Built on neural networks trained on massive datasets"]},
+{t:"Week 1 Key Takeaways",w:"Week 1",b:["AI is a broad field; GenAI is one powerful subset","Understanding AI history helps predict its future","GenAI is a tool — not magic, not sentient"]},
+// Week 2
+{t:"How Large Language Models Work",w:"Week 2",b:["LLMs predict the next most likely token in a sequence","Trained on billions of text documents from the internet","Parameters encode patterns of language and knowledge"]},
+{t:"The Transformer Architecture",w:"Week 2",b:["Attention mechanism: model focuses on relevant context","Self-attention allows parallel processing of input","Encoder-decoder vs decoder-only architectures"]},
+{t:"Training Pipeline",w:"Week 2",b:["Pre-training: learn language from massive text corpora","Fine-tuning: specialize on specific tasks or domains","RLHF: align outputs with human preferences"]},
+{t:"Tokens and Context Windows",w:"Week 2",b:["Tokens are word pieces — 1 word ≈ 1.3 tokens","Context window = how much text the model can see at once","Larger windows enable more complex conversations"]},
+// Week 3
+{t:"Comparing AI Models",w:"Week 3",b:["GPT-4, Claude, Gemini, Llama — different strengths","Closed-source vs open-source model tradeoffs","Benchmarks help but real-world testing matters more"]},
+{t:"Model Selection Criteria",w:"Week 3",b:["Consider: accuracy, speed, cost, and privacy needs","Larger models aren't always better for every task","Free tiers available for experimentation"]},
+{t:"Open vs Closed Models",w:"Week 3",b:["Closed: GPT-4, Claude — better performance, API-only","Open: Llama, Mistral — self-hostable, customizable","Hybrid approaches becoming increasingly common"]},
+{t:"Hands-On: Model Comparison Lab",w:"Week 3",b:["Test same prompt across 3+ different models","Evaluate quality, speed, and consistency","Document findings in a comparison matrix"]},
+// Week 4
+{t:"Prompt Engineering Basics",w:"Week 4",b:["A prompt is your instruction set to the AI","Clear, specific prompts produce better outputs","Garbage in, garbage out — prompt quality matters"]},
+{t:"Anatomy of a Good Prompt",w:"Week 4",b:["Role: tell the AI who to be","Task: clearly state what you want","Format: specify the desired output structure"]},
+{t:"Common Prompt Patterns",w:"Week 4",b:["Zero-shot: just ask the question directly","Few-shot: provide examples of desired output","System prompts set persistent behavior rules"]},
+{t:"Prompt Pitfalls to Avoid",w:"Week 4",b:["Vague instructions lead to generic responses","Overly complex prompts confuse the model","Always iterate — first draft prompts rarely perfect"]},
+// Week 5
+{t:"Advanced Prompting Techniques",w:"Week 5",b:["Chain-of-thought: ask the model to reason step by step","Tree-of-thought: explore multiple reasoning paths","Self-consistency: generate multiple answers, pick best"]},
+{t:"Structured Output Prompting",w:"Week 5",b:["Request JSON, CSV, or markdown formatted responses","Use schemas to enforce consistent output structure","Validation ensures AI output meets your requirements"]},
+{t:"Meta-Prompting",w:"Week 5",b:["Ask AI to write better prompts for you","Iterative refinement through prompt chaining","Build reusable prompt templates for common tasks"]},
+{t:"Prompt Engineering Workshop",w:"Week 5",b:["Solve 5 real-world challenges using advanced techniques","Peer review each other's prompt strategies","Build a personal prompt library"]},
+// Week 6
+{t:"AI for Writing & Content",w:"Week 6",b:["Drafting, editing, summarizing, and brainstorming","AI as writing partner, not ghostwriter","Maintaining your authentic voice with AI assistance"]},
+{t:"Writing Workflows with AI",w:"Week 6",b:["Outline → Draft → Revise → Polish pipeline","Use AI for research synthesis and fact organization","Iterative refinement produces the best results"]},
+{t:"Content Types & Strategies",w:"Week 6",b:["Academic writing: structure, citations, argumentation","Professional writing: emails, reports, proposals","Creative writing: stories, scripts, marketing copy"]},
+{t:"Writing Lab: Before & After",w:"Week 6",b:["Take rough draft and improve with AI assistance","Compare human-only vs AI-assisted output quality","Reflect on where AI helped vs where it hindered"]},
+// Week 7
+{t:"AI for Code Generation",w:"Week 7",b:["GitHub Copilot, ChatGPT, Claude for coding tasks","AI can write, explain, debug, and refactor code","Works best with clear problem descriptions"]},
+{t:"Effective AI Coding Patterns",w:"Week 7",b:["Describe what you want, not how to build it","Provide context: language, framework, constraints","Always review and test AI-generated code"]},
+{t:"Debugging with AI",w:"Week 7",b:["Paste error messages and code for diagnosis","AI explains bugs in plain English","Suggests fixes with reasoning behind changes"]},
+{t:"Code Lab: Build with AI",w:"Week 7",b:["Build a simple web app using AI as coding partner","Track how many iterations to working code","Evaluate: faster than coding from scratch?"]},
+// Week 8
+{t:"Midterm Review",w:"Week 8",b:["Covers Weeks 1-7: AI fundamentals through applications","Format: practical prompt challenges + short answers","Demonstrate understanding, not memorization"]},
+{t:"Key Concepts Review",w:"Week 8",b:["How LLMs work: transformers, tokens, training","Model comparison and selection criteria","Prompt engineering: basic through advanced"]},
+{t:"Application Skills Review",w:"Week 8",b:["AI for writing: workflows and best practices","AI for code: patterns, debugging, limitations","Ethical considerations in all AI use"]},
+{t:"Midterm Prep Tips",w:"Week 8",b:["Practice with diverse prompt scenarios","Review your prompt library and lab notes","Focus on reasoning, not rote memorization"]},
+// Week 9
+{t:"AI Ethics & Responsibility",w:"Week 9",b:["Bias in training data leads to biased outputs","AI can perpetuate and amplify societal inequalities","Responsible use requires awareness and intention"]},
+{t:"Bias and Fairness",w:"Week 9",b:["Training data reflects historical biases","Different demographics get different quality outputs","Mitigation strategies: diverse testing, bias audits"]},
+{t:"Privacy and Data Concerns",w:"Week 9",b:["Data sent to AI APIs may be stored or used for training","PII should never be shared with public AI tools","Enterprise vs consumer AI privacy differences"]},
+{t:"Ethical Frameworks for AI Use",w:"Week 9",b:["Transparency: disclose when AI is used","Accountability: humans remain responsible for outputs","Fairness: test across diverse use cases and users"]},
+// Week 10
+{t:"Academic Integrity & AI",w:"Week 10",b:["University policies on AI use are evolving rapidly","Undisclosed AI use in assignments = academic dishonesty","Always check course-specific AI use policies"]},
+{t:"When AI Use is Appropriate",w:"Week 10",b:["Brainstorming and ideation: generally acceptable","Research and learning: great use case","Final submission without disclosure: problematic"]},
+{t:"Citation and Attribution",w:"Week 10",b:["Cite AI tools like any other source","Include: tool name, date, prompt used","APA 7th edition has AI citation guidelines"]},
+{t:"Building an Integrity Mindset",w:"Week 10",b:["AI should enhance your learning, not replace it","The goal is skill development, not just output","Your degree certifies YOUR capabilities"]},
+// Week 11
+{t:"AI in Industry",w:"Week 11",b:["Healthcare: diagnosis assistance, drug discovery","Finance: risk analysis, fraud detection, trading","Marketing: content generation, personalization"]},
+{t:"AI Transforming Work",w:"Week 11",b:["Automation of routine knowledge work tasks","New roles: prompt engineers, AI trainers, ethicists","Augmentation > replacement for most professions"]},
+{t:"Case Studies",w:"Week 11",b:["How companies are deploying GenAI successfully","Common pitfalls and failure patterns","ROI measurement for AI implementations"]},
+{t:"Future of Work Discussion",w:"Week 11",b:["Which jobs are most affected by AI?","Skills that remain uniquely human","Preparing your career for an AI-augmented world"]},
+// Week 12
+{t:"AI Limitations & Risks",w:"Week 12",b:["Hallucinations: AI confidently states false information","Knowledge cutoffs: models don't know recent events","Reasoning gaps: struggles with logic and math"]},
+{t:"When AI Fails",w:"Week 12",b:["Sycophancy: agrees with you even when you're wrong","Context window limits cause lost information","Inconsistency: different answers to same question"]},
+{t:"Mitigating AI Risks",w:"Week 12",b:["Always verify critical facts from primary sources","Use AI as draft, human as editor and fact-checker","Implement checks and balances in AI workflows"]},
+{t:"Critical Thinking Exercise",w:"Week 12",b:["Identify errors in AI-generated content samples","Practice fact-checking AI outputs efficiently","Build habits for responsible AI consumption"]},
+// Week 13
+{t:"The AI Landscape in 2025+",w:"Week 13",b:["Multimodal models: text, image, audio, video","AI agents that can take actions autonomously","Smaller, specialized models gaining traction"]},
+{t:"Emerging Trends",w:"Week 13",b:["On-device AI: privacy-preserving local models","AI regulation: EU AI Act and global policy","Open-source AI closing gap with commercial models"]},
+{t:"Tools Ecosystem",w:"Week 13",b:["ChatGPT, Claude, Gemini — consumer AI tools","Midjourney, DALL-E, Stable Diffusion — image generation","Specialized tools for music, video, and 3D"]},
+{t:"Navigating Rapid Change",w:"Week 13",b:["Follow key researchers and AI news sources","Experiment regularly with new tools and models","Build adaptable skills, not tool-specific knowledge"]},
+// Week 14
+{t:"Building Your AI Toolkit",w:"Week 14",b:["Identify your most common AI use cases","Select 3-5 tools that cover your needs","Create templates and workflows for repeated tasks"]},
+{t:"Personal AI Strategy",w:"Week 14",b:["Audit: where do you spend most time on tasks?","Match AI tools to your biggest time sinks","Measure actual time saved over one week"]},
+{t:"Prompt Library Development",w:"Week 14",b:["Organize prompts by category and use case","Version control: iterate and improve over time","Share effective prompts with your team"]},
+{t:"Toolkit Presentation Prep",w:"Week 14",b:["Document your personal AI toolkit and rationale","Prepare to demo your best AI workflows","Reflect on your growth since Week 1"]},
+// Week 15
+{t:"Course Wrap-Up",w:"Week 15",b:["Review journey from AI basics to practical toolkit","Key themes: capability, limitation, responsibility","You're now AI-literate — keep building on this"]},
+{t:"Toolkit Presentations",w:"Week 15",b:["Each student presents their personal AI toolkit","Peer feedback and shared learning","Discover tools and techniques from classmates"]},
+{t:"Looking Ahead",w:"Week 15",b:["GENAI 201: Workflows and automation with AI","GENAI 301: Building applications with LangChain","Continue learning — the field moves fast"]},
+{t:"Final Reflections",w:"Week 15",b:["What surprised you most about AI this semester?","How has your perspective on AI changed?","Commit to one AI practice you'll continue"]}
+];
+
+const e=React.createElement;
+function App(){
+const[i,setI]=React.useState(0);
+const s=S[i];
+React.useEffect(()=>{
+const h=ev=>{if(ev.key==='ArrowRight'&&i<S.length-1)setI(i+1);if(ev.key==='ArrowLeft'&&i>0)setI(i-1)};
+window.addEventListener('keydown',h);return()=>window.removeEventListener('keydown',h);
+},[i]);
+return e('div',{className:'deck'},
+e('div',{className:'slide'+(s.title?' title-slide':'')},
+s.w&&e('div',{className:'week-tag'},s.w),
+e('h1',null,s.t),
+s.s&&e('h2',null,s.s),
+e('ul',null,...s.b.map((x,j)=>e('li',{key:j},x)))
+),
+e('div',{className:'nav'},
+e('button',{onClick:()=>setI(i-1),disabled:i===0},'← Prev'),
+e('span',null,(i+1)+' / '+S.length),
+e('button',{onClick:()=>setI(i+1),disabled:i===S.length-1},'Next →')
+)
+);
+}
+ReactDOM.createRoot(document.getElementById('root')).render(e(App));
+</script>
+</body>
+</html>

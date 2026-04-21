@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>GENAI 301: Building with LangChain</title>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#00274C;color:#FFF;overflow:hidden}
+.deck{height:100vh;display:flex;flex-direction:column}
+.slide{flex:1;display:flex;flex-direction:column;justify-content:center;padding:60px 80px}
+.slide h1{font-size:2.4rem;color:#FFCB05;margin-bottom:8px}
+.slide h2{font-size:1.6rem;margin-bottom:24px;font-weight:400;opacity:.85}
+.slide ul{list-style:none;font-size:1.3rem;line-height:2}
+.slide ul li::before{content:"▸ ";color:#FFCB05}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:12px 30px;background:rgba(0,0,0,.3)}
+.nav button{background:#FFCB05;color:#00274C;border:none;padding:8px 20px;border-radius:4px;font-size:1rem;cursor:pointer;font-weight:600}
+.nav button:disabled{opacity:.3;cursor:default}
+.nav span{font-size:.9rem;opacity:.7}
+.week-tag{font-size:.85rem;opacity:.5;margin-bottom:4px}
+.title-slide h1{font-size:3rem}
+.title-slide h2{font-size:1.8rem;color:#FFCB05}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+const S = [
+{t:"GENAI 301",s:"Building with LangChain",w:"",b:["University of Michigan","15-Week Course","From prompts to production AI applications"],title:true},
+// Week 1
+{t:"Python for AI Development",w:"Week 1",b:["Python environment setup: venv, pip, pyproject.toml","Essential libraries: requests, json, dotenv","Type hints and modern Python patterns for AI code"]},
+{t:"Development Environment",w:"Week 1",b:["VS Code with Python and Jupyter extensions","Git for version control of AI projects","Environment variables for API key management"]},
+{t:"Python Async & APIs",w:"Week 1",b:["async/await for concurrent API calls","httpx and aiohttp for non-blocking requests","Rate limiting and retry patterns"]},
+{t:"Lab: Python AI Starter",w:"Week 1",b:["Set up project with proper dependency management","Call OpenAI API directly with Python","Implement streaming response handling"]},
+// Week 2
+{t:"LangChain Architecture",w:"Week 2",b:["LangChain = framework for building LLM applications","Core abstractions: models, prompts, chains, agents","LCEL (LangChain Expression Language) for composability"]},
+{t:"LangChain Ecosystem",w:"Week 2",b:["langchain-core: base abstractions and interfaces","langchain-community: third-party integrations","LangSmith: observability and debugging platform"]},
+{t:"LCEL Fundamentals",w:"Week 2",b:["Pipe operator (|) chains components together","Runnables: invoke, batch, stream interfaces","Composable: mix and match any components"]},
+{t:"Lab: First LangChain App",w:"Week 2",b:["Install LangChain and configure LLM provider","Build a simple chain with LCEL","Compare raw API calls vs LangChain abstraction"]},
+// Week 3
+{t:"LLM Providers & Models",w:"Week 3",b:["ChatOpenAI, ChatAnthropic, ChatGoogle integrations","Consistent interface across all providers","Model parameters: temperature, max_tokens, top_p"]},
+{t:"Model Configuration",w:"Week 3",b:["Choosing models based on task requirements","Fallback chains: try expensive model, fall back to cheap","Caching responses to reduce cost and latency"]},
+{t:"Streaming & Callbacks",w:"Week 3",b:["Stream tokens for responsive user experience","Callback handlers for logging and monitoring","Custom callbacks for application-specific needs"]},
+{t:"Lab: Multi-Provider App",w:"Week 3",b:["Build app that works with 3 different LLM providers","Implement model fallback chain","Add streaming output to a web interface"]},
+// Week 4
+{t:"Prompt Templates",w:"Week 4",b:["PromptTemplate: string formatting with variables","ChatPromptTemplate: structured message sequences","FewShotPromptTemplate: dynamic example selection"]},
+{t:"Advanced Templating",w:"Week 4",b:["Partial prompts: pre-fill some variables","Prompt composition: combine multiple templates","PipelinePrompt: multi-stage prompt assembly"]},
+{t:"Output Parsers",w:"Week 4",b:["StrOutputParser: simple string extraction","JsonOutputParser: structured JSON responses","PydanticOutputParser: validated, typed outputs"]},
+{t:"Lab: Structured AI Pipeline",w:"Week 4",b:["Build prompt template with few-shot examples","Chain with Pydantic output parser for typed results","Handle parsing errors gracefully"]},
+// Week 5
+{t:"Chains in LangChain",w:"Week 5",b:["Chains = sequence of operations on LLM output","LCEL chains replace legacy Chain classes","Common pattern: prompt | model | output_parser"]},
+{t:"Chain Patterns",w:"Week 5",b:["Sequential: output of one step feeds the next","Parallel: RunnableParallel for concurrent operations","Branching: RunnableBranch for conditional logic"]},
+{t:"Advanced Chain Composition",w:"Week 5",b:["RunnablePassthrough: forward data unchanged","RunnableLambda: custom Python functions in chains","itemgetter: extract specific fields from input"]},
+{t:"Lab: Multi-Step Chain",w:"Week 5",b:["Build a research chain: search → summarize → format","Use parallel chains for multi-perspective analysis","Implement conditional branching based on input type"]},
+// Week 6
+{t:"RAG Introduction",w:"Week 6",b:["RAG = Retrieval-Augmented Generation","Give LLMs access to your private data at query time","Solves: hallucination, stale knowledge, domain specificity"]},
+{t:"RAG Architecture",w:"Week 6",b:["Indexing: load, split, embed, and store documents","Retrieval: find relevant chunks for a given query","Generation: LLM answers using retrieved context"]},
+{t:"Document Loading & Splitting",w:"Week 6",b:["Loaders for PDF, web, CSV, databases, and more","Text splitters: chunk documents with overlap","Chunk size affects retrieval quality significantly"]},
+{t:"Lab: Simple RAG Pipeline",w:"Week 6",b:["Load a PDF document and split into chunks","Store embeddings in an in-memory vector store","Query and get grounded answers from your document"]},
+// Week 7
+{t:"Vector Databases",w:"Week 7",b:["Vector DBs store and search high-dimensional embeddings","Similarity search: find chunks closest to the query","Options: Chroma, Pinecone, Weaviate, pgvector"]},
+{t:"Embedding Models",w:"Week 7",b:["Embeddings convert text to numerical vectors","OpenAI, Cohere, HuggingFace embedding models","Embedding quality directly impacts retrieval quality"]},
+{t:"Vector Store Operations",w:"Week 7",b:["Add documents with metadata for filtered retrieval","Similarity search vs max marginal relevance (MMR)","Hybrid search: combine vector + keyword matching"]},
+{t:"Lab: Production Vector Store",w:"Week 7",b:["Set up Chroma with persistent storage","Index a multi-document knowledge base","Implement filtered retrieval with metadata"]},
+// Week 8
+{t:"Midterm Project",w:"Week 8",b:["Build a complete RAG application from scratch","Requirements: document loading, vector store, chat UI","Demonstrate prompt templates and output parsing"]},
+{t:"Midterm Requirements",w:"Week 8",b:["Minimum 3 document sources indexed","Conversational interface with chat history","Proper error handling and loading states"]},
+{t:"Architecture Review",w:"Week 8",b:["Review Weeks 1-7: Python → LangChain → RAG pipeline","Chains, prompts, parsers, and vector stores","Focus on clean, maintainable code architecture"]},
+{t:"Midterm Tips",w:"Week 8",b:["Start with a working simple version, then enhance","Test with diverse queries including edge cases","Document your architecture decisions"]},
+// Week 9
+{t:"Advanced RAG Techniques",w:"Week 9",b:["Naive RAG has limitations: relevance, context, accuracy","Advanced techniques significantly improve quality","Choose techniques based on your specific use case"]},
+{t:"Query Enhancement",w:"Week 9",b:["Multi-query: rephrase question from multiple angles","HyDE: generate hypothetical answer, search for it","Query decomposition: break complex questions apart"]},
+{t:"Retrieval Optimization",w:"Week 9",b:["Re-ranking: score and reorder retrieved chunks","Contextual compression: extract only relevant parts","Parent document retriever: small chunks → full context"]},
+{t:"Lab: Advanced RAG Pipeline",w:"Week 9",b:["Implement multi-query retrieval strategy","Add re-ranking with cross-encoder model","Compare naive vs advanced RAG quality"]},
+// Week 10
+{t:"Agents & Tools",w:"Week 10",b:["Agents = LLMs that decide which actions to take","Tools give agents capabilities: search, calculate, code","ReAct pattern: Reason → Act → Observe → Repeat"]},
+{t:"Building Custom Tools",w:"Week 10",b:["@tool decorator: turn any function into an agent tool","Tool descriptions guide the agent's decision-making","Input schemas validate tool arguments"]},
+{t:"Agent Types",w:"Week 10",b:["Tool-calling agents: use LLM's native function calling","ReAct agents: explicit reasoning before each action","Plan-and-execute: plan all steps, then execute"]},
+{t:"Lab: Research Agent",w:"Week 10",b:["Build agent with web search and calculator tools","Add a custom tool for database queries","Evaluate agent decision-making quality"]},
+// Week 11
+{t:"Memory in LangChain",w:"Week 11",b:["Memory gives conversations continuity across turns","Without memory, each call is stateless and isolated","Multiple memory strategies for different use cases"]},
+{t:"Memory Types",w:"Week 11",b:["ConversationBufferMemory: store full history","ConversationSummaryMemory: LLM summarizes history","ConversationTokenBufferMemory: trim to token limit"]},
+{t:"Persistent Memory",w:"Week 11",b:["Store conversation history in databases","Redis, PostgreSQL, or MongoDB for persistence","Session management for multi-user applications"]},
+{t:"Lab: Conversational App",w:"Week 11",b:["Build chatbot with conversation memory","Implement memory persistence across restarts","Test with long conversations to verify continuity"]},
+// Week 12
+{t:"LangGraph Introduction",w:"Week 12",b:["LangGraph = framework for stateful, multi-step agents","Graph-based: nodes are steps, edges are transitions","Supports cycles, branching, and human-in-the-loop"]},
+{t:"LangGraph Core Concepts",w:"Week 12",b:["StateGraph: define state schema and transitions","Nodes: functions that read and update state","Edges: conditional routing between nodes"]},
+{t:"Building a Graph Agent",w:"Week 12",b:["Define state with TypedDict or Pydantic model","Add nodes for reasoning, tool use, and response","Compile graph and invoke with initial state"]},
+{t:"Lab: LangGraph Agent",w:"Week 12",b:["Build a multi-step agent with LangGraph","Implement conditional edges for dynamic routing","Add human-in-the-loop approval step"]},
+// Week 13
+{t:"Evaluation & Testing",w:"Week 13",b:["AI apps need systematic evaluation, not vibes","LangSmith provides evaluation infrastructure","Define metrics: correctness, relevance, faithfulness"]},
+{t:"Evaluation Strategies",w:"Week 13",b:["Reference-based: compare output to gold standard","LLM-as-judge: use AI to evaluate AI outputs","Human evaluation: necessary for subjective quality"]},
+{t:"Testing AI Applications",w:"Week 13",b:["Unit tests for deterministic components","Integration tests for chain behavior","Regression tests: ensure updates don't break quality"]},
+{t:"Lab: Evaluation Pipeline",w:"Week 13",b:["Create evaluation dataset with expected outputs","Implement 3 evaluation metrics in LangSmith","Run evaluation and analyze results"]},
+// Week 14
+{t:"Production Deployment",w:"Week 14",b:["LangServe: deploy chains as REST APIs","FastAPI integration for production serving","Docker containerization for consistent deployment"]},
+{t:"Production Concerns",w:"Week 14",b:["Rate limiting and cost controls are essential","Caching reduces latency and API costs","Monitoring with LangSmith traces in production"]},
+{t:"Scaling Strategies",w:"Week 14",b:["Async processing for concurrent requests","Queue-based architecture for high throughput","Model routing: cheap model first, expensive if needed"]},
+{t:"Lab: Deploy Your App",w:"Week 14",b:["Package your RAG app with LangServe","Add rate limiting and error handling","Deploy with Docker and test under load"]},
+// Week 15
+{t:"Course Wrap-Up",w:"Week 15",b:["Python → LangChain → RAG → Agents → Production","You can now build real AI applications","Focus on the problem, use LangChain as the tool"]},
+{t:"Final Project Showcase",w:"Week 15",b:["Present your best LangChain application","Live demo with real queries and edge cases","Peer review and technical feedback"]},
+{t:"Looking Ahead",w:"Week 15",b:["GENAI 401: Multi-agent systems and advanced architecture","GENAI 490: Apply everything in a capstone project","Open source contributions welcome"]},
+{t:"Final Reflections",w:"Week 15",b:["What was the hardest concept to master?","How would you architect your app differently now?","What will you build next with these skills?"]}
+];
+
+const e=React.createElement;
+function App(){
+const[i,setI]=React.useState(0);
+const s=S[i];
+React.useEffect(()=>{
+const h=ev=>{if(ev.key==='ArrowRight'&&i<S.length-1)setI(i+1);if(ev.key==='ArrowLeft'&&i>0)setI(i-1)};
+window.addEventListener('keydown',h);return()=>window.removeEventListener('keydown',h);
+},[i]);
+return e('div',{className:'deck'},
+e('div',{className:'slide'+(s.title?' title-slide':'')},
+s.w&&e('div',{className:'week-tag'},s.w),
+e('h1',null,s.t),
+s.s&&e('h2',null,s.s),
+e('ul',null,...s.b.map((x,j)=>e('li',{key:j},x)))
+),
+e('div',{className:'nav'},
+e('button',{onClick:()=>setI(i-1),disabled:i===0},'← Prev'),
+e('span',null,(i+1)+' / '+S.length),
+e('button',{onClick:()=>setI(i+1),disabled:i===S.length-1},'Next →')
+)
+);
+}
+ReactDOM.createRoot(document.getElementById('root')).render(e(App));
+</script>
+</body>
+</html>
