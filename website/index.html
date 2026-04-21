@@ -7,20 +7,20 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Inter',sans-serif;color:#1a1a2e;line-height:1.6;scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;color:#00274C;line-height:1.6;scroll-behavior:smooth}
 a{text-decoration:none;color:inherit}
 nav{position:fixed;top:0;width:100%;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);z-index:1000;box-shadow:0 1px 3px rgba(0,0,0,.08);padding:0 2rem}
 nav .nav-inner{max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center;height:64px}
-nav .logo{font-weight:800;font-size:1.1rem;color:#4a00e0}
+nav .logo{font-weight:800;font-size:1.1rem;color:#00274C}
 nav ul{list-style:none;display:flex;gap:1.5rem}
 nav ul li a{font-size:.875rem;font-weight:500;color:#555;transition:color .2s}
-nav ul li a:hover{color:#4a00e0}
+nav ul li a:hover{color:#00274C}
 .btn{display:inline-block;padding:.75rem 2rem;border-radius:8px;font-weight:600;font-size:.95rem;transition:all .3s;cursor:pointer;border:none}
-.btn-primary{background:#4a00e0;color:#fff}
-.btn-primary:hover{background:#3700b3;transform:translateY(-2px);box-shadow:0 8px 25px rgba(74,0,224,.3)}
+.btn-primary{background:#00274C;color:#fff}
+.btn-primary:hover{background:#001A33;transform:translateY(-2px);box-shadow:0 8px 25px rgba(0,39,76,.3)}
 .btn-outline{border:2px solid #fff;color:#fff;background:transparent}
-.btn-outline:hover{background:#fff;color:#4a00e0}
-.hero{min-height:100vh;background:linear-gradient(135deg,#1a1a6e 0%,#4a00e0 50%,#8e2de2 100%);display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;padding:6rem 2rem 4rem}
+.btn-outline:hover{background:#fff;color:#00274C}
+.hero{min-height:100vh;background:linear-gradient(135deg,#00274C 0%,#00274C 50%,#FFCB05 100%);display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;padding:6rem 2rem 4rem}
 .hero h1{font-size:3.5rem;font-weight:800;line-height:1.15;max-width:800px;margin:0 auto .5rem}
 .hero .subtitle{font-size:1.25rem;opacity:.85;max-width:600px;margin:0 auto 1rem}
 .hero .badge{display:inline-block;background:rgba(255,255,255,.15);padding:.4rem 1.2rem;border-radius:50px;font-size:.8rem;font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin-bottom:1.5rem}
@@ -29,37 +29,37 @@ section{padding:5rem 2rem}
 .container{max-width:1100px;margin:auto}
 .section-title{text-align:center;font-size:2.2rem;font-weight:800;margin-bottom:.5rem}
 .section-subtitle{text-align:center;color:#666;max-width:600px;margin:0 auto 3rem;font-size:1.05rem}
-.overview{background:#f8f7ff}
+.overview{background:#F2F2F2}
 .overview-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
 .overview-text h2{font-size:2rem;font-weight:800;margin-bottom:1rem}
 .overview-text p{color:#555;margin-bottom:1rem}
 .overview-stats{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
 .stat{background:#fff;padding:1.5rem;border-radius:12px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,.06)}
-.stat .num{font-size:2rem;font-weight:800;color:#4a00e0}
+.stat .num{font-size:2rem;font-weight:800;color:#00274C}
 .stat .label{font-size:.85rem;color:#777}
 .why{background:#fff}
 .why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
-.why-card{padding:2rem;border-radius:12px;background:#f8f7ff;border:1px solid #ece8ff;transition:transform .2s}
+.why-card{padding:2rem;border-radius:12px;background:#F2F2F2;border:1px solid #d9d9d9;transition:transform .2s}
 .why-card:hover{transform:translateY(-4px)}
 .why-card .icon{font-size:2rem;margin-bottom:.75rem}
 .why-card h3{font-size:1.1rem;font-weight:700;margin-bottom:.5rem}
 .why-card p{font-size:.9rem;color:#666}
-.courses{background:#f8f7ff}
+.courses{background:#F2F2F2}
 .course-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.5rem}
-.course-card{background:#fff;border-radius:16px;padding:2rem;box-shadow:0 2px 15px rgba(0,0,0,.06);border-left:4px solid #4a00e0;transition:transform .2s}
+.course-card{background:#fff;border-radius:16px;padding:2rem;box-shadow:0 2px 15px rgba(0,0,0,.06);border-left:4px solid #00274C;transition:transform .2s}
 .course-card:hover{transform:translateY(-4px)}
-.course-card .code{font-size:.75rem;font-weight:700;color:#4a00e0;text-transform:uppercase;letter-spacing:1px;margin-bottom:.25rem}
+.course-card .code{font-size:.75rem;font-weight:700;color:#00274C;text-transform:uppercase;letter-spacing:1px;margin-bottom:.25rem}
 .course-card h3{font-size:1.15rem;font-weight:700;margin-bottom:.5rem}
 .course-card p{font-size:.9rem;color:#666}
 .course-card .meta{margin-top:1rem;display:flex;gap:1rem;font-size:.8rem;color:#999}
 .faculty{background:#fff}
 .faculty-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem}
 .faculty-card{text-align:center;padding:1.5rem}
-.faculty-card .avatar{width:100px;height:100px;border-radius:50%;background:linear-gradient(135deg,#4a00e0,#8e2de2);margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;font-size:2rem;color:#fff;font-weight:700}
+.faculty-card .avatar{width:100px;height:100px;border-radius:50%;background:linear-gradient(135deg,#00274C,#FFCB05);margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;font-size:2rem;color:#fff;font-weight:700}
 .faculty-card h3{font-size:1rem;font-weight:700}
-.faculty-card .title{font-size:.85rem;color:#4a00e0;font-weight:500;margin-bottom:.5rem}
+.faculty-card .title{font-size:.85rem;color:#00274C;font-weight:500;margin-bottom:.5rem}
 .faculty-card p{font-size:.8rem;color:#777}
-.testimonials{background:linear-gradient(135deg,#1a1a6e,#4a00e0);color:#fff;position:relative}
+.testimonials{background:linear-gradient(135deg,#00274C,#00274C);color:#fff;position:relative}
 .testimonials .section-title,.testimonials .section-subtitle{color:#fff}
 .testimonials .section-subtitle{opacity:.8}
 .test-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2rem}
@@ -71,28 +71,28 @@ section{padding:5rem 2rem}
 .test-card .author .info .role{font-size:.8rem;opacity:.7}
 .careers{background:#fff}
 .career-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem}
-.career-card{background:#f8f7ff;border-radius:12px;padding:1.5rem;text-align:center;border:1px solid #ece8ff}
+.career-card{background:#F2F2F2;border-radius:12px;padding:1.5rem;text-align:center;border:1px solid #d9d9d9}
 .career-card h3{font-size:1rem;font-weight:700;margin-bottom:.25rem}
-.career-card .salary{font-size:1.5rem;font-weight:800;color:#4a00e0;margin:.5rem 0}
+.career-card .salary{font-size:1.5rem;font-weight:800;color:#00274C;margin:.5rem 0}
 .career-card p{font-size:.8rem;color:#777}
-.faq{background:#f8f7ff}
+.faq{background:#F2F2F2}
 .faq-list{max-width:750px;margin:auto}
 .faq-item{background:#fff;border-radius:12px;margin-bottom:1rem;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.05)}
 .faq-q{padding:1.25rem 1.5rem;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:.95rem}
-.faq-q:hover{color:#4a00e0}
+.faq-q:hover{color:#00274C}
 .faq-q .arrow{transition:transform .3s;font-size:1.2rem}
 .faq-item.open .arrow{transform:rotate(180deg)}
 .faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .35s ease;padding:0 1.5rem;font-size:.9rem;color:#666;line-height:1.7}
 .faq-item.open .faq-a{max-height:300px;padding:0 1.5rem 1.25rem}
 .apply{background:#fff}
-.apply-form{max-width:600px;margin:auto;background:#f8f7ff;padding:2.5rem;border-radius:16px}
+.apply-form{max-width:600px;margin:auto;background:#F2F2F2;padding:2.5rem;border-radius:16px}
 .apply-form .field{margin-bottom:1.25rem}
 .apply-form label{display:block;font-size:.85rem;font-weight:600;margin-bottom:.35rem}
 .apply-form input,.apply-form select,.apply-form textarea{width:100%;padding:.75rem 1rem;border:1px solid #ddd;border-radius:8px;font-family:'Inter',sans-serif;font-size:.9rem;transition:border-color .2s}
-.apply-form input:focus,.apply-form select:focus,.apply-form textarea:focus{outline:none;border-color:#4a00e0}
+.apply-form input:focus,.apply-form select:focus,.apply-form textarea:focus{outline:none;border-color:#00274C}
 .apply-form textarea{resize:vertical;min-height:100px}
 .apply-form .btn{width:100%;text-align:center}
-footer{background:#1a1a2e;color:rgba(255,255,255,.7);padding:3rem 2rem;text-align:center;font-size:.85rem}
+footer{background:#00274C;color:rgba(255,255,255,.7);padding:3rem 2rem;text-align:center;font-size:.85rem}
 footer .footer-links{display:flex;justify-content:center;gap:2rem;margin-bottom:1rem;flex-wrap:wrap}
 footer a{color:rgba(255,255,255,.7);transition:color .2s}
 footer a:hover{color:#fff}
@@ -108,7 +108,7 @@ nav ul{display:none}
 
 <nav>
 <div class="nav-inner">
-<a href="#" class="logo">🎓 GENAI Certificate</a>
+<a href="#" class="logo">🎓 U-M GENAI Certificate</a>
 <ul>
 <li><a href="#overview">Overview</a></li>
 <li><a href="#courses">Courses</a></li>
@@ -322,8 +322,8 @@ nav ul{display:none}
 <a href="#faq">FAQ</a>
 <a href="#apply">Apply</a>
 </div>
-<p>© 2026 Certificate in Generative AI & Intelligent Automation. All rights reserved.</p>
-<p style="margin-top:.5rem;font-size:.75rem;opacity:.6">A program of the School of Computing & Information Sciences</p>
+<p>© 2026 University of Michigan — Certificate in Generative AI & Intelligent Automation. All rights reserved.</p>
+<p style="margin-top:.5rem;font-size:.75rem;opacity:.6">A program of the University of Michigan</p>
 </div>
 </footer>
 
