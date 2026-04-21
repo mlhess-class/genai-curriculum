@@ -1,6 +1,6 @@
 # The Current State of Generative AI Education in Higher Education: A Multi-Stakeholder Analysis
 
-**Prepared by:** School of Information, University of Michigan, Ann Arbor
+**Prepared by:** University of Michigan, Ann Arbor
 
 ---
 
@@ -225,7 +225,7 @@ Perhaps the most fundamental challenge is the pace at which generative AI capabi
 
 ### 7.1 Large Research University: a large Midwest research university
 
-a large Midwest research university launched a 15-credit Graduate Certificate in Applied AI Systems in Fall 2024, housed jointly between Computer Science and the School of Information. The program comprises five sequential courses progressing from AI foundations through advanced systems to a capstone project. Enrollment exceeded projections by 340% in the first cohort, necessitating rapid scaling from one to four sections. Key lessons included the importance of dedicated API budget allocation (approximately $15,000 per semester for student credits) and the need for teaching assistants with current industry experience rather than traditional academic backgrounds.
+a large Midwest research university launched a 15-credit Graduate Certificate in Applied AI Systems in Fall 2024, housed within the university. The program comprises five sequential courses progressing from AI foundations through advanced systems to a capstone project. Enrollment exceeded projections by 340% in the first cohort, necessitating rapid scaling from one to four sections. Key lessons included the importance of dedicated API budget allocation (approximately $15,000 per semester for student credits) and the need for teaching assistants with current industry experience rather than traditional academic backgrounds.
 
 ### 7.2 Liberal Arts College: a small liberal arts college in the Northeast
 
