@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GENAI 201: AI-Powered Workflows & Automation</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0f1b2d;--navy-light:#1a2d4a;--orange:#e8712a;--orange-light:#f59e4f;--bg:#f4f5f7;--text:#222;--white:#fff;--gray:#6b7280;--border:#dde1e7}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;color:var(--text);background:var(--bg);line-height:1.6}
+a{color:var(--orange);text-decoration:none}a:hover{text-decoration:underline}
+.container{max-width:960px;margin:0 auto;padding:0 24px}
+
+/* Hero */
+header{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%);color:var(--white);padding:64px 0 48px}
+header h1{font-size:2.4rem;margin-bottom:8px}
+header .subtitle{font-size:1.15rem;color:var(--orange-light);margin-bottom:24px}
+header .meta{display:flex;flex-wrap:wrap;gap:24px;font-size:.95rem;color:#b0bec5}
+header .meta span::before{content:'';display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--orange);margin-right:8px;vertical-align:middle}
+
+/* Nav */
+nav{background:var(--navy);border-top:1px solid rgba(255,255,255,.08);padding:12px 0;position:sticky;top:0;z-index:10}
+nav .container{display:flex;gap:24px;flex-wrap:wrap}
+nav a{color:#cfd8dc;font-size:.9rem;font-weight:500}nav a:hover{color:var(--orange-light);text-decoration:none}
+
+/* Sections */
+section{padding:48px 0}
+section:nth-child(even){background:var(--white)}
+h2{font-size:1.6rem;color:var(--navy);margin-bottom:24px;padding-bottom:8px;border-bottom:3px solid var(--orange)}
+h3{font-size:1.1rem;color:var(--navy);margin:16px 0 8px}
+
+/* Cards */
+.card{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:24px;margin-bottom:16px}
+section:nth-child(even) .card{background:var(--bg)}
+.card .week-num{display:inline-block;background:var(--orange);color:var(--white);font-size:.75rem;font-weight:700;padding:2px 10px;border-radius:12px;margin-bottom:8px}
+.card h3{margin-top:0}
+.card p{color:var(--gray);font-size:.93rem}
+
+/* Grid */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:640px){.grid2{grid-template-columns:1fr}}
+
+/* Table */
+table{width:100%;border-collapse:collapse;margin-top:12px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--border);font-size:.93rem}
+th{background:var(--navy);color:var(--white);font-weight:600}
+tr:hover{background:rgba(232,113,42,.06)}
+
+/* Badge */
+.badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:.78rem;font-weight:600}
+.badge-orange{background:#fef0e5;color:var(--orange)}
+.badge-navy{background:#e8ecf2;color:var(--navy)}
+
+/* Footer */
+footer{background:var(--navy);color:#8899aa;padding:32px 0;font-size:.85rem;text-align:center}
+</style>
+</head>
+<body>
+
+<header>
+<div class="container">
+<h1>GENAI 201</h1>
+<div class="subtitle">AI-Powered Workflows &amp; Automation</div>
+<p style="max-width:640px;margin-bottom:24px;color:#cfd8dc">Master the art of building intelligent automation workflows using n8n. Connect APIs, integrate AI models, transform data, and deploy production-ready pipelines — no traditional coding required.</p>
+<div class="meta">
+<span>Prof. Marcus Rivera</span>
+<span>Spring 2026 · 15 Weeks</span>
+<span>3 Credit Hours</span>
+<span>Prerequisite: GENAI 101</span>
+</div>
+</div>
+</header>
+
+<nav><div class="container">
+<a href="#about">About</a>
+<a href="#instructor">Instructor</a>
+<a href="#schedule">Schedule</a>
+<a href="#grading">Grading</a>
+<a href="#policies">Policies</a>
+</div></nav>
+
+<section id="about">
+<div class="container">
+<h2>Course Description</h2>
+<div class="grid2">
+<div>
+<p>This course bridges the gap between understanding AI and putting it to work. You'll learn workflow-driven thinking, master the open-source n8n automation platform, connect dozens of services through APIs, and build AI-powered pipelines that run autonomously.</p>
+<p style="margin-top:12px">By the end of the semester you will have designed, built, tested, and deployed a production-grade automation workflow that integrates at least one AI model, multiple data sources, and robust error handling.</p>
+</div>
+<div>
+<h3>Learning Outcomes</h3>
+<ul style="padding-left:20px;color:var(--gray);font-size:.93rem">
+<li>Design workflows using inputs → process → output thinking</li>
+<li>Build and debug n8n workflows with 20+ node types</li>
+<li>Integrate OpenAI, Anthropic, and local LLMs into automations</li>
+<li>Work with REST APIs, webhooks, and authentication flows</li>
+<li>Transform and route data using JSON, expressions, and functions</li>
+<li>Handle errors, retries, and monitoring in production</li>
+<li>Deploy self-hosted n8n with security best practices</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+
+<section id="instructor">
+<div class="container">
+<h2>Instructor</h2>
+<div class="card">
+<h3 style="margin-top:0">Prof. Marcus Rivera</h3>
+<p><strong>Background:</strong> Former automation engineer at Zapier (2018-2023), where he helped design integration templates used by 500K+ users. Previously a backend developer at Twilio. MS in Information Systems, Carnegie Mellon.</p>
+<p style="margin-top:8px"><strong>Office Hours:</strong> Tuesdays &amp; Thursdays, 2:00–3:30 PM (Room 214 or Zoom). Drop-ins welcome; book 1-on-1 slots via Calendly link on the LMS.</p>
+<p style="margin-top:8px"><strong>Email:</strong> m.rivera@university.edu · <strong>Response time:</strong> Within 24 hours on weekdays.</p>
+</div>
+</div>
+</section>
+
+<section id="schedule">
+<div class="container">
+<h2>Weekly Schedule</h2>
+
+<div class="card"><span class="week-num">Week 1</span><h3>Introduction to Workflow Thinking</h3><p>Inputs, processes, outputs. Mental models for automation. Identifying repetitive tasks. Mapping manual processes to automated flows. What makes a good automation candidate.</p></div>
+
+<div class="card"><span class="week-num">Week 2</span><h3>The Automation Landscape</h3><p>Survey of platforms: Zapier, Make (Integromat), n8n, Power Automate, Tray.io. Trade-offs: cost, flexibility, self-hosting, vendor lock-in. Why we focus on n8n — open source, code-optional, AI-native.</p></div>
+
+<div class="card"><span class="week-num">Week 3</span><h3>n8n Fundamentals</h3><p>Installation (Docker, npm, desktop). The canvas UI — nodes, connections, executions. Building your first workflow: trigger → action → output. Manual vs. production execution. Credentials vault.</p></div>
+
+<div class="card"><span class="week-num">Week 4</span><h3>Working with APIs</h3><p>REST basics: GET, POST, PUT, DELETE. Headers, query params, request bodies. Authentication: API keys, OAuth2, Bearer tokens. Reading API docs. Postman/Hoppscotch for testing. Rate limits and pagination.</p></div>
+
+<div class="card"><span class="week-num">Week 5</span><h3>n8n Core Nodes Deep Dive</h3><p>HTTP Request node, Webhook trigger, Function node (JavaScript), IF/Switch routing, Merge node, Set node, Date &amp; Time. Expressions and the $json/$node syntax.</p></div>
+
+<div class="card"><span class="week-num">Week 6</span><h3>AI Nodes in n8n</h3><p>OpenAI node, Anthropic node, Ollama (local models). Chat completions, embeddings, image generation. Prompt engineering within workflows. Chaining AI calls. Structured output with JSON mode.</p></div>
+
+<div class="card"><span class="week-num">Week 7</span><h3>Data Transformation</h3><p>JSON parsing and construction. Mapping fields between services. Splitting arrays into items, aggregating items back. Code node for custom transforms. Binary data handling (files, images, PDFs).</p></div>
+
+<div class="card" style="border-left:4px solid var(--orange)"><span class="week-num">Week 8</span><h3>MIDTERM PROJECT</h3><p>Build an automated content pipeline: ingest source material → AI summarization/transformation → format for multiple channels → publish or queue. In-class work session + presentations.</p></div>
+
+<div class="card"><span class="week-num">Week 9</span><h3>Error Handling, Retries &amp; Monitoring</h3><p>Error workflows, try/catch patterns, retry on failure. Dead-letter queues. Execution logs and debugging. Setting up alerts (email, Slack) on failure. Health-check workflows.</p></div>
+
+<div class="card"><span class="week-num">Week 10</span><h3>Database Integration</h3><p>Postgres node: read, write, upsert. Google Sheets as a lightweight DB. Airtable for structured data. Choosing the right storage. SQL basics for automation engineers.</p></div>
+
+<div class="card"><span class="week-num">Week 11</span><h3>Advanced Workflow Patterns</h3><p>Sub-workflows and the Execute Workflow node. Looping over large datasets. Parallel execution and wait nodes. Cron and scheduling. Workflow versioning and import/export.</p></div>
+
+<div class="card"><span class="week-num">Week 12</span><h3>Building AI Agents in n8n</h3><p>Agent node, tool-use patterns, memory (window buffer, vector store). RAG workflows: embed → store → retrieve → generate. Connecting to Pinecone, Qdrant, Supabase pgvector.</p></div>
+
+<div class="card"><span class="week-num">Week 13</span><h3>Production Deployment</h3><p>Self-hosting with Docker Compose. Environment variables and secrets. Reverse proxy (Nginx/Caddy). SSL certificates. Queue mode for scaling. Backup strategies. Security hardening.</p></div>
+
+<div class="card"><span class="week-num">Week 14</span><h3>Real-World Case Studies</h3><p>Marketing automation (lead scoring + nurture), customer support (ticket triage + auto-reply), data pipelines (ETL from APIs to data warehouse). Guest speaker session. Ethical considerations.</p></div>
+
+<div class="card" style="border-left:4px solid var(--orange)"><span class="week-num">Week 15</span><h3>Final Project Presentations</h3><p>Live demos of student-built AI-powered automation workflows. Peer review. Course retrospective. What's next: GENAI 301 preview.</p></div>
+
+</div>
+</section>
+
+<section id="grading">
+<div class="container">
+<h2>Grading</h2>
+<table>
+<tr><th>Component</th><th>Weight</th><th>Details</th></tr>
+<tr><td>Homework (6 assignments)</td><td>30%</td><td>Mix of workflow building, written analysis, and labs</td></tr>
+<tr><td>Midterm Project</td><td>20%</td><td>Automated content pipeline (Week 8)</td></tr>
+<tr><td>Final Project</td><td>30%</td><td>Complete AI-powered workflow + documentation</td></tr>
+<tr><td>Participation &amp; Labs</td><td>10%</td><td>In-class exercises, peer reviews, discussion</td></tr>
+<tr><td>Reflective Journal</td><td>10%</td><td>Weekly 200-word entries on workflow thinking</td></tr>
+</table>
+<p style="margin-top:16px;font-size:.9rem;color:var(--gray)">Grading scale: A (93-100), A- (90-92), B+ (87-89), B (83-86), B- (80-82), C+ (77-79), C (73-76), C- (70-72), D (60-69), F (&lt;60).</p>
+</div>
+</section>
+
+<section id="policies">
+<div class="container">
+<h2>Policies</h2>
+<div class="grid2">
+<div class="card">
+<h3>Prerequisites</h3>
+<p>GENAI 101: Foundations of Generative AI (or equivalent with instructor approval). You should be comfortable prompting LLMs, understand tokens/context windows, and have basic familiarity with JSON.</p>
+</div>
+<div class="card">
+<h3>Required Tools</h3>
+<p>Laptop with Docker Desktop installed. Free n8n account (n8n.cloud) for early weeks; self-hosted instance for later weeks. GitHub account. Free-tier API keys for OpenAI and/or Anthropic.</p>
+</div>
+<div class="card">
+<h3>Late Work</h3>
+<p>Assignments lose 10% per day late, up to 3 days. After 3 days, no credit unless pre-arranged. Extensions granted for documented emergencies — communicate early.</p>
+</div>
+<div class="card">
+<h3>AI Use Policy</h3>
+<p>You are <em>expected</em> to use AI tools — this is an AI course. However, you must understand what your workflows do. "I asked ChatGPT to build it" without comprehension earns zero credit. Document your AI-assisted process.</p>
+</div>
+<div class="card">
+<h3>Academic Integrity</h3>
+<p>Collaboration is encouraged; copying is not. Each student submits their own workflows. Cite any templates, tutorials, or community workflows you adapt. Plagiarism detection applies to written work.</p>
+</div>
+<div class="card">
+<h3>Accessibility</h3>
+<p>If you need accommodations, contact the Disability Services office and inform me within the first two weeks. I'll work with you to ensure equitable access to all materials and assessments.</p>
+</div>
+</div>
+</div>
+</section>
+
+<footer>
+<div class="container">
+<p>GENAI 201: AI-Powered Workflows &amp; Automation · Spring 2026 · Part of the Generative AI Professional Certificate</p>
+<p style="margin-top:8px">Course 2 of 5: GENAI 101 → <strong>GENAI 201</strong> → GENAI 301 → GENAI 401 → GENAI 501</p>
+</div>
+</footer>
+
+</body>
+</html>

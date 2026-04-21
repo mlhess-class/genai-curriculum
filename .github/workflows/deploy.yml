@@ -1,0 +1,76 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build site structure
+        run: |
+          mkdir -p _site
+          
+          # Copy main program website
+          if [ -f website/index.html ]; then
+            cp website/index.html _site/index.html
+          fi
+          
+          # Copy research paper
+          if [ -d research-paper ]; then
+            mkdir -p _site/research-paper
+            cp -r research-paper/* _site/research-paper/
+          fi
+          
+          # Copy curriculum overview
+          if [ -d curriculum ]; then
+            mkdir -p _site/curriculum
+            cp -r curriculum/* _site/curriculum/
+          fi
+          
+          # Copy each course
+          for i in 1 2 3 4 5; do
+            if [ -d "courses/course${i}" ]; then
+              mkdir -p "_site/courses/course${i}"
+              cp -r "courses/course${i}"/* "_site/courses/course${i}/"
+              # Make course site the index for that course path
+              if [ -f "courses/course${i}/site/index.html" ]; then
+                cp "courses/course${i}/site/index.html" "_site/courses/course${i}/index.html"
+              fi
+            fi
+          done
+          
+          # Copy reviews if they exist
+          if [ -d reviews ]; then
+            mkdir -p _site/reviews
+            cp -r reviews/* _site/reviews/
+          fi
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
