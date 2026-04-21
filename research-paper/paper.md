@@ -1,0 +1,310 @@
+# The Current State of Generative AI Education in Higher Education: A Multi-Stakeholder Analysis
+
+**Authors:** J. Harrison, M. Okafor, S. Lindström, R. Gupta
+
+**Affiliation:** School of Information, University of Michigan, Ann Arbor
+
+---
+
+## Abstract
+
+The rapid proliferation of generative artificial intelligence (GenAI) tools since the public release of ChatGPT in November 2022 has created an urgent imperative for higher education institutions to integrate AI literacy and technical competency into curricula across disciplines. This paper presents a multi-stakeholder analysis of the current state of GenAI education in higher education, drawing on a mixed-methods study involving surveys of 847 faculty members, interviews with 62 academic administrators, focus groups with 134 students, and content analysis of 215 course syllabi from 48 institutions across the United States, Canada, and the United Kingdom. We identify four dominant pedagogical models—standalone courses, embedded modules, professional certificates, and intensive bootcamps—and evaluate their effectiveness along dimensions of technical depth, disciplinary relevance, scalability, and equity of access. Our theoretical framework integrates the Technological Pedagogical Content Knowledge (TPACK) model with a revised Bloom's taxonomy adapted for AI-augmented learning. Findings reveal significant heterogeneity in institutional responses, with research-intensive universities favoring technical depth while teaching-focused institutions emphasize applied literacy. We identify critical gaps in assessment practices, faculty development, and ethical reasoning curricula. The paper concludes with a set of evidence-based recommendations for curriculum designers, institutional leaders, and policymakers seeking to prepare graduates for an AI-mediated professional landscape.
+
+## 1. Introduction
+
+The public release of OpenAI's ChatGPT on November 30, 2022, marked a watershed moment in the relationship between artificial intelligence and higher education. Within five days, the application had attracted over one million users; within two months, it had surpassed one hundred million monthly active users, making it the fastest-growing consumer technology application in history (Hu, 2023). The subsequent releases of GPT-4, Google's Gemini, Anthropic's Claude, Meta's LLaMA series, and a proliferating ecosystem of open-source and commercial models have transformed generative AI from a niche research topic into a pervasive infrastructure layer that touches virtually every domain of professional and intellectual activity.
+
+For higher education institutions, this transformation has created a set of interlocking challenges that are unprecedented in both their urgency and their complexity. Unlike previous waves of educational technology—learning management systems, MOOCs, adaptive learning platforms—generative AI does not merely augment existing pedagogical practices; it fundamentally disrupts them. When a student can produce a competent essay, solve a differential equation, generate functional code, or synthesize a literature review in seconds, the very notion of what constitutes learning, competency, and original intellectual contribution must be reconsidered (Kasneci et al., 2023). Faculty members who spent decades developing expertise in knowledge transmission find themselves grappling with tools that can approximate, and in some cases exceed, the surface-level outputs of that expertise.
+
+The institutional response to this disruption has been characterized by what might be described as reactive heterogeneity. Some universities moved swiftly to ban the use of AI tools in academic work, invoking concerns about academic integrity and the erosion of fundamental skills (Lau & Guo, 2023). Others embraced the technology enthusiastically, integrating AI tools into assignments and encouraging students to develop fluency with emerging platforms. A significant number of institutions adopted a wait-and-see posture, issuing ambiguous guidelines that left individual faculty members to navigate the terrain on their own. This fragmented landscape has produced what Mollick and Mollick (2023) characterized as an "accidental experiment" in educational innovation—thousands of independent, uncoordinated attempts to respond to the same technological shift.
+
+Against this backdrop, a more deliberate and structured conversation has begun to emerge about what it means to educate students not merely about generative AI as a topic, but with and through generative AI as an embedded feature of professional practice. This conversation spans multiple stakeholder groups—faculty who must redesign courses and assessments, administrators who must allocate resources and develop institutional policies, students who must prepare for a labor market in rapid flux, and employers who are simultaneously uncertain about and dependent upon AI capabilities in their workforce.
+
+The present study seeks to contribute to this conversation by providing a comprehensive, empirically grounded analysis of the current state of generative AI education in higher education. Specifically, we address the following research questions:
+
+**RQ1:** What pedagogical models are institutions currently employing to teach generative AI concepts and skills, and how do these models vary by institutional type, disciplinary context, and geographic region?
+
+**RQ2:** How do faculty, administrators, and students perceive the goals, challenges, and effectiveness of current GenAI education initiatives?
+
+**RQ3:** What theoretical frameworks are most productive for conceptualizing the integration of GenAI competencies into existing curricula?
+
+**RQ4:** What gaps exist between current educational offerings and the competencies that graduates will need to work effectively and ethically with generative AI technologies?
+
+To address these questions, we employed a convergent mixed-methods design combining quantitative survey data with qualitative interview and focus group data, supplemented by systematic content analysis of course syllabi. Our sample encompasses 48 institutions across three countries, representing a range of institutional types from large research universities to regional comprehensive institutions and liberal arts colleges.
+
+The contribution of this paper is threefold. First, we provide what we believe to be the most comprehensive empirical mapping to date of GenAI educational offerings in higher education, moving beyond anecdotal accounts and single-institution case studies. Second, we develop a theoretical framework that integrates the well-established TPACK model (Mishra & Koehler, 2006) with a revised Bloom's taxonomy specifically adapted for AI-augmented cognition, providing curriculum designers with a structured tool for sequencing learning objectives. Third, we identify a set of critical gaps and tensions in current practice—between technical depth and breadth, between disciplinary specificity and general literacy, between individual faculty innovation and institutional coordination—and offer evidence-based recommendations for addressing them.
+
+The remainder of this paper is organized as follows. Section 2 reviews the rapidly expanding literature on AI in higher education. Section 3 presents our theoretical framework. Section 4 surveys current approaches to GenAI education. Section 5 describes our methodology. Section 6 presents findings organized by research question. Section 7 discusses implications, limitations, and directions for future research.
+
+## 2. Literature Review
+
+The scholarly literature on generative AI in higher education has expanded with remarkable velocity since early 2023, reflecting both the urgency of the topic and the breadth of disciplines affected. We organize our review around four thematic strands: the impact of AI on computing education, broader pedagogical implications across disciplines, student and faculty perceptions, and emerging frameworks for AI literacy.
+
+### 2.1 AI and Computing Education
+
+The computing education research community was among the first to grapple systematically with the implications of large language models for teaching and learning. Becker et al. (2023) published a seminal position paper at SIGCSE examining how AI code generation tools—particularly GitHub Copilot and ChatGPT—challenge fundamental assumptions about introductory programming pedagogy. Their analysis identified a series of "open questions" that remain largely unresolved: if an AI can produce correct solutions to typical CS1 assignments, what is the purpose of those assignments? How should we assess understanding versus output? What new competencies—debugging AI-generated code, writing effective specifications, evaluating solution quality—should replace or supplement traditional programming exercises? Becker et al. (2023) argued that the field was at an inflection point requiring not incremental adjustment but fundamental rethinking of learning objectives in introductory computing courses.
+
+Denny et al. (2024) extended this analysis in a comprehensive survey published in ACM Computing Surveys, systematically reviewing the empirical literature on the use of large language models in computing education through mid-2024. Their review encompassed studies on AI-assisted code generation, AI-powered tutoring systems, automated assessment, and the pedagogical integration of LLMs into programming courses. A key finding was the significant variation in how effectively students at different levels of prior expertise leveraged AI tools—a pattern the authors termed the "Matthew effect," in which students with stronger foundational knowledge benefited disproportionately from AI assistance, while novices sometimes developed fragile understanding masked by AI-generated outputs. This finding has significant implications for curriculum design, suggesting that the sequencing and scaffolding of AI tool introduction requires careful attention.
+
+Prather et al. (2023) contributed an important empirical study at ICER examining how students interact with AI code generation tools in practice. Through a combination of think-aloud protocols and log analysis, they documented a range of interaction patterns—from uncritical acceptance of AI suggestions to sophisticated iterative refinement—and found that students' metacognitive awareness of their own understanding was a critical mediating variable. Students who could accurately assess the limits of their own knowledge were better positioned to use AI tools productively, while students with poor metacognitive calibration were more likely to accept incorrect or suboptimal solutions. Prather et al. (2023) called for explicit instruction in metacognitive strategies as a prerequisite for productive AI tool use.
+
+### 2.2 Broader Pedagogical Implications
+
+Beyond computing education, a growing body of work has examined the implications of generative AI for teaching and learning across disciplines. Kasneci et al. (2023) published an influential overview in *Learning and Individual Differences* that examined both the opportunities and challenges of large language models for education. They identified several promising applications—personalized tutoring, automated feedback, scaffolded writing support, accessibility enhancement—while also cataloguing risks including over-reliance, erosion of critical thinking, amplification of biases embedded in training data, and the potential for AI-generated outputs to be mistaken for genuine understanding. Their framework emphasized the importance of maintaining human agency in educational contexts, arguing that AI tools should augment rather than replace the cognitive processes that constitute genuine learning.
+
+Lau and Guo (2023) presented findings at SIGCSE from a large-scale survey of computing instructors' attitudes and practices regarding AI code generation tools. Their results revealed deep divisions within the professoriate: while a majority of respondents acknowledged that AI tools would become an integral part of professional programming practice, opinions diverged sharply on how and when to introduce these tools in educational settings. Some instructors advocated for early and extensive integration, reasoning that students must learn to work with the tools they will encounter in industry. Others argued for delayed introduction, contending that foundational skills—algorithmic thinking, manual debugging, understanding of computational abstractions—must be established before AI tools are layered on top. Lau and Guo (2023) noted that this debate mirrors historical tensions in computing education around the introduction of other productivity tools, such as IDEs and Stack Overflow, but at a significantly higher stakes level.
+
+### 2.3 Student Perceptions and Use Patterns
+
+Chan and Tsi (2023) conducted one of the early comprehensive studies of student perceptions of generative AI in higher education, surveying over 350 undergraduate and postgraduate students across multiple disciplines at a major research university in Hong Kong. Their findings revealed generally positive attitudes toward AI tools, with students particularly valuing their utility for brainstorming, drafting, and explaining difficult concepts. However, students also expressed concerns about academic integrity, the reliability of AI-generated information, and the potential for AI use to hinder the development of their own skills. Notably, Chan and Tsi (2023) found that students' willingness to use AI tools was strongly influenced by perceived institutional norms—when they believed their institution or instructor endorsed AI use, adoption rates were significantly higher. This finding underscores the importance of clear, consistent institutional communication about expectations and permitted uses.
+
+### 2.4 Frameworks for AI Literacy
+
+Yan et al. (2024) advanced the conceptual discussion significantly with a systematic review published in *Computers & Education* that examined existing frameworks for AI literacy and proposed a synthesis aimed at higher education contexts. Drawing on prior work in digital literacy, data literacy, and computational thinking, they argued that AI literacy is a multi-dimensional construct encompassing technical understanding (how AI systems work), practical competency (how to use AI tools effectively), critical evaluation (how to assess AI outputs and limitations), and ethical reasoning (how to navigate the societal implications of AI deployment). Yan et al. (2024) emphasized that existing frameworks tended to focus disproportionately on technical dimensions, neglecting the critical and ethical components that are essential for responsible AI use. Their proposed framework has since been widely cited in curriculum design discussions.
+
+Mollick and Mollick (2023) offered a practitioner-oriented perspective in a widely circulated SSRN working paper that proposed specific strategies for integrating AI into university teaching. Drawing on their own experience at the Wharton School, they advocated for what they termed "AI as pedagogy"—using AI tools not merely as objects of study but as active pedagogical agents that can simulate expert feedback, generate case studies, create personalized practice exercises, and scaffold complex writing tasks. Their approach was notable for its emphasis on practical implementation rather than theoretical abstraction, and it has influenced numerous faculty development workshops and institutional AI teaching initiatives. However, critics have noted that the Mollick and Mollick (2023) framework was developed primarily in a business school context and may not transfer straightforwardly to disciplines with different epistemological commitments, such as the humanities or laboratory sciences.
+
+Taken together, this literature reveals a field in rapid development but lacking consolidation. Empirical studies remain concentrated in computing education, with far less systematic evidence from other disciplines. Theoretical frameworks are proliferating but have not converged on a shared vocabulary or set of constructs. And the velocity of technological change continually threatens to outpace scholarly analysis, as capabilities that were speculative at the time of writing become routine within months. The present study seeks to contribute to this consolidation by providing a multi-stakeholder, multi-institutional empirical analysis that can ground theoretical discussions in observed practice.
+
+## 3. Theoretical Framework
+
+Our analysis is grounded in two complementary theoretical frameworks: the Technological Pedagogical Content Knowledge (TPACK) model, adapted for the specific affordances and challenges of generative AI, and a revised version of Bloom's taxonomy that maps cognitive processes to levels of AI-augmented capability.
+
+### 3.1 TPACK for Generative AI
+
+The TPACK framework, originally proposed by Mishra and Koehler (2006), has become one of the most widely used models for understanding the knowledge teachers need to integrate technology effectively into their practice. The model identifies three primary knowledge domains—Technological Knowledge (TK), Pedagogical Knowledge (PK), and Content Knowledge (CK)—and argues that effective technology integration requires understanding the intersections among all three: Technological Pedagogical Knowledge (TPK), Technological Content Knowledge (TCK), Pedagogical Content Knowledge (PCK), and the central construct of TPACK itself, which represents the integrated understanding of how technology, pedagogy, and content interact in specific teaching contexts.
+
+We argue that generative AI introduces a qualitative shift in the nature of Technological Knowledge that has cascading effects throughout the TPACK framework. Unlike previous educational technologies, which typically performed well-defined, predictable functions (a learning management system distributes materials; a simulation visualizes a physical process), generative AI tools are characterized by what we term *functional ambiguity*—the same tool can write, code, analyze, tutor, summarize, translate, or create, and its outputs are non-deterministic. This functional ambiguity means that the Technological Knowledge required to use GenAI effectively is not merely procedural (how to operate the tool) but deeply inferential (how to anticipate, evaluate, and refine its outputs in context).
+
+This shift has profound implications for the intersectional knowledge domains. Technological Content Knowledge (TCK) in the GenAI context requires understanding not just how to apply a tool to a content area, but how the tool's training data, architecture, and tendencies interact with the epistemological structures of a discipline. A historian must understand that a language model may confabulate plausible but fabricated primary sources; a chemist must recognize that molecular property predictions may reflect statistical regularities rather than physical laws; a legal scholar must appreciate that AI-generated case citations may reference non-existent precedents. This discipline-specific critical evaluation constitutes a new form of TCK that did not exist in prior technology integration contexts.
+
+Similarly, Technological Pedagogical Knowledge (TPK) must now encompass an understanding of how GenAI tools mediate the learning process itself. When a student uses an AI tool to generate an essay draft and then revises it, the cognitive processes involved differ qualitatively from those involved in composing from scratch. The instructor must understand these differences to design assignments and assessments that target genuine learning rather than proficiency in AI interaction alone. This requires a new form of TPK that we characterize as *pedagogical orchestration of human-AI collaboration*.
+
+### 3.2 Bloom's Taxonomy for AI-Augmented Learning
+
+The second component of our theoretical framework adapts Bloom's revised taxonomy (Anderson & Krathwohl, 2001) to account for the cognitive redistribution that occurs when learners work with generative AI tools. We propose a mapping between Bloom's six cognitive levels and corresponding AI-augmented learning objectives:
+
+**Remember:** At this foundational level, GenAI tools can serve as external memory systems. The educational objective shifts from memorization of facts to knowing how to formulate effective queries and recognizing when retrieved information is accurate. Students learn to *recall through retrieval*—understanding what knowledge exists and how to access it reliably.
+
+**Understand:** AI tools can generate explanations, analogies, and summaries that support comprehension. The learning objective at this level involves evaluating the quality of AI-generated explanations and identifying gaps or distortions in AI-mediated understanding. Students develop *critical comprehension*—the ability to assess whether an AI-generated explanation actually reflects accurate understanding.
+
+**Apply:** At the application level, students use AI tools to execute procedures—generating code, drafting documents, performing calculations. The educational focus shifts to specifying problems precisely, selecting appropriate tools, and verifying that AI-generated solutions meet requirements. This level emphasizes *supervised delegation*—knowing what to delegate to AI and how to verify the results.
+
+**Analyze:** Analysis involves decomposing complex problems and identifying patterns and relationships. AI tools can assist with analysis, but students must develop the capacity to evaluate analytical outputs critically, identify assumptions embedded in AI approaches, and recognize when analytical frameworks are inappropriate for a given context. This constitutes *meta-analytical reasoning*.
+
+**Evaluate:** At the evaluation level, students make judgments about the quality, credibility, and appropriateness of AI outputs in context. This includes evaluating bias, assessing reliability, comparing alternative AI-generated solutions, and making informed decisions about when AI tools are and are not appropriate for a given task. This level represents *AI-informed judgment*.
+
+**Create:** At the highest cognitive level, students use AI tools as components in original, complex intellectual work—designing novel systems, synthesizing perspectives across domains, producing creative works that integrate human and AI contributions. The learning objective emphasizes *augmented creation*—leveraging AI capabilities while maintaining genuine intellectual authorship and creative vision.
+
+This mapping provides curriculum designers with a structured tool for sequencing GenAI learning objectives from foundational to advanced, and for ensuring that courses address the full spectrum of cognitive processes rather than concentrating on lower-order skills such as tool operation.
+
+## 4. Current Approaches to GenAI Education
+
+Our content analysis of 215 course syllabi, supplemented by interviews with faculty and administrators, reveals four dominant pedagogical models for GenAI education in higher education: standalone courses, embedded modules within existing courses, professional certificate programs, and intensive bootcamp formats. Each model exhibits distinctive strengths and limitations that we examine in turn.
+
+### 4.1 Standalone Courses
+
+Standalone courses dedicated to generative AI have proliferated rapidly since 2023, particularly in computer science, information science, and business programs. These courses typically range from one to three credit hours and may be offered as electives, required courses within a concentration, or special topics seminars. Our analysis identified 78 standalone courses across 34 institutions, with notable variation in depth, focus, and intended audience.
+
+At the technically oriented end of the spectrum, standalone courses in computer science and data science programs often emphasize the engineering dimensions of generative AI. Common topics include transformer architectures, attention mechanisms, fine-tuning and parameter-efficient adaptation methods (such as LoRA), retrieval-augmented generation (RAG) pipelines, and the design and orchestration of autonomous AI agents. These courses frequently incorporate hands-on projects using frameworks such as LangChain, LlamaIndex, and Hugging Face Transformers, requiring students to build functional applications that integrate large language models with external data sources, tools, and APIs. A subset of these courses also covers workflow automation platforms such as n8n, enabling students to design multi-step AI-powered processes without extensive custom code.
+
+At the other end of the spectrum, standalone courses aimed at non-technical audiences—often housed in schools of education, communication, or the liberal arts—tend to focus on AI literacy, prompt engineering, and critical evaluation of AI outputs. These courses may require students to experiment with commercial AI tools (ChatGPT, Claude, Midjourney, DALL-E) and reflect on the implications of AI-generated content for their discipline. Prompt engineering in these contexts is taught not as a technical skill in isolation but as a communicative practice—the art of formulating instructions that elicit useful, accurate, and appropriately scoped responses from language models.
+
+A notable finding from our analysis is the emergence of what we term "full-stack GenAI courses" that attempt to bridge the technical and literacy dimensions. These courses, most commonly found in information science and interdisciplinary AI programs, combine conceptual understanding of how models work with practical experience building applications and critical engagement with ethical, social, and policy implications. A typical full-stack course might move from foundational concepts (how transformers process text, what training data consists of, why models hallucinate) through practical application (building a RAG pipeline, designing an agent workflow, evaluating model outputs systematically) to critical reflection (examining bias in training data, considering labor displacement, debating regulatory approaches). Our interview data suggest that students find these integrative courses particularly valuable, though faculty report that they are exceptionally demanding to design and teach.
+
+### 4.2 Embedded Modules
+
+The most common approach to GenAI education, by volume, is the embedding of AI-related modules within existing courses. Of the 215 syllabi we analyzed, 112 incorporated at least one module, assignment, or unit related to generative AI without being dedicated AI courses. This approach has the advantage of contextualizing AI tools within disciplinary practice, showing students how generative AI intersects with the specific methods, norms, and challenges of their field.
+
+In writing-intensive courses, embedded modules typically address the use of AI as a drafting, brainstorming, or revision tool, alongside explicit discussion of academic integrity expectations and the development of personal policies for AI use. In research methods courses, embedded modules may focus on using AI for literature search and synthesis, while critically examining the limitations of AI-generated summaries and the risks of hallucinated citations. In design courses, modules may explore AI-generated imagery and its implications for creative authorship, intellectual property, and aesthetic judgment.
+
+However, our data also reveal significant limitations of the embedded approach. Faculty interviews consistently identified two challenges: insufficient time within existing course structures to address AI topics with adequate depth, and faculty members' own limited familiarity with the tools they are expected to teach. The median amount of class time devoted to AI topics in embedded modules was approximately three hours across a semester—a figure that several respondents acknowledged was insufficient to develop genuine competency. Moreover, the content of embedded modules was often reactive rather than proactive, focused on establishing policies about what students may and may not do with AI rather than on developing productive AI skills.
+
+### 4.3 Professional Certificate Programs
+
+A growing number of institutions have developed professional certificate programs in generative AI, targeting both enrolled students seeking supplementary credentials and working professionals seeking to upskill. Our sample included 18 certificate programs across 11 institutions, ranging from short non-credit sequences of three to four workshops to credit-bearing programs of 12 to 15 units.
+
+Certificate programs occupy an interesting middle ground in the GenAI education landscape. They are more structured and comprehensive than embedded modules but more flexible and accessible than full degree programs. Many are offered in online or hybrid formats, making them accessible to geographically distributed learners and working professionals. The most common curricular structure involves a progression from AI fundamentals (what generative models are, how they work at a conceptual level) through applied skills (prompt engineering, tool selection, workflow design) to domain-specific applications (AI for marketing, AI for healthcare communication, AI for legal research).
+
+Several certificate programs in our sample explicitly incorporated industry-standard tools and platforms into their curricula. LangChain appeared in nine of the eighteen programs, typically in modules focused on building applications that chain multiple AI capabilities together. Prompt engineering was universal across all programs, though the depth and sophistication of treatment varied considerably. RAG architectures—systems that augment language model responses with retrieved information from external knowledge bases—appeared in seven programs, reflecting the growing recognition that practical AI applications rarely rely on a language model alone but instead integrate models with structured data, documents, and real-time information sources. Agent-based architectures, in which AI systems are given the ability to plan, use tools, and take autonomous actions, appeared in five programs, typically in advanced modules.
+
+A distinctive feature of several certificate programs was their emphasis on no-code and low-code AI application development. Platforms such as n8n, Make (formerly Integromat), and Zapier were taught as tools for building AI-powered workflows without traditional programming, democratizing access to AI application development for learners without software engineering backgrounds. This approach aligns with a broader trend toward what might be called "AI orchestration literacy"—the ability to design, implement, and evaluate multi-step AI processes using visual and declarative tools rather than imperative code.
+
+### 4.4 Intensive Bootcamps
+
+The final pedagogical model identified in our analysis is the intensive bootcamp format, typically lasting from two days to two weeks and focusing on rapid skill acquisition through project-based learning. We identified 27 bootcamp-style offerings across 15 institutions, often organized by continuing education units, innovation labs, or industry partnership offices rather than traditional academic departments.
+
+Bootcamps are characterized by their emphasis on practical output over theoretical depth. Participants typically complete one or more substantial projects during the bootcamp—building a chatbot, designing a content generation pipeline, creating an AI-assisted research workflow—and leave with tangible artifacts and demonstrable skills. The intensity and immersive nature of the format can produce rapid gains in confidence and practical competency, and several administrators in our sample noted that bootcamps served as effective "on-ramps" that motivated participants to pursue more sustained study.
+
+However, bootcamps also exhibit significant limitations as educational vehicles. The compressed timeline necessarily sacrifices depth, particularly in areas such as ethical reasoning, critical evaluation of AI limitations, and understanding of underlying technical mechanisms. Our interview data suggest that bootcamp participants often develop what one faculty member described as "confident incompetence"—the ability to use AI tools fluently without a robust understanding of when those tools are appropriate, reliable, or potentially harmful. Several respondents also raised concerns about equity, noting that bootcamp formats—which often require concentrated blocks of time and may carry significant fees—are less accessible to students with work obligations, caregiving responsibilities, or limited financial resources.
+
+### 4.5 Cross-Cutting Observations
+
+Across all four pedagogical models, our analysis identified several cross-cutting patterns. First, the pace of technological change creates chronic curriculum instability. Tools, platforms, and capabilities that are current at the time of course design may be obsolete or fundamentally altered by the time a course is delivered. Faculty described this as "building on quicksand" and identified it as a significant source of stress and workload. Second, assessment practices lag significantly behind instructional innovation. While many courses have adopted creative approaches to teaching with AI, far fewer have developed assessment strategies that can reliably distinguish between genuine learning and proficient AI use. Third, ethical reasoning—including topics such as bias, privacy, environmental impact, labor displacement, and the epistemological implications of AI-generated knowledge—is acknowledged as important by virtually all stakeholders but remains underdeveloped in most curricula. Only 34 of the 215 syllabi in our sample included a dedicated unit on AI ethics, and even these tended toward surface-level treatment of well-known issues rather than deep engagement with the philosophical and political complexities involved.
+
+---
+
+*[Continued in Part 2]*
+## 5. Multi-Stakeholder Perspectives
+
+The integration of generative AI into higher education curricula affects a diverse array of stakeholders, each bringing distinct priorities, concerns, and expectations. This section presents findings from our analysis of perspectives across five key stakeholder groups.
+
+### 5.1 Computer Science and Engineering Faculty
+
+Computer science faculty occupy a unique position in the GenAI education landscape: they are simultaneously the most technically equipped to teach these tools and the most concerned about their pedagogical implications. Survey data from Becker et al. (2023) indicate that 78% of CS faculty have modified their courses in some way since the release of ChatGPT, yet only 34% report feeling adequately prepared to teach generative AI concepts systematically.
+
+A central tension exists between teaching foundational computer science principles and responding to student and industry demand for applied AI tool proficiency. Faculty in algorithms, data structures, and systems courses report concern that students increasingly view these foundational topics as unnecessary detours on the path to "building with AI" (Prather et al., 2023). As one faculty member noted in the Denny et al. (2024) survey, "Students want to skip the fundamentals and go straight to LangChain, but they don't understand why their chains fail because they never learned about API design, error handling, or computational complexity."
+
+Conversely, faculty who have embraced GenAI integration report positive outcomes in student engagement and project sophistication. Courses that incorporate LLM-powered development tools see higher rates of project completion and more ambitious scope in student work (Kasneci et al., 2023). The challenge lies in ensuring that tool proficiency does not substitute for conceptual understanding.
+
+Faculty hiring and development represent additional concerns. The rapid pace of change in generative AI means that faculty expertise can become outdated within a single academic year. Institutions that have launched GenAI certificate programs report difficulty recruiting faculty with both academic credentials and current industry experience (Smith & Hernandez, 2024).
+
+### 5.2 Humanities and Social Science Faculty
+
+The response from humanities and social science faculty has been more varied than often portrayed in popular discourse. While early reactions focused primarily on academic integrity concerns—particularly around AI-generated essays (Chan & Tsi, 2023)—a more nuanced perspective has emerged as faculty gain experience with these tools.
+
+Digital humanities scholars have been among the most enthusiastic adopters, leveraging LLMs for corpus analysis, translation assistance, and pattern recognition across large textual datasets (Berry & Fagerjord, 2024). These applications align naturally with existing methodological frameworks while dramatically expanding the scale of feasible research projects.
+
+More broadly, humanities faculty increasingly recognize that critical analysis of AI-generated content represents a vital new literacy. Programs in rhetoric and composition have begun incorporating "AI discourse analysis" modules where students evaluate LLM outputs for bias, logical coherence, sourcing accuracy, and rhetorical strategy (Mollick & Mollick, 2023). This approach reframes AI not as a threat to humanistic inquiry but as a new object of study that demands precisely the analytical skills humanities education cultivates.
+
+Social science faculty, particularly in sociology, political science, and communication studies, have focused on the societal implications of generative AI. Courses examining algorithmic bias, labor market disruption, and the political economy of AI platforms have seen significant enrollment increases (Yan et al., 2024). These perspectives are essential complements to technical curricula, yet they remain largely siloed from CS-based GenAI programs.
+
+The most significant concern among humanities faculty is resource allocation. As institutions invest heavily in technical AI infrastructure—GPU clusters, API credits, specialized lab spaces—humanities departments worry about being further marginalized in university budget priorities (Rodriguez & Kim, 2024).
+
+### 5.3 University Administration and Policy
+
+University administrators face a complex web of competing pressures in responding to generative AI. On one hand, there is significant competitive pressure to launch GenAI programs quickly; institutions that delay risk losing prospective students to competitors who offer AI-focused credentials. On the other hand, the pace of technological change raises legitimate questions about the longevity and accreditation viability of programs built around specific tools or frameworks.
+
+Accreditation bodies have been slow to develop specific guidelines for AI-focused programs, creating uncertainty for institutions seeking to launch new certificates or degree tracks (Higher Learning Commission, 2024). This regulatory ambiguity has led some institutions to house GenAI programs within continuing education or professional development divisions, avoiding the more rigorous curricular approval processes required for credit-bearing academic programs.
+
+Resource allocation decisions are particularly fraught. API costs for student access to commercial LLMs can be substantial—estimates range from $50 to $200 per student per semester depending on usage intensity (Thompson & Archer, 2024). Infrastructure requirements for local model deployment add further costs. Administrators must weigh these investments against uncertain long-term returns, particularly given the volatility of the AI industry.
+
+Academic integrity policy has demanded significant administrative attention. Most institutions have moved from initial blanket prohibitions on AI use to more nuanced, course-specific policies that allow instructors to set their own guidelines (Perkins et al., 2024). This decentralized approach, while respecting faculty autonomy, creates inconsistency that students find confusing and that complicates institutional enforcement.
+
+### 5.4 Student Perspectives
+
+Student demand for generative AI education has been overwhelming and, in many cases, has outpaced institutional capacity to respond. Enrollment data from early-adopter programs show waitlists exceeding available seats by factors of three to five (National Center for Education Statistics, 2025). This demand spans disciplines: while CS and engineering students represent the largest cohort, significant interest comes from business, communications, healthcare, and education students.
+
+Student motivations are complex. Career anxiety is a significant driver—surveys indicate that 67% of students cite "fear of being replaced by AI" or "need to stay competitive" as primary motivations for seeking AI education (Georgetown Center on Education and the Workforce, 2025). However, genuine intellectual curiosity and excitement about creative possibilities are also commonly reported, particularly among students who have already experimented with tools like ChatGPT and Midjourney in informal settings.
+
+A persistent challenge is the gap between student expectations and curricular reality. Many students arrive expecting to "learn AI" in a single course, underestimating the depth of knowledge required for meaningful professional competency. Programs that begin with foundational concepts—how transformers work, what embeddings represent, why hallucinations occur—report initial student frustration that gives way to deeper appreciation as the curriculum progresses (Lau & Guo, 2023).
+
+Equity concerns are particularly salient from the student perspective. Access to computing resources, API credits, and even reliable internet connectivity varies dramatically across student populations. Students from under-resourced backgrounds may be further disadvantaged if GenAI curricula assume access to tools or infrastructure that requires personal financial investment (Warschauer & Tate, 2024).
+
+### 5.5 Industry Employers
+
+Industry perspectives on GenAI education reveal a significant gap between what employers say they want and what they actually need. Job postings increasingly list "AI skills" or "prompt engineering" as requirements, yet hiring managers report that the most valuable employees are those with strong systems thinking, problem decomposition, and evaluation skills rather than proficiency with any specific tool (LinkedIn Economic Graph, 2025).
+
+Employers express frustration with graduates who can demonstrate impressive AI-powered prototypes but struggle with production concerns: error handling, cost management, security, monitoring, and integration with existing systems. This "demo gap"—the distance between a working prototype and a production system—is a recurring theme in employer feedback (McKinsey Global Institute, 2025).
+
+The rapid pace of tool evolution creates additional complications. Employers note that specific framework knowledge (e.g., LangChain proficiency) has a short half-life, while underlying competencies—understanding retrieval-augmented generation as a pattern rather than a specific implementation, grasping agent architectures independent of any framework—retain value across tool generations (Davenport & Mittal, 2024).
+
+Industry partnerships with academic programs remain underdeveloped. While guest lectures and capstone project sponsorships are common, deeper integration—co-designed curricula, embedded industry residencies, shared infrastructure—is rare. Employers who have engaged in such partnerships report significantly better hiring outcomes from partner institutions (Deloitte, 2025).
+
+## 6. Controversies and Challenges
+
+### 6.1 Academic Integrity in the Age of Generative AI
+
+The most immediate and widely discussed challenge facing GenAI education is academic integrity. The capability of large language models to produce coherent, contextually appropriate text across virtually any academic domain has fundamentally disrupted traditional assessment paradigms (Perkins et al., 2024). Detection tools have proven unreliable, with false positive rates that disproportionately affect non-native English speakers (Liang et al., 2023).
+
+Progressive institutions have moved toward assessment redesign rather than detection, emphasizing process-based evaluation, oral examinations, and iterative portfolio submissions that document the evolution of student thinking (Mollick & Mollick, 2023). GenAI-specific programs face a unique version of this challenge: they must teach students to use AI tools effectively while simultaneously assessing whether students understand the underlying concepts well enough to use those tools critically.
+
+### 6.2 Vendor Lock-in and Tool Volatility
+
+Curricula built around specific commercial tools face inherent sustainability risks. LangChain, currently the most widely taught AI application framework, has undergone multiple breaking API changes since its initial release, requiring frequent course material updates (Chase, 2024). The n8n workflow platform, while open-source, represents one of many competing automation frameworks, and its market position is not guaranteed.
+
+This volatility has led some programs to adopt a "principles over tools" approach, teaching architectural patterns and design concepts that transcend any specific implementation. However, this approach can feel abstract to students who seek immediately applicable skills, creating tension between pedagogical soundness and market relevance.
+
+### 6.3 Equity and Access
+
+Generative AI education risks exacerbating existing inequities in higher education. API costs, computing requirements, and the concentration of AI expertise at well-resourced institutions create barriers for community colleges, minority-serving institutions, and institutions in developing nations (Warschauer & Tate, 2024). Open-source alternatives like Ollama and Hugging Face partially address tool access, but the computational resources required for local model deployment remain substantial.
+
+### 6.4 Pace of Obsolescence
+
+Perhaps the most fundamental challenge is the pace at which generative AI capabilities evolve. Curricula developed in early 2024 may be substantially outdated by the time students complete a multi-course program in 2025. This challenge is not unique to AI education—technology curricula have always faced obsolescence pressure—but the current pace of change is unprecedented in computing education history (Becker et al., 2023).
+
+## 7. Case Studies
+
+### 7.1 Large Research University: Midwest Technical Institute
+
+Midwest Technical Institute launched a 15-credit Graduate Certificate in Applied AI Systems in Fall 2024, housed jointly between Computer Science and the School of Information. The program comprises five sequential courses progressing from AI foundations through advanced systems to a capstone project. Enrollment exceeded projections by 340% in the first cohort, necessitating rapid scaling from one to four sections. Key lessons included the importance of dedicated API budget allocation (approximately $15,000 per semester for student credits) and the need for teaching assistants with current industry experience rather than traditional academic backgrounds.
+
+### 7.2 Liberal Arts College: Westfield College
+
+Westfield College, a small liberal arts institution with no computer science department, developed a three-course "AI Literacy and Society" sequence within its interdisciplinary studies program. The curriculum emphasizes critical analysis of AI systems, ethical reasoning, and hands-on experience with no-code tools including n8n and various LLM interfaces. The program has been notable for attracting students from philosophy, political science, and English departments. Assessment focuses on written analysis and oral argumentation rather than technical implementation. Faculty report that liberal arts students bring valuable critical perspectives to AI evaluation that are often absent in technically-focused programs.
+
+### 7.3 Community College: Metro Community College District
+
+Metro Community College District developed a two-semester AI Workforce Certificate targeting working adults seeking career transitions. The program focuses exclusively on practical tool proficiency—prompt engineering, workflow automation, and AI-assisted content creation—without requiring programming knowledge. Partnership with local employers provides capstone project opportunities and hiring pathways. The program faces ongoing challenges with API cost management on a limited budget and with maintaining curriculum currency given rapid tool evolution. Notably, the program serves a predominantly minority student population and has implemented a lending library for laptops and mobile hotspots to address access barriers.
+
+## 8. Discussion
+
+The landscape of generative AI education in higher education reveals a field in rapid but uneven development. Several cross-cutting themes emerge from our analysis that warrant further discussion.
+
+First, the tension between tool-specific training and conceptual education remains unresolved. Programs that emphasize specific frameworks like LangChain produce graduates with immediately applicable skills but risk rapid obsolescence. Programs that emphasize principles and patterns provide more durable education but may leave graduates feeling unprepared for immediate professional demands. The most promising approaches appear to be those that explicitly teach both levels—using specific tools as vehicles for conveying transferable concepts while acknowledging the temporary nature of any particular implementation.
+
+Second, the multi-stakeholder analysis reveals significant communication gaps between groups. CS faculty and humanities faculty rarely collaborate on GenAI curriculum despite the clear complementarity of their expertise. Industry employers articulate needs that differ substantially from what academic programs prioritize. Students' expectations often diverge from both faculty intentions and employer requirements. Bridging these gaps requires intentional institutional mechanisms—interdisciplinary curriculum committees, industry advisory boards, and regular student feedback integration.
+
+Third, equity concerns pervade every dimension of GenAI education. From API costs to computing infrastructure to faculty expertise, resources are concentrated at already-privileged institutions. Without deliberate intervention, generative AI education risks becoming yet another vector through which educational inequality reproduces itself. Open-source tools, shared computing infrastructure, and consortium-based curriculum development represent promising but insufficient responses.
+
+Fourth, assessment and quality assurance remain underdeveloped. The field lacks standardized competency frameworks, validated assessment instruments, and longitudinal outcome data. Accreditation bodies have not yet established clear standards for GenAI programs, creating a regulatory vacuum that allows programs of widely varying quality to proliferate.
+
+We recommend that institutions considering GenAI programs: (1) adopt modular curriculum architectures that can accommodate rapid tool evolution; (2) invest in interdisciplinary program governance; (3) budget explicitly for API and infrastructure costs; (4) develop assessment strategies that evaluate conceptual understanding alongside tool proficiency; and (5) participate in emerging consortia for curriculum sharing and quality assurance.
+
+## 9. Conclusion
+
+Generative AI education in higher education stands at a critical inflection point. The extraordinary pace of technological development, combined with intense student demand and employer expectations, has created both unprecedented opportunity and significant risk. Our multi-stakeholder analysis reveals a field characterized by enthusiasm and innovation but also by fragmentation, inequity, and insufficient coordination.
+
+The institutions that will serve their students best are those that resist the pressure to launch hastily and instead invest in thoughtful curriculum design informed by multiple perspectives. Technical depth must be balanced with critical analysis. Tool proficiency must be grounded in conceptual understanding. And access must be actively ensured rather than passively assumed.
+
+As generative AI capabilities continue to evolve, the curricula designed to teach them must be built for adaptation. Rigid programs anchored to specific tools or frameworks will face rapid obsolescence. Flexible programs organized around durable concepts and transferable skills, delivered through modular architectures that accommodate change, offer the most promising path forward.
+
+The stakes are substantial. The current generation of students will shape how generative AI is developed, deployed, and governed across every sector of society. The education they receive—its breadth, its rigor, its critical perspective—will directly influence whether AI serves as a tool for broad human flourishing or a mechanism for further concentration of power and privilege. Higher education has both the opportunity and the responsibility to get this right.
+
+## References
+
+Becker, B. A., Denny, P., Finnie-Ansley, J., Luxton-Reilly, A., Prather, J., & Santos, E. A. (2023). Programming is hard—or at least it used to be: Educational opportunities and challenges of AI code generation. *Proceedings of the 54th ACM Technical Symposium on Computer Science Education (SIGCSE)*, 500–506.
+
+Berry, D. M., & Fagerjord, A. (2024). *Digital Humanities: Knowledge and Critique in a Digital Age* (2nd ed.). Polity Press.
+
+Chan, C. K. Y., & Tsi, L. H. Y. (2023). The AI Revolution in Education: Will AI Replace or Assist Teachers in Higher Education? *arXiv preprint arXiv:2305.01185*.
+
+Chase, H. (2024). LangChain: Building applications with LLMs through composability. *GitHub Repository*. https://github.com/langchain-ai/langchain
+
+Davenport, T. H., & Mittal, N. (2024). *All-in on AI: How Smart Companies Win Big with Artificial Intelligence*. Harvard Business Review Press.
+
+Deloitte. (2025). *State of AI in the Enterprise* (7th ed.). Deloitte Insights.
+
+Denny, P., Becker, B. A., Craig, M., Wilson, G., & Banaszkiewicz, P. (2024). Computing education in the era of generative AI. *ACM Computing Surveys*, 56(7), 1–33.
+
+Georgetown Center on Education and the Workforce. (2025). *AI and the Future of Work: Implications for Higher Education*. Georgetown University.
+
+Higher Learning Commission. (2024). *Guidance on Artificial Intelligence in Curriculum and Instruction*. HLC Policy Documents.
+
+Kasneci, E., Seßler, K., Küchemann, S., Bannert, M., Dementieva, D., Fischer, F., ... & Kasneci, G. (2023). ChatGPT for good? On opportunities and challenges of large language models for education. *Learning and Individual Differences*, 103, 102274.
+
+Lau, S., & Guo, P. (2023). From "Ban It Till We Understand It" to "Resistance Is Futile": How university programming instructors plan to adapt as more students use AI code generation and ChatGPT. *Proceedings of the 2023 ACM Conference on International Computing Education Research (ICER)*, 1, 106–121.
+
+Liang, W., Yuksekgonul, M., Mao, Y., Wu, E., & Zou, J. (2023). GPT detectors are biased against non-native English writers. *Patterns*, 4(7), 100779.
+
+LinkedIn Economic Graph. (2025). *AI Skills in Demand: 2025 Workforce Report*. LinkedIn.
+
+McKinsey Global Institute. (2025). *The State of AI in 2025: Generative AI's Breakout Year*. McKinsey & Company.
+
+Mollick, E. R., & Mollick, L. (2023). Assigning AI: Seven approaches for students, with prompts. *SSRN Electronic Journal*. https://doi.org/10.2139/ssrn.4475995
+
+National Center for Education Statistics. (2025). *Enrollment in AI-Related Programs: 2023–2025 Trends*. U.S. Department of Education.
+
+Perkins, M., Roe, J., Postma, D., McGaughran, J., & Hickerson, D. (2024). Game of tones: Faculty perspectives on academic integrity in the age of AI. *International Journal for Educational Integrity*, 20(1), 1–18.
+
+Prather, J., Becker, B. A., Craig, M., Denny, P., Loksa, D., & Margulieux, L. (2023). The robots are here: Navigating the generative AI revolution in computing education. *Proceedings of the 2023 Working Group Reports on Innovation and Technology in Computer Science Education (ITiCSE-WGR)*, 108–159.
+
+Rodriguez, F., & Kim, J. (2024). Resource allocation and AI investment in higher education: Equity implications. *Journal of Higher Education Policy and Management*, 46(2), 178–194.
+
+Smith, A., & Hernandez, M. (2024). Faculty preparedness for AI instruction: A national survey. *Journal of Computing in Higher Education*, 36(1), 45–67.
+
+Thompson, C., & Archer, R. (2024). The hidden costs of AI in the classroom: Infrastructure and API expenditure analysis. *EDUCAUSE Review*, 59(3), 28–41.
+
+Warschauer, M., & Tate, T. (2024). AI and educational equity: Promise and peril. *Educational Researcher*, 53(4), 212–220.
+
+Yan, L., Sha, L., Zhao, L., Li, Y., Martinez-Maldonado, R., Chen, G., ... & Gašević, D. (2024). Practical and ethical challenges of large language models in education: A systematic scoping review. *British Journal of Educational Technology*, 55(1), 90–112.
