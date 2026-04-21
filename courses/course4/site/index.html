@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GENAI 401: Advanced AI Systems & Architecture</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0a1628;--navy-light:#121f3d;--navy-mid:#1a2a4a;--red:#dc2626;--red-dark:#b91c1c;--gray:#94a3b8;--light:#e2e8f0;--white:#f8fafc}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--navy);color:var(--light);line-height:1.6}
+a{color:var(--red);text-decoration:none}
+a:hover{text-decoration:underline}
+.container{max-width:960px;margin:0 auto;padding:0 1.5rem}
+header{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-mid) 100%);border-bottom:3px solid var(--red);padding:3rem 0}
+header h1{font-size:2.4rem;color:var(--white);margin-bottom:.25rem}
+header .subtitle{font-size:1.1rem;color:var(--gray);margin-bottom:1.5rem}
+header .badge{display:inline-block;background:var(--red);color:#fff;padding:.25rem .75rem;border-radius:4px;font-size:.85rem;font-weight:600;margin-right:.5rem}
+.card{background:var(--navy-light);border:1px solid var(--navy-mid);border-radius:8px;padding:1.5rem;margin-bottom:1.5rem}
+.card h2{color:var(--white);font-size:1.3rem;margin-bottom:1rem;border-left:3px solid var(--red);padding-left:.75rem}
+section{padding:2rem 0}
+table{width:100%;border-collapse:collapse;margin-top:.75rem}
+th{text-align:left;padding:.6rem .75rem;background:var(--navy-mid);color:var(--white);font-size:.85rem;text-transform:uppercase;letter-spacing:.5px}
+td{padding:.6rem .75rem;border-bottom:1px solid var(--navy-mid);font-size:.95rem}
+tr:hover td{background:rgba(220,38,38,.05)}
+.grade-bar{display:flex;gap:0;border-radius:6px;overflow:hidden;height:28px;margin-top:.75rem}
+.grade-bar div{display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:600;color:#fff}
+ul{list-style:none;padding:0}
+ul li{padding:.4rem 0;padding-left:1.2rem;position:relative}
+ul li::before{content:'▸';position:absolute;left:0;color:var(--red)}
+footer{text-align:center;padding:2rem 0;color:var(--gray);font-size:.85rem;border-top:1px solid var(--navy-mid)}
+@media(max-width:640px){header h1{font-size:1.6rem}table{font-size:.85rem}th,td{padding:.4rem}}
+</style>
+</head>
+<body>
+<header>
+<div class="container">
+<span class="badge">GENAI 401</span><span class="badge">Graduate</span><span class="badge">4 Credits</span>
+<h1>Advanced AI Systems &amp; Architecture</h1>
+<p class="subtitle">Design, build, and deploy production-grade multi-agent AI systems at scale</p>
+</div>
+</header>
+
+<section><div class="container">
+
+<div class="card">
+<h2>Instructor</h2>
+<p><strong>Prof. James Okonkwo, Ph.D.</strong></p>
+<p>Specialization: Distributed Systems &amp; Large-Scale AI Infrastructure</p>
+<p>Previously: Principal Engineer, AWS AI Services (2016–2022)</p>
+<p style="margin-top:.5rem">Office Hours: Tue/Thu 2:00–3:30 PM · Room 412 CS Building · <a href="mailto:jokonkwo@university.edu">jokonkwo@university.edu</a></p>
+</div>
+
+<div class="card">
+<h2>Course Overview</h2>
+<p>This advanced course covers the design and implementation of production-grade AI systems. Students will work with multi-agent architectures, advanced retrieval-augmented generation, fine-tuning techniques, evaluation frameworks, and MLOps practices. The capstone project requires building a deployable multi-agent system evaluated against real-world benchmarks.</p>
+<p style="margin-top:.75rem"><strong>Prerequisite:</strong> GENAI 301 (Intermediate Generative AI) with grade B or higher</p>
+<p><strong>Format:</strong> 2× 75-min lectures + 1× 2-hr lab per week</p>
+</div>
+
+<div class="card">
+<h2>15-Week Schedule</h2>
+<table>
+<thead><tr><th>Wk</th><th>Topic</th><th>Deliverable</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>Multi-Agent Architectures</td><td>Lab 1</td></tr>
+<tr><td>2</td><td>Agent Communication Patterns</td><td>HW 1 out</td></tr>
+<tr><td>3</td><td>Advanced RAG Patterns</td><td>Lab 2</td></tr>
+<tr><td>4</td><td>Knowledge Graphs + LLMs</td><td>HW 2 out</td></tr>
+<tr><td>5</td><td>Fine-Tuning: LoRA &amp; QLoRA</td><td>HW 1 due · Lab 3</td></tr>
+<tr><td>6</td><td>Evaluation Frameworks</td><td>HW 3 out</td></tr>
+<tr><td>7</td><td>Production Deployment</td><td>HW 2 due</td></tr>
+<tr><td>8</td><td><strong>Midterm Exam</strong></td><td>Midterm</td></tr>
+<tr><td>9</td><td>Cost Optimization at Scale</td><td>HW 3 due · HW 4 out</td></tr>
+<tr><td>10</td><td>Security &amp; Guardrails</td><td>Lab 4</td></tr>
+<tr><td>11</td><td>Observability &amp; Monitoring</td><td>HW 5 out</td></tr>
+<tr><td>12</td><td>Scaling Patterns</td><td>HW 4 due</td></tr>
+<tr><td>13</td><td>MLOps for LLMs</td><td>HW 5 due · HW 6 out</td></tr>
+<tr><td>14</td><td>Enterprise Case Studies</td><td>HW 6 due · Project due</td></tr>
+<tr><td>15</td><td><strong>Final Presentations &amp; Exam</strong></td><td>Final</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="card">
+<h2>Grading</h2>
+<div class="grade-bar">
+<div style="width:30%;background:var(--red)">HW 30%</div>
+<div style="width:15%;background:#b91c1c">Midterm 15%</div>
+<div style="width:25%;background:#991b1b">Project 25%</div>
+<div style="width:20%;background:#7f1d1d">Final 20%</div>
+<div style="width:10%;background:#451a1a">Part. 10%</div>
+</div>
+<ul style="margin-top:1rem">
+<li>Homework Assignments (6) — 30%</li>
+<li>Midterm Exam — 15%</li>
+<li>Final Capstone Project — 25%</li>
+<li>Final Exam — 20%</li>
+<li>Participation &amp; Labs — 10%</li>
+</ul>
+</div>
+
+<div class="card">
+<h2>Required Materials</h2>
+<ul>
+<li>Access to cloud GPU compute (AWS/GCP credits provided)</li>
+<li>Recommended: <em>Designing Machine Learning Systems</em> — Chip Huyen</li>
+<li>Recommended: <em>Building LLM-Powered Applications</em> — Valentino Gagliardi</li>
+<li>Course GitHub repository (link provided Week 1)</li>
+</ul>
+</div>
+
+<div class="card">
+<h2>Policies</h2>
+<ul>
+<li>Late submissions: –10% per day, max 3 days</li>
+<li>AI tool usage: Permitted with mandatory disclosure &amp; critical analysis</li>
+<li>Collaboration: Encouraged for discussion; individual submissions required</li>
+<li>Academic integrity violations result in automatic course failure</li>
+</ul>
+</div>
+
+</div></section>
+
+<footer><div class="container">GENAI 401 · Advanced AI Systems &amp; Architecture · Spring 2026 · Prof. Okonkwo</div></footer>
+</body>
+</html>

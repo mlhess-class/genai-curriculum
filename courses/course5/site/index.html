@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GENAI 490: Capstone — AI Solution Design</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0a1628;--navy-light:#132040;--gold:#d4a843;--gold-light:#e8c874;--text:#e0e4ec;--text-muted:#8a94a6;--card-bg:#111d35;--border:#1e2d4a}
+body{font-family:'Georgia','Times New Roman',serif;background:var(--navy);color:var(--text);line-height:1.7}
+a{color:var(--gold);text-decoration:none}a:hover{color:var(--gold-light);text-decoration:underline}
+.container{max-width:960px;margin:0 auto;padding:0 24px}
+header{background:linear-gradient(135deg,#0a1628 0%,#162a50 100%);border-bottom:3px solid var(--gold);padding:48px 0 40px;text-align:center}
+header h1{font-size:2.4rem;color:#fff;letter-spacing:1px;margin-bottom:8px}
+header .subtitle{font-size:1.15rem;color:var(--gold);font-style:italic;margin-bottom:24px}
+header .meta{font-size:.95rem;color:var(--text-muted)}
+header .meta span{margin:0 12px}
+.badge{display:inline-block;background:var(--gold);color:var(--navy);font-size:.75rem;font-weight:700;padding:3px 10px;border-radius:3px;text-transform:uppercase;letter-spacing:.5px;vertical-align:middle;margin-left:6px}
+nav{background:var(--navy-light);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:10}
+nav ul{list-style:none;display:flex;justify-content:center;flex-wrap:wrap;padding:0}
+nav li a{display:block;padding:14px 20px;font-size:.9rem;font-family:'Helvetica Neue',Arial,sans-serif;color:var(--text-muted);transition:color .2s}
+nav li a:hover,nav li a.active{color:var(--gold);text-decoration:none}
+section{padding:48px 0}
+section:nth-child(even){background:var(--navy-light)}
+h2{font-size:1.6rem;color:var(--gold);margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+h3{font-size:1.15rem;color:#fff;margin:20px 0 10px}
+.card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:24px;margin-bottom:20px}
+.card h3{margin-top:0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+table{width:100%;border-collapse:collapse;font-family:'Helvetica Neue',Arial,sans-serif;font-size:.9rem}
+th{background:var(--navy);color:var(--gold);text-align:left;padding:12px;border-bottom:2px solid var(--gold)}
+td{padding:10px 12px;border-bottom:1px solid var(--border)}
+tr:hover td{background:rgba(212,168,67,.04)}
+.grading-bar{display:flex;border-radius:6px;overflow:hidden;height:28px;margin:16px 0}
+.grading-bar div{display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;color:var(--navy);font-family:Arial,sans-serif}
+footer{text-align:center;padding:32px 0;font-size:.85rem;color:var(--text-muted);border-top:1px solid var(--border)}
+@media(max-width:600px){header h1{font-size:1.6rem}nav ul{flex-direction:column;align-items:center}nav li a{padding:10px 16px}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+<div class="container">
+<h1>GENAI 490 <span class="badge">Capstone</span></h1>
+<div class="subtitle">AI Solution Design</div>
+<div class="meta">
+<span>👩‍🏫 Dr. Lisa Nakamura</span>
+<span>📅 15 Weeks</span>
+<span>🎓 3 Credits</span>
+</div>
+</div>
+</header>
+
+<nav>
+<ul>
+<li><a href="#about">About</a></li>
+<li><a href="#instructor">Instructor</a></li>
+<li><a href="#schedule">Schedule</a></li>
+<li><a href="#grading">Grading</a></li>
+<li><a href="#policies">Policies</a></li>
+</ul>
+</nav>
+
+<section id="about">
+<div class="container">
+<h2>Course Overview</h2>
+<div class="grid">
+<div class="card">
+<h3>Description</h3>
+<p>The capstone course synthesizes everything you've learned across the Generative AI curriculum. Working in teams of 3–4, you will identify a real-world problem, design an AI-powered solution, build a working prototype, and present it at a public showcase. This is your opportunity to demonstrate mastery — from stakeholder analysis and architecture design through implementation, testing, and business justification.</p>
+</div>
+<div class="card">
+<h3>Prerequisites</h3>
+<p><strong>GENAI 401</strong> — Advanced AI Applications (or equivalent, with instructor approval). Students should be comfortable with prompt engineering, model evaluation, API integration, and responsible AI principles.</p>
+</div>
+<div class="card">
+<h3>Learning Outcomes</h3>
+<ul style="padding-left:20px;margin-top:8px">
+<li>Identify and scope a real-world problem suitable for an AI solution</li>
+<li>Design end-to-end system architecture for AI applications</li>
+<li>Build and iterate on a functional prototype using modern AI tools</li>
+<li>Conduct user testing and incorporate feedback</li>
+<li>Develop a business case with cost analysis and ROI projections</li>
+<li>Present technical work to both expert and non-expert audiences</li>
+<li>Assemble a professional-quality portfolio</li>
+</ul>
+</div>
+<div class="card">
+<h3>Format</h3>
+<p>Weekly meetings combine short lectures, team workshops, and milestone check-ins. The majority of work happens outside class in your project teams. Expect 8–12 hours per week of out-of-class work. Office hours and Slack channels available throughout.</p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="instructor">
+<div class="container">
+<h2>Instructor</h2>
+<div class="card">
+<h3>Dr. Lisa Nakamura</h3>
+<p>Industry consultant with 15 years of enterprise AI experience spanning healthcare, finance, and logistics. Dr. Nakamura has led AI transformation initiatives at Fortune 500 companies and advises startups on responsible AI deployment. She holds a Ph.D. in Computer Science from Stanford and an MBA from Wharton.</p>
+<p style="margin-top:12px;color:var(--text-muted)">
+📧 lnakamura@university.edu &nbsp;|&nbsp; 🕐 Office Hours: Tue/Thu 2–4 PM (Room 312) &nbsp;|&nbsp; 💬 Slack: #genai490
+</p>
+</div>
+</div>
+</section>
+
+<section id="schedule">
+<div class="container">
+<h2>15-Week Schedule</h2>
+<table>
+<thead><tr><th>Week</th><th>Topic</th><th>Deliverable</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>Capstone Overview, Expectations &amp; Team Formation</td><td>Team charter</td></tr>
+<tr><td>2</td><td>Problem Identification &amp; Stakeholder Analysis</td><td>Problem statement draft</td></tr>
+<tr><td>3</td><td>Requirements Gathering &amp; Scoping AI Solutions</td><td>Requirements document</td></tr>
+<tr><td>4</td><td>Architecture Design &amp; Technology Selection</td><td><strong>HW1: Proposal</strong></td></tr>
+<tr><td>5</td><td>Project Planning &amp; Agile for AI Projects</td><td>Sprint plan</td></tr>
+<tr><td>6</td><td>Proposal Presentations (Peer Review)</td><td><strong>HW2: Architecture Doc</strong></td></tr>
+<tr><td>7</td><td>Data Strategy &amp; Pipeline Design</td><td>Data pipeline spec</td></tr>
+<tr><td>8</td><td>Prototype Sprint 1 — MVP Build</td><td>MVP demo</td></tr>
+<tr><td>9</td><td>User Testing &amp; Iteration</td><td><strong>HW3: Prototype Report</strong></td></tr>
+<tr><td>10</td><td>Prototype Sprint 2 — Refinement</td><td>Updated prototype</td></tr>
+<tr><td>11</td><td>Documentation &amp; Technical Writing</td><td><strong>HW4: User Test Findings</strong></td></tr>
+<tr><td>12</td><td>Cost Analysis, ROI &amp; Business Case</td><td><strong>HW5: Business Case</strong></td></tr>
+<tr><td>13</td><td>Security Review &amp; Ethical Assessment</td><td>Ethics audit</td></tr>
+<tr><td>14</td><td>Final Presentations (Dress Rehearsal)</td><td>Presentation dry-run</td></tr>
+<tr><td>15</td><td>Public Showcase &amp; Portfolio Submission</td><td><strong>HW6: Final Portfolio</strong></td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section id="grading">
+<div class="container">
+<h2>Grading Breakdown</h2>
+<div class="grading-bar">
+<div style="width:15%;background:#d4a843">Proposal 15%</div>
+<div style="width:15%;background:#b8922e">Arch 15%</div>
+<div style="width:15%;background:#e8c874">Proto 15%</div>
+<div style="width:10%;background:#c4a24a">UX 10%</div>
+<div style="width:10%;background:#d4a843">Biz 10%</div>
+<div style="width:25%;background:#f0d890">Portfolio 25%</div>
+<div style="width:10%;background:#aa8020">Particip 10%</div>
+</div>
+<table>
+<thead><tr><th>Component</th><th>Weight</th><th>Due</th></tr></thead>
+<tbody>
+<tr><td>HW1: Project Proposal</td><td>15%</td><td>Week 4</td></tr>
+<tr><td>HW2: Architecture Document</td><td>15%</td><td>Week 6</td></tr>
+<tr><td>HW3: Prototype Report</td><td>15%</td><td>Week 9</td></tr>
+<tr><td>HW4: User Test Findings</td><td>10%</td><td>Week 11</td></tr>
+<tr><td>HW5: Business Case</td><td>10%</td><td>Week 12</td></tr>
+<tr><td>HW6: Final Portfolio &amp; Showcase</td><td>25%</td><td>Week 15</td></tr>
+<tr><td>Participation &amp; Peer Evaluation</td><td>10%</td><td>Ongoing</td></tr>
+</tbody>
+</table>
+<div class="card" style="margin-top:24px">
+<h3>Grading Scale</h3>
+<p>A: 93–100 | A-: 90–92 | B+: 87–89 | B: 83–86 | B-: 80–82 | C+: 77–79 | C: 73–76 | C-: 70–72 | D: 60–69 | F: &lt;60</p>
+</div>
+</div>
+</section>
+
+<section id="policies">
+<div class="container">
+<h2>Policies</h2>
+<div class="grid">
+<div class="card">
+<h3>AI Tool Usage</h3>
+<p>You are expected to use AI tools (LLMs, code assistants, image generators) in your capstone work — this is an AI course. However, you must document all AI tool usage and demonstrate understanding of AI-generated outputs. Passing off AI output without comprehension or attribution is an academic integrity violation.</p>
+</div>
+<div class="card">
+<h3>Team Work</h3>
+<p>Peer evaluations are conducted at Weeks 6, 11, and 15. Persistent issues with contribution equity may result in individual grade adjustments of up to ±15%. Conflicts should be raised with the instructor early.</p>
+</div>
+<div class="card">
+<h3>Late Policy</h3>
+<p>Milestones are team commitments. Late submissions lose 10% per day, up to 3 days. After 3 days, the milestone receives a zero. Extensions require 48-hour advance notice with documented justification.</p>
+</div>
+<div class="card">
+<h3>Academic Integrity</h3>
+<p>All work must be original to your team. External code and datasets must be properly attributed. Fabricating user test data or results is grounds for course failure. When in doubt, ask.</p>
+</div>
+</div>
+</div>
+</section>
+
+<footer>
+<div class="container">
+<p>GENAI 490: Capstone — AI Solution Design &copy; 2026. Department of Computer Science.</p>
+</div>
+</footer>
+</body>
+</html>

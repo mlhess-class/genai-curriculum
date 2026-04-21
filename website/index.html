@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Certificate in Generative AI & Intelligent Automation</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;color:#1a1a2e;line-height:1.6;scroll-behavior:smooth}
+a{text-decoration:none;color:inherit}
+nav{position:fixed;top:0;width:100%;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);z-index:1000;box-shadow:0 1px 3px rgba(0,0,0,.08);padding:0 2rem}
+nav .nav-inner{max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center;height:64px}
+nav .logo{font-weight:800;font-size:1.1rem;color:#4a00e0}
+nav ul{list-style:none;display:flex;gap:1.5rem}
+nav ul li a{font-size:.875rem;font-weight:500;color:#555;transition:color .2s}
+nav ul li a:hover{color:#4a00e0}
+.btn{display:inline-block;padding:.75rem 2rem;border-radius:8px;font-weight:600;font-size:.95rem;transition:all .3s;cursor:pointer;border:none}
+.btn-primary{background:#4a00e0;color:#fff}
+.btn-primary:hover{background:#3700b3;transform:translateY(-2px);box-shadow:0 8px 25px rgba(74,0,224,.3)}
+.btn-outline{border:2px solid #fff;color:#fff;background:transparent}
+.btn-outline:hover{background:#fff;color:#4a00e0}
+.hero{min-height:100vh;background:linear-gradient(135deg,#1a1a6e 0%,#4a00e0 50%,#8e2de2 100%);display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;padding:6rem 2rem 4rem}
+.hero h1{font-size:3.5rem;font-weight:800;line-height:1.15;max-width:800px;margin:0 auto .5rem}
+.hero .subtitle{font-size:1.25rem;opacity:.85;max-width:600px;margin:0 auto 1rem}
+.hero .badge{display:inline-block;background:rgba(255,255,255,.15);padding:.4rem 1.2rem;border-radius:50px;font-size:.8rem;font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin-bottom:1.5rem}
+.hero .ctas{display:flex;gap:1rem;justify-content:center;margin-top:2rem;flex-wrap:wrap}
+section{padding:5rem 2rem}
+.container{max-width:1100px;margin:auto}
+.section-title{text-align:center;font-size:2.2rem;font-weight:800;margin-bottom:.5rem}
+.section-subtitle{text-align:center;color:#666;max-width:600px;margin:0 auto 3rem;font-size:1.05rem}
+.overview{background:#f8f7ff}
+.overview-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+.overview-text h2{font-size:2rem;font-weight:800;margin-bottom:1rem}
+.overview-text p{color:#555;margin-bottom:1rem}
+.overview-stats{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.stat{background:#fff;padding:1.5rem;border-radius:12px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.stat .num{font-size:2rem;font-weight:800;color:#4a00e0}
+.stat .label{font-size:.85rem;color:#777}
+.why{background:#fff}
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
+.why-card{padding:2rem;border-radius:12px;background:#f8f7ff;border:1px solid #ece8ff;transition:transform .2s}
+.why-card:hover{transform:translateY(-4px)}
+.why-card .icon{font-size:2rem;margin-bottom:.75rem}
+.why-card h3{font-size:1.1rem;font-weight:700;margin-bottom:.5rem}
+.why-card p{font-size:.9rem;color:#666}
+.courses{background:#f8f7ff}
+.course-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.5rem}
+.course-card{background:#fff;border-radius:16px;padding:2rem;box-shadow:0 2px 15px rgba(0,0,0,.06);border-left:4px solid #4a00e0;transition:transform .2s}
+.course-card:hover{transform:translateY(-4px)}
+.course-card .code{font-size:.75rem;font-weight:700;color:#4a00e0;text-transform:uppercase;letter-spacing:1px;margin-bottom:.25rem}
+.course-card h3{font-size:1.15rem;font-weight:700;margin-bottom:.5rem}
+.course-card p{font-size:.9rem;color:#666}
+.course-card .meta{margin-top:1rem;display:flex;gap:1rem;font-size:.8rem;color:#999}
+.faculty{background:#fff}
+.faculty-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem}
+.faculty-card{text-align:center;padding:1.5rem}
+.faculty-card .avatar{width:100px;height:100px;border-radius:50%;background:linear-gradient(135deg,#4a00e0,#8e2de2);margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;font-size:2rem;color:#fff;font-weight:700}
+.faculty-card h3{font-size:1rem;font-weight:700}
+.faculty-card .title{font-size:.85rem;color:#4a00e0;font-weight:500;margin-bottom:.5rem}
+.faculty-card p{font-size:.8rem;color:#777}
+.testimonials{background:linear-gradient(135deg,#1a1a6e,#4a00e0);color:#fff;position:relative}
+.testimonials .section-title,.testimonials .section-subtitle{color:#fff}
+.testimonials .section-subtitle{opacity:.8}
+.test-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2rem}
+.test-card{background:rgba(255,255,255,.1);backdrop-filter:blur(10px);border-radius:16px;padding:2rem;border:1px solid rgba(255,255,255,.15)}
+.test-card .quote{font-size:.95rem;font-style:italic;opacity:.9;margin-bottom:1.5rem;line-height:1.7}
+.test-card .author{display:flex;align-items:center;gap:1rem}
+.test-card .author .av{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem}
+.test-card .author .info .name{font-weight:600;font-size:.9rem}
+.test-card .author .info .role{font-size:.8rem;opacity:.7}
+.careers{background:#fff}
+.career-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem}
+.career-card{background:#f8f7ff;border-radius:12px;padding:1.5rem;text-align:center;border:1px solid #ece8ff}
+.career-card h3{font-size:1rem;font-weight:700;margin-bottom:.25rem}
+.career-card .salary{font-size:1.5rem;font-weight:800;color:#4a00e0;margin:.5rem 0}
+.career-card p{font-size:.8rem;color:#777}
+.faq{background:#f8f7ff}
+.faq-list{max-width:750px;margin:auto}
+.faq-item{background:#fff;border-radius:12px;margin-bottom:1rem;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.05)}
+.faq-q{padding:1.25rem 1.5rem;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:.95rem}
+.faq-q:hover{color:#4a00e0}
+.faq-q .arrow{transition:transform .3s;font-size:1.2rem}
+.faq-item.open .arrow{transform:rotate(180deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .35s ease;padding:0 1.5rem;font-size:.9rem;color:#666;line-height:1.7}
+.faq-item.open .faq-a{max-height:300px;padding:0 1.5rem 1.25rem}
+.apply{background:#fff}
+.apply-form{max-width:600px;margin:auto;background:#f8f7ff;padding:2.5rem;border-radius:16px}
+.apply-form .field{margin-bottom:1.25rem}
+.apply-form label{display:block;font-size:.85rem;font-weight:600;margin-bottom:.35rem}
+.apply-form input,.apply-form select,.apply-form textarea{width:100%;padding:.75rem 1rem;border:1px solid #ddd;border-radius:8px;font-family:'Inter',sans-serif;font-size:.9rem;transition:border-color .2s}
+.apply-form input:focus,.apply-form select:focus,.apply-form textarea:focus{outline:none;border-color:#4a00e0}
+.apply-form textarea{resize:vertical;min-height:100px}
+.apply-form .btn{width:100%;text-align:center}
+footer{background:#1a1a2e;color:rgba(255,255,255,.7);padding:3rem 2rem;text-align:center;font-size:.85rem}
+footer .footer-links{display:flex;justify-content:center;gap:2rem;margin-bottom:1rem;flex-wrap:wrap}
+footer a{color:rgba(255,255,255,.7);transition:color .2s}
+footer a:hover{color:#fff}
+@media(max-width:900px){
+.hero h1{font-size:2.2rem}
+.overview-grid,.why-grid,.faculty-grid,.test-grid{grid-template-columns:1fr}
+.course-cards{grid-template-columns:1fr}
+nav ul{display:none}
+}
+</style>
+</head>
+<body>
+
+<nav>
+<div class="nav-inner">
+<a href="#" class="logo">🎓 GENAI Certificate</a>
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#courses">Courses</a></li>
+<li><a href="#faculty">Faculty</a></li>
+<li><a href="#testimonials">Testimonials</a></li>
+<li><a href="#careers">Careers</a></li>
+<li><a href="#faq">FAQ</a></li>
+<li><a href="#apply" class="btn btn-primary" style="padding:.5rem 1.2rem;font-size:.8rem">Apply Now</a></li>
+</ul>
+</div>
+</nav>
+
+<section class="hero">
+<div>
+<div class="badge">🚀 Now Accepting Applications — Fall 2026</div>
+<h1>Certificate in Generative AI &amp; Intelligent Automation</h1>
+<p class="subtitle">Master the technologies reshaping every industry. Five courses. One transformative credential.</p>
+<div class="ctas">
+<a href="#apply" class="btn btn-primary">Apply Now</a>
+<a href="#courses" class="btn btn-outline">Explore Curriculum</a>
+</div>
+</div>
+</section>
+
+<section class="overview" id="overview">
+<div class="container">
+<div class="overview-grid">
+<div class="overview-text">
+<h2>Program Overview</h2>
+<p>This five-course graduate certificate equips professionals with the skills to design, build, and deploy generative AI systems. From foundational concepts to hands-on capstone projects, you'll gain practical expertise that translates directly to the workplace.</p>
+<p>Designed for working professionals, the program can be completed in as few as two semesters with evening and online options available.</p>
+<a href="#apply" class="btn btn-primary" style="margin-top:1rem">Get Started</a>
+</div>
+<div class="overview-stats">
+<div class="stat"><div class="num">15</div><div class="label">Credit Hours</div></div>
+<div class="stat"><div class="num">5</div><div class="label">Expert-Led Courses</div></div>
+<div class="stat"><div class="num">8 mo</div><div class="label">Time to Complete</div></div>
+<div class="stat"><div class="num">94%</div><div class="label">Job Placement Rate</div></div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="why" id="why">
+<div class="container">
+<h2 class="section-title">Why This Program</h2>
+<p class="section-subtitle">Built for the AI era — practical, rigorous, and career-focused.</p>
+<div class="why-grid">
+<div class="why-card"><div class="icon">🧠</div><h3>Industry-Aligned Curriculum</h3><p>Courses designed with input from AI leaders at top tech companies ensuring real-world relevance.</p></div>
+<div class="why-card"><div class="icon">🛠️</div><h3>Hands-On Projects</h3><p>Build production-grade AI systems, not just theory. Every course includes applied projects with real datasets.</p></div>
+<div class="why-card"><div class="icon">👩‍🏫</div><h3>Expert Faculty</h3><p>Learn from practitioners who've built AI systems at scale — researchers, engineers, and startup founders.</p></div>
+<div class="why-card"><div class="icon">🌐</div><h3>Flexible Format</h3><p>Evening and fully-online options designed for working professionals. Complete it in 2-3 semesters.</p></div>
+<div class="why-card"><div class="icon">🤝</div><h3>Professional Network</h3><p>Join a cohort of ambitious peers and gain access to our alumni network of 2,000+ AI professionals.</p></div>
+<div class="why-card"><div class="icon">📈</div><h3>Career Outcomes</h3><p>Graduates report an average 40% salary increase within 12 months of program completion.</p></div>
+</div>
+</div>
+</section>
+
+<section class="courses" id="courses">
+<div class="container">
+<h2 class="section-title">Curriculum</h2>
+<p class="section-subtitle">Five courses that take you from foundations to building complete AI solutions.</p>
+<div class="course-cards">
+<div class="course-card">
+<div class="code">GENAI 101</div>
+<h3>Foundations of Generative AI</h3>
+<p>Explore the core concepts behind large language models, diffusion models, and transformers. Understand tokenization, embeddings, attention mechanisms, and the mathematical foundations that power modern AI.</p>
+<div class="meta"><span>3 Credits</span><span>Fall Semester</span></div>
+</div>
+<div class="course-card">
+<div class="code">GENAI 201</div>
+<h3>AI-Powered Workflows & Automation</h3>
+<p>Design intelligent automation pipelines using APIs, prompt engineering, and orchestration tools. Learn to integrate AI into business processes, from document processing to customer service workflows.</p>
+<div class="meta"><span>3 Credits</span><span>Fall Semester</span></div>
+</div>
+<div class="course-card">
+<div class="code">GENAI 301</div>
+<h3>Building with LangChain</h3>
+<p>Deep dive into the LangChain ecosystem — chains, agents, memory, and retrieval-augmented generation. Build sophisticated applications including chatbots, research assistants, and data analysis tools.</p>
+<div class="meta"><span>3 Credits</span><span>Spring Semester</span></div>
+</div>
+<div class="course-card">
+<div class="code">GENAI 401</div>
+<h3>Advanced AI Systems & Architecture</h3>
+<p>Architect production-grade AI systems with a focus on scalability, evaluation, safety, fine-tuning, and multi-agent orchestration. Covers MLOps, deployment strategies, and responsible AI frameworks.</p>
+<div class="meta"><span>3 Credits</span><span>Spring Semester</span></div>
+</div>
+<div class="course-card">
+<div class="code">GENAI 490</div>
+<h3>Capstone — AI Solution Design</h3>
+<p>Synthesize everything into a real-world capstone project. Partner with an industry sponsor to design, build, and present an end-to-end AI solution addressing a genuine business challenge.</p>
+<div class="meta"><span>3 Credits</span><span>Spring Semester</span></div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="faculty" id="faculty">
+<div class="container">
+<h2 class="section-title">Faculty</h2>
+<p class="section-subtitle">Learn from practitioners who've built AI at scale.</p>
+<div class="faculty-grid">
+<div class="faculty-card">
+<div class="avatar">DR</div>
+<h3>Dr. Diana Reyes</h3>
+<div class="title">Program Director</div>
+<p>Former research scientist at DeepMind. 50+ publications in NLP and generative models. PhD from Stanford.</p>
+</div>
+<div class="faculty-card">
+<div class="avatar">MK</div>
+<h3>Prof. Marcus Kim</h3>
+<div class="title">AI Systems</div>
+<p>Ex-principal engineer at OpenAI. Led infrastructure teams scaling GPT deployments. MS from MIT.</p>
+</div>
+<div class="faculty-card">
+<div class="avatar">SP</div>
+<h3>Dr. Sarah Patel</h3>
+<div class="title">Automation & Workflows</div>
+<p>Founded two AI startups (one acquired). 15 years building enterprise automation. PhD from CMU.</p>
+</div>
+<div class="faculty-card">
+<div class="avatar">JT</div>
+<h3>Prof. James Torres</h3>
+<div class="title">Applied AI</div>
+<p>Lead ML architect at Google Cloud. Author of "Production AI Systems." MS from UC Berkeley.</p>
+</div>
+</div>
+</div>
+</section>
+
+<section class="testimonials" id="testimonials">
+<div class="container">
+<h2 class="section-title">What Our Students Say</h2>
+<p class="section-subtitle">Hear from professionals who transformed their careers.</p>
+<div class="test-grid">
+<div class="test-card">
+<div class="quote">"This program changed the trajectory of my career. Within three months of finishing, I transitioned from a traditional software role to leading an AI team at a Fortune 500 company."</div>
+<div class="author"><div class="av">AW</div><div class="info"><div class="name">Aisha Washington</div><div class="role">AI Engineering Lead, Deloitte</div></div></div>
+</div>
+<div class="test-card">
+<div class="quote">"The capstone project alone was worth the tuition. I built a RAG system that my company now uses in production. The faculty feedback was invaluable."</div>
+<div class="author"><div class="av">RL</div><div class="info"><div class="name">Ryan Liu</div><div class="role">Senior ML Engineer, Stripe</div></div></div>
+</div>
+<div class="test-card">
+<div class="quote">"As a product manager, I needed to understand AI deeply — not just the buzzwords. This program gave me the technical fluency to lead AI product strategy with confidence."</div>
+<div class="author"><div class="av">EM</div><div class="info"><div class="name">Elena Martinez</div><div class="role">VP of Product, AI Startup</div></div></div>
+</div>
+<div class="test-card">
+<div class="quote">"The LangChain and systems architecture courses were exceptionally well-taught. I went from hobbyist prompt engineer to building multi-agent systems for production."</div>
+<div class="author"><div class="av">DO</div><div class="info"><div class="name">David Okonkwo</div><div class="role">Solutions Architect, AWS</div></div></div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="careers" id="careers">
+<div class="container">
+<h2 class="section-title">Career Outcomes</h2>
+<p class="section-subtitle">Our graduates land roles at the forefront of the AI revolution.</p>
+<div class="career-grid">
+<div class="career-card"><h3>AI Engineer</h3><div class="salary">$145K – $210K</div><p>Design and deploy generative AI models and applications</p></div>
+<div class="career-card"><h3>ML Solutions Architect</h3><div class="salary">$155K – $230K</div><p>Architect scalable AI infrastructure for enterprises</p></div>
+<div class="career-card"><h3>AI Product Manager</h3><div class="salary">$135K – $195K</div><p>Lead strategy and development of AI-powered products</p></div>
+<div class="career-card"><h3>Automation Engineer</h3><div class="salary">$120K – $175K</div><p>Build intelligent workflows and process automation</p></div>
+<div class="career-card"><h3>AI Consultant</h3><div class="salary">$150K – $220K</div><p>Advise organizations on AI strategy and implementation</p></div>
+<div class="career-card"><h3>LLM Developer</h3><div class="salary">$140K – $200K</div><p>Fine-tune and deploy large language models at scale</p></div>
+</div>
+</div>
+</section>
+
+<section class="faq" id="faq">
+<div class="container">
+<h2 class="section-title">Frequently Asked Questions</h2>
+<p class="section-subtitle">Everything you need to know before applying.</p>
+<div class="faq-list">
+<div class="faq-item"><div class="faq-q">What are the admission requirements?<span class="arrow">▾</span></div><div class="faq-a">Applicants should hold a bachelor's degree in any field. Basic programming experience (Python preferred) is recommended but not required — we offer a free pre-program bootcamp to get you up to speed.</div></div>
+<div class="faq-item"><div class="faq-q">How long does the program take?<span class="arrow">▾</span></div><div class="faq-a">Most students complete the certificate in 8–12 months (two semesters). Part-time students can extend to three semesters. All courses are available in evening and online formats.</div></div>
+<div class="faq-item"><div class="faq-q">What is the tuition cost?<span class="arrow">▾</span></div><div class="faq-a">Total program tuition is $12,500 for the 15-credit certificate. Payment plans and employer tuition reimbursement assistance are available. Early applicants receive a $1,500 scholarship.</div></div>
+<div class="faq-item"><div class="faq-q">Can I take courses individually?<span class="arrow">▾</span></div><div class="faq-a">Yes. Each course can be taken as a standalone professional development course for $2,800. Credits earned apply toward the full certificate if you decide to enroll later.</div></div>
+<div class="faq-item"><div class="faq-q">Is this program available online?<span class="arrow">▾</span></div><div class="faq-a">Absolutely. All courses are offered in both in-person (evening) and fully online synchronous formats. Online students participate in the same lectures, projects, and capstone experience.</div></div>
+<div class="faq-item"><div class="faq-q">Do I need a computer science background?<span class="arrow">▾</span></div><div class="faq-a">Not necessarily. While technical aptitude helps, our cohorts include professionals from business, healthcare, law, and education. GENAI 101 is designed to bring everyone to a common foundation.</div></div>
+</div>
+</div>
+</section>
+
+<section class="apply" id="apply">
+<div class="container">
+<h2 class="section-title">Start Your Application</h2>
+<p class="section-subtitle">Take the first step toward an AI-powered career. Applications are reviewed on a rolling basis.</p>
+<div class="apply-form">
+<div class="field"><label>Full Name</label><input type="text" placeholder="Jane Doe"></div>
+<div class="field"><label>Email Address</label><input type="email" placeholder="jane@example.com"></div>
+<div class="field"><label>Phone Number</label><input type="tel" placeholder="(555) 123-4567"></div>
+<div class="field"><label>Highest Degree Earned</label>
+<select><option value="">Select...</option><option>Bachelor's</option><option>Master's</option><option>Doctorate</option><option>Other</option></select>
+</div>
+<div class="field"><label>Current Role / Title</label><input type="text" placeholder="Software Engineer"></div>
+<div class="field"><label>Why are you interested in this program?</label><textarea placeholder="Tell us about your goals..."></textarea></div>
+<button class="btn btn-primary" onclick="alert('Thank you! Your application has been received. We\'ll be in touch within 5 business days.')">Submit Application</button>
+</div>
+</div>
+</section>
+
+<footer>
+<div class="container">
+<div class="footer-links">
+<a href="#overview">Overview</a>
+<a href="#courses">Curriculum</a>
+<a href="#faculty">Faculty</a>
+<a href="#careers">Careers</a>
+<a href="#faq">FAQ</a>
+<a href="#apply">Apply</a>
+</div>
+<p>© 2026 Certificate in Generative AI & Intelligent Automation. All rights reserved.</p>
+<p style="margin-top:.5rem;font-size:.75rem;opacity:.6">A program of the School of Computing & Information Sciences</p>
+</div>
+</footer>
+
+<script>
+document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{e.preventDefault();const t=document.querySelector(a.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth'})})});
+document.querySelectorAll('.faq-item').forEach(item=>{item.querySelector('.faq-q').addEventListener('click',()=>{document.querySelectorAll('.faq-item').forEach(i=>{if(i!==item)i.classList.remove('open')});item.classList.toggle('open')})});
+</script>
+</body>
+</html>
