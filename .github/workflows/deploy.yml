@@ -58,6 +58,11 @@ jobs:
             mkdir -p _site/reviews
             cp -r reviews/* _site/reviews/
           fi
+          
+          # Copy root HTML files (e.g. ai-summary.html)
+          for f in *.html; do
+            [ -f "$f" ] && cp "$f" "_site/$f"
+          done
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
