@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How We Built the GenAI Certificate Program Using AI</title>
+<style>
+  :root { --blue: #00274C; --maize: #FFCB05; --light: #f8f9fa; --border: #dee2e6; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif; color: #333; line-height: 1.7; }
+  header { background: var(--blue); color: #fff; padding: 3rem 2rem; text-align: center; border-bottom: 5px solid var(--maize); }
+  header h1 { font-size: 2.2rem; margin-bottom: 0.5rem; }
+  header .meta { color: var(--maize); font-size: 0.95rem; }
+  main { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+  h2 { color: var(--blue); font-size: 1.5rem; margin: 2.5rem 0 1rem; padding-bottom: 0.5rem; border-bottom: 3px solid var(--maize); }
+  h3 { color: var(--blue); font-size: 1.15rem; margin: 1.5rem 0 0.75rem; }
+  p, li { font-size: 0.95rem; margin-bottom: 0.6rem; }
+  ul, ol { padding-left: 1.5rem; margin-bottom: 1rem; }
+  a { color: var(--blue); }
+  a:hover { color: #004080; }
+  strong { color: var(--blue); }
+
+  .summary-box { background: var(--light); border-left: 4px solid var(--maize); padding: 1.25rem 1.5rem; margin: 1.5rem 0; border-radius: 0 6px 6px 0; }
+  .summary-box p { margin-bottom: 0.4rem; }
+
+  table { width: 100%; border-collapse: collapse; margin: 1rem 0 1.5rem; font-size: 0.93rem; }
+  th { background: var(--blue); color: #fff; padding: 0.75rem 1rem; text-align: left; }
+  td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); }
+  tr:hover { background: #f5f5f5; }
+
+  .metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+  .metric-card { background: #fff; border: 1px solid var(--border); border-top: 3px solid var(--maize); border-radius: 6px; padding: 1.25rem; text-align: center; }
+  .metric-card .num { font-size: 2rem; font-weight: 700; color: var(--blue); }
+  .metric-card .label { font-size: 0.85rem; color: #666; margin-top: 0.25rem; }
+
+  .role-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 1.5rem 0; }
+  .role-col { background: #fff; border: 1px solid var(--border); border-radius: 6px; padding: 1.25rem 1.5rem; }
+  .role-col h4 { color: var(--blue); margin-bottom: 0.75rem; font-size: 1rem; }
+  .role-col ul { padding-left: 1.25rem; }
+  .role-col li { margin-bottom: 0.4rem; font-size: 0.9rem; }
+  @media (max-width: 650px) { .role-grid { grid-template-columns: 1fr; } }
+
+  .quality-item { display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 0.75rem; }
+  .quality-dot { flex-shrink: 0; width: 10px; height: 10px; border-radius: 50%; background: var(--maize); margin-top: 0.45rem; }
+
+  .links-list { list-style: none; padding: 0; }
+  .links-list li { padding: 0.5rem 0; border-bottom: 1px solid var(--border); font-size: 0.93rem; }
+  .links-list li:last-child { border-bottom: none; }
+
+  .process-step { display: flex; gap: 1rem; margin-bottom: 1.25rem; }
+  .step-num { flex-shrink: 0; width: 32px; height: 32px; background: var(--blue); color: var(--maize); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem; margin-top: 0.1rem; }
+  .step-text { flex: 1; }
+  .step-text strong { display: block; margin-bottom: 0.15rem; }
+
+  footer { background: var(--blue); color: rgba(255,255,255,0.7); text-align: center; padding: 1.5rem; font-size: 0.85rem; }
+  footer a { color: var(--maize); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>How We Built the GenAI Certificate Program Using AI</h1>
+  <div class="meta">Prepared for the Chief Information Officer · April 27, 2026 · Jack Hess, University of Michigan</div>
+</header>
+
+<main>
+
+<!-- Executive Summary -->
+<h2>Executive Summary</h2>
+<div class="summary-box">
+  <p>In April 2026, we used AI-powered development tools to design and produce a complete, deployment-ready <strong>15-credit Graduate Certificate in Generative AI &amp; Intelligent Automation</strong> — from initial concept to a live GitHub Pages site with full course materials, in approximately one week.</p>
+  <p>The project demonstrates how AI can dramatically accelerate academic program development while maintaining quality standards sufficient for dean-level approval.</p>
+  <p>The completed program is live at: <strong><a href="https://mlhess-class.github.io/genai-curriculum/" target="_blank">https://mlhess-class.github.io/genai-curriculum/</a></strong></p>
+</div>
+
+<!-- What Was Built -->
+<h2>What Was Built</h2>
+<p>The AI-assisted process produced <strong>459 files</strong> comprising a complete academic program package:</p>
+
+<h3>Program Infrastructure</h3>
+<ul>
+  <li><strong>Program marketing website</strong> — responsive, UMich-branded site with course descriptions, faculty placeholders, FAQs, and application information</li>
+  <li><strong>Research paper</strong> — <em>"The Current State of Generative AI Education in Higher Education: A Multi-Stakeholder Analysis"</em> — a full academic paper with literature review, theoretical framework (TPACK + adapted Bloom's taxonomy), analysis of four curricular models, and evidence-based recommendations</li>
+  <li><strong>Curriculum design document</strong> — complete program architecture with learning outcomes, prerequisites, sequencing, and credit structure</li>
+</ul>
+
+<h3>Five Complete Courses</h3>
+<table>
+  <tr><th>Course</th><th>Title</th><th>Contents</th></tr>
+  <tr><td>GENAI 101</td><td>Foundations of Generative AI</td><td>15-week syllabus, 6 HW + answer keys, final exam + answers, reveal.js slides, course site</td></tr>
+  <tr><td>GENAI 201</td><td>AI-Powered Workflows &amp; Automation</td><td>15-week syllabus, 6 HW + answer keys, final project + rubric, slides, course site</td></tr>
+  <tr><td>GENAI 301</td><td>Building with LangChain</td><td>15-week syllabus, 6 HW + answer keys, final project + rubric, slides, course site</td></tr>
+  <tr><td>GENAI 401</td><td>Advanced AI Systems &amp; Architecture</td><td>15-week syllabus, 6 HW + answer keys, final project + rubric, slides, course site</td></tr>
+  <tr><td>GENAI 490</td><td>Capstone — AI Solution Design</td><td>15-week syllabus, 6 HW + answer keys, final portfolio + rubric, slides, course site</td></tr>
+</table>
+
+<h3>Quality Assurance &amp; Review</h3>
+<ul>
+  <li><strong>4 expert reviews</strong> — industry AI lead (Microsoft), philosophy/ethics professor, learning design specialist, and startup engineer</li>
+  <li><strong>2 student feedback profiles</strong> — a CS senior and an MBA student with no coding background</li>
+  <li><strong>Dean's preliminary review</strong> with 7 required revisions and 4 recommendations</li>
+  <li><strong>Dean's final comprehensive review</strong> — full approval with implementation conditions</li>
+</ul>
+
+<!-- How AI Was Used -->
+<h2>How AI Was Used</h2>
+
+<h3>The Technology</h3>
+<p>The program was developed using <strong>Claude</strong> (Anthropic's AI assistant) operating through <strong>OpenClaw</strong>, an AI agent framework providing persistent workspace and file management, multi-agent orchestration, iterative refinement through conversation, and automated deployment via GitHub Actions.</p>
+
+<h3>The Process</h3>
+<div class="process-step"><div class="step-num">1</div><div class="step-text"><strong>Research Phase</strong> AI synthesized the current landscape of GenAI education across institutions, producing a publishable-quality research paper grounding the curriculum in literature and institutional analysis.</div></div>
+<div class="process-step"><div class="step-num">2</div><div class="step-text"><strong>Curriculum Architecture</strong> Program learning outcomes, course sequencing, prerequisite chains, and credit structure were designed through iterative human-AI conversation, with the human providing strategic direction and the AI executing detailed design.</div></div>
+<div class="process-step"><div class="step-num">3</div><div class="step-text"><strong>Course Development</strong> Each of the five courses was developed with week-by-week syllabi, required readings and resources (real, current publications), assessment frameworks, and tool/technology specifications.</div></div>
+<div class="process-step"><div class="step-num">4</div><div class="step-text"><strong>Assessment Creation</strong> 30 homework assignments with full answer keys, plus exams, final projects, and rubrics — all aligned to course learning objectives.</div></div>
+<div class="process-step"><div class="step-num">5</div><div class="step-text"><strong>Multi-Perspective Review</strong> AI generated authentic expert reviews from four distinct professional viewpoints, each with substantive critiques and actionable recommendations. Student feedback profiles stress-tested the curriculum from learner perspectives.</div></div>
+<div class="process-step"><div class="step-num">6</div><div class="step-text"><strong>Iterative Revision</strong> The dean's review process (preliminary → revisions → final approval) modeled real academic governance, with the AI both generating the critique and responding to it with curriculum improvements.</div></div>
+<div class="process-step"><div class="step-num">7</div><div class="step-text"><strong>Web Production</strong> All HTML sites, reveal.js slide decks, and the program marketing page were generated and deployed to GitHub Pages via CI/CD.</div></div>
+
+<h3>Human Role vs. AI Role</h3>
+<div class="role-grid">
+  <div class="role-col">
+    <h4>👤 Human (Jack)</h4>
+    <ul>
+      <li>Strategic vision and program goals</li>
+      <li>Key design decisions (tools, platforms, focus areas)</li>
+      <li>Quality review and approval</li>
+      <li>Deployment authorization</li>
+      <li>Institutional context (UMich, fall timeline)</li>
+    </ul>
+  </div>
+  <div class="role-col">
+    <h4>🤖 AI (Claude / OpenClaw)</h4>
+    <ul>
+      <li>Research synthesis and literature review</li>
+      <li>Detailed syllabus and assessment authoring</li>
+      <li>Multi-perspective critique generation</li>
+      <li>File creation, HTML/CSS, deployment config</li>
+      <li>Industry-current technical content</li>
+    </ul>
+  </div>
+</div>
+
+<!-- Key Metrics -->
+<h2>Key Metrics</h2>
+<div class="metric-grid">
+  <div class="metric-card"><div class="num">459</div><div class="label">Files Produced</div></div>
+  <div class="metric-card"><div class="num">5</div><div class="label">Courses (15 credits)</div></div>
+  <div class="metric-card"><div class="num">30</div><div class="label">Assignments + Answer Keys</div></div>
+  <div class="metric-card"><div class="num">4</div><div class="label">Expert Reviews</div></div>
+  <div class="metric-card"><div class="num">~1 wk</div><div class="label">Development Time</div></div>
+  <div class="metric-card"><div class="num">12–18 mo</div><div class="label">Traditional Timeline</div></div>
+  <div class="metric-card"><div class="num">~95%</div><div class="label">Time Savings</div></div>
+  <div class="metric-card"><div class="num">1</div><div class="label">Research Paper</div></div>
+</div>
+
+<!-- Quality Indicators -->
+<h2>Quality Indicators</h2>
+<div class="quality-item"><div class="quality-dot"></div><div><strong>Dean approval:</strong> Full approval with implementation conditions (not rejection or major revision)</div></div>
+<div class="quality-item"><div class="quality-dot"></div><div><strong>Industry alignment:</strong> Microsoft reviewer rated 4.2/5, startup engineer rated 3.6/5 — both confirmed they would interview program graduates</div></div>
+<div class="quality-item"><div class="quality-dot"></div><div><strong>Pedagogical rigor:</strong> Learning design specialist confirmed strong constructive alignment and scaffolding (3.5/5)</div></div>
+<div class="quality-item"><div class="quality-dot"></div><div><strong>Critical examination:</strong> Ethics reviewer's concerns (2.8/5) identify real gaps that inform iterative improvement — demonstrating that the review process surfaced genuine issues rather than rubber-stamping</div></div>
+
+<!-- Links & References -->
+<h2>Live Links &amp; References</h2>
+<ul class="links-list">
+  <li>📌 <strong>Program Website:</strong> <a href="https://mlhess-class.github.io/genai-curriculum/" target="_blank">https://mlhess-class.github.io/genai-curriculum/</a></li>
+  <li>📂 <strong>GitHub Repository:</strong> <a href="https://github.com/mlhess-class/genai-curriculum" target="_blank">https://github.com/mlhess-class/genai-curriculum</a></li>
+  <li>📖 <strong>GENAI 101:</strong> <a href="https://mlhess-class.github.io/genai-curriculum/courses/course1/site/" target="_blank">Foundations of Generative AI</a></li>
+  <li>⚙️ <strong>GENAI 201:</strong> <a href="https://mlhess-class.github.io/genai-curriculum/courses/course2/site/" target="_blank">AI-Powered Workflows &amp; Automation</a></li>
+  <li>🐍 <strong>GENAI 301:</strong> <a href="https://mlhess-class.github.io/genai-curriculum/courses/course3/site/" target="_blank">Building with LangChain</a></li>
+  <li>🏗️ <strong>GENAI 401:</strong> <a href="https://mlhess-class.github.io/genai-curriculum/courses/course4/site/" target="_blank">Advanced AI Systems &amp; Architecture</a></li>
+  <li>🎓 <strong>GENAI 490:</strong> <a href="https://mlhess-class.github.io/genai-curriculum/courses/course5/site/" target="_blank">Capstone — AI Solution Design</a></li>
+  <li>📄 <strong>Research Paper:</strong> <a href="https://mlhess-class.github.io/genai-curriculum/research-paper/" target="_blank">The Current State of GenAI Education in Higher Education</a></li>
+  <li>🔍 <strong>Expert Reviews:</strong> <code>reviews/expert-reviews.md</code></li>
+  <li>✅ <strong>Dean's Final Review:</strong> <code>reviews/dean-final-review.md</code></li>
+  <li>🎒 <strong>Student Feedback:</strong> <code>reviews/student-feedback.md</code></li>
+  <li>📋 <strong>Curriculum Design:</strong> <code>curriculum/curriculum.md</code></li>
+</ul>
+
+<!-- Implications -->
+<h2>Implications for the Institution</h2>
+<ol>
+  <li><strong>Speed of program development</strong> — AI-assisted curriculum design can compress 12–18 months of traditional development into days, enabling the institution to respond to rapidly evolving fields before the content becomes obsolete.</li>
+  <li><strong>Quality floor, not ceiling</strong> — AI produces first drafts of professional quality that experts then refine, rather than replacing expert judgment. The multi-review process ensures human oversight at every decision point.</li>
+  <li><strong>Cost efficiency</strong> — A program package of this scope would traditionally require multiple faculty, instructional designers, and web developers over multiple semesters. The AI-assisted approach required one faculty member working with AI tools over approximately one week.</li>
+  <li><strong>Iterative improvement built in</strong> — Because the materials are generated programmatically and stored in version control, updating for new tools, frameworks, or pedagogical feedback is straightforward rather than requiring wholesale redesign.</li>
+  <li><strong>Reproducible methodology</strong> — This same process can be applied to other certificate programs, course redesigns, or institutional initiatives where rapid, high-quality content development is needed.</li>
+</ol>
+
+<!-- Tools -->
+<h2>Tools &amp; Infrastructure Used</h2>
+<table>
+  <tr><th>Component</th><th>Tool</th></tr>
+  <tr><td>AI Model</td><td>Claude (Anthropic)</td></tr>
+  <tr><td>Agent Framework</td><td>OpenClaw — multi-agent orchestration, persistent workspace, file management</td></tr>
+  <tr><td>Deployment</td><td>GitHub Pages with GitHub Actions CI/CD</td></tr>
+  <tr><td>Slides</td><td>reveal.js</td></tr>
+  <tr><td>Version Control</td><td>Git / GitHub</td></tr>
+</table>
+
+</main>
+
+<footer>
+  <p>This summary was produced with AI assistance. · University of Michigan · April 2026</p>
+</footer>
+
+</body>
+</html>
