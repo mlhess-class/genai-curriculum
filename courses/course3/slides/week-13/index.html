@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>GENAI 301 — Week 13: Evaluation & Testing</title>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#00274C;color:#FFF;overflow:hidden}
+.deck{height:100vh;display:flex;flex-direction:column}
+.slide{flex:1;display:flex;flex-direction:column;justify-content:center;padding:60px 80px}
+.slide h1{font-size:2.4rem;color:#FFCB05;margin-bottom:8px}
+.slide h2{font-size:1.6rem;margin-bottom:24px;font-weight:400;opacity:.85}
+.slide ul{list-style:none;font-size:1.15rem;line-height:2}
+.slide ul li::before{content:"▸ ";color:#FFCB05}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:12px 30px;background:rgba(0,0,0,.3)}
+.nav button{background:#FFCB05;color:#00274C;border:none;padding:8px 20px;border-radius:4px;font-size:1rem;cursor:pointer;font-weight:600}
+.nav button:disabled{opacity:.3;cursor:default}
+.nav span{font-size:.9rem;opacity:.7}
+.week-tag{font-size:.85rem;opacity:.5;margin-bottom:4px}
+.back-links{text-align:center;padding:8px;background:rgba(0,0,0,.2)}
+.back-links a{color:#FFCB05;font-size:.85rem;text-decoration:none;opacity:.6;margin:0 12px}
+.back-links a:hover{opacity:1}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+const S = [
+  {
+    t:"Welcome to Week 13 — Evaluation & Testing",
+    w:"Week 13",
+    b:[
+      "AI applications need systematic evaluation, not vibes — 'it seems to work' is not a deployment criterion; without metrics you cannot detect regressions, compare models, or justify production decisions",
+      "Traditional software has unit tests and CI pipelines; AI apps need an equivalent — evaluation frameworks provide repeatable, automated measurement of output quality across datasets",
+      "LangSmith provides evaluation infrastructure purpose-built for LLM applications: dataset management, custom evaluator functions, tracing, comparison views, and regression detection in one platform",
+      "The evaluation challenge is unique: outputs are non-deterministic, correctness is often subjective, and small prompt changes can cascade into large behavioral shifts across edge cases",
+      "By end of week you will build evaluation datasets, implement reference-based and LLM-as-judge metrics, create a multi-level test suite, and run automated evaluations in LangSmith"
+    ]
+  },
+  {
+    t:"Evaluation Metrics — Correctness, Relevance & Faithfulness",
+    w:"Week 13",
+    b:[
+      "Correctness measures whether the output matches the expected answer — for factual QA this can be exact match or semantic similarity; for generation tasks it requires fuzzy comparison against reference outputs",
+      "Relevance evaluates whether the response actually addresses the user's question — a factually correct answer that doesn't answer what was asked scores high on correctness but low on relevance",
+      "Faithfulness (groundedness) checks whether claims in the output are supported by the provided context — critical for RAG systems where hallucinating beyond retrieved documents is a failure mode",
+      "Composite scoring combines multiple metrics: a response might score 0.9 correctness, 0.8 relevance, 0.7 faithfulness — weighting these depends on your application's risk tolerance and use case",
+      "Metric selection is architecture-dependent: chatbots prioritize relevance and tone; RAG systems prioritize faithfulness; code generation prioritizes correctness via execution; choose metrics that match your failure modes"
+    ]
+  },
+  {
+    t:"Reference-Based Evaluation",
+    w:"Week 13",
+    b:[
+      "Reference-based evaluation compares model output against a gold-standard answer — you maintain a dataset of (input, expected_output) pairs and score each generation against the reference",
+      "Exact match is the simplest: output == reference — useful for classification, entity extraction, or structured outputs where the correct answer has one canonical form",
+      "Semantic similarity uses embeddings: compute cosine similarity between the output embedding and reference embedding — captures meaning equivalence even when wording differs significantly",
+      "ROUGE and BLEU measure n-gram overlap borrowed from machine translation — ROUGE-L captures longest common subsequence; useful for summarization but less meaningful for open-ended generation",
+      "Building good reference datasets is the hardest part: you need diverse inputs covering edge cases, expert-validated expected outputs, and versioning as your application's requirements evolve over time"
+    ]
+  },
+  {
+    t:"LLM-as-Judge Patterns",
+    w:"Week 13",
+    b:[
+      "LLM-as-judge uses a separate LLM to evaluate another LLM's output — you provide the judge with the question, the response, and a rubric, then it returns a score with reasoning",
+      "Single-point grading: the judge scores one response on a scale (1-5) against criteria — 'Rate this response for helpfulness, accuracy, and completeness. Explain your reasoning before scoring.'",
+      "Pairwise comparison: the judge sees two responses (A and B) and picks the better one — more reliable than absolute scoring because relative judgments are easier than calibrated ratings",
+      "Rubric design is critical: vague criteria ('is it good?') produce inconsistent scores; specific rubrics ('Does the response cite at least 2 sources from the context?') drive reproducible evaluation",
+      "Known biases: LLM judges prefer longer responses (verbosity bias), responses listed first (position bias), and their own outputs (self-preference) — mitigate with randomized ordering and calibration sets"
+    ]
+  },
+  {
+    t:"Human Evaluation Workflows",
+    w:"Week 13",
+    b:[
+      "Human evaluation remains the gold standard for subjective quality — tone, helpfulness, creativity, and safety are dimensions where human judgment is irreplaceable by automated metrics",
+      "Annotation interfaces: LangSmith's annotation queues let reviewers score outputs on custom dimensions, leave feedback, flag failures, and build consensus across multiple annotators",
+      "Inter-annotator agreement (IAA) measures consistency: Cohen's kappa or Krippendorff's alpha quantify whether annotators agree — low IAA means your rubric is ambiguous, not that annotators are bad",
+      "Human-in-the-loop feedback loops: production user feedback (thumbs up/down, corrections, escalations) becomes training signal — route low-confidence or flagged outputs to human review queues",
+      "Scaling human evaluation: use automated metrics for the 90% of cases where they correlate with human judgment, reserve expensive human review for edge cases, failures, and periodic calibration audits"
+    ]
+  },
+  {
+    t:"Testing Strategies — Unit, Integration & Regression",
+    w:"Week 13",
+    b:[
+      "Unit tests validate deterministic components in isolation: prompt templates render correctly, output parsers extract expected fields, tool functions return proper formats — these run fast in CI with no LLM calls",
+      "Integration tests exercise full chains end-to-end with real LLM calls: given input X, does the chain produce output meeting quality thresholds? — slower and costlier but catches interaction bugs between components",
+      "Regression tests protect against quality degradation: maintain a golden dataset of (input, expected_output) pairs, run after every prompt change or model update, alert when scores drop below baseline",
+      "Testing pyramid for AI apps: many unit tests (fast, cheap, deterministic) → fewer integration tests (real LLM calls, quality assertions) → targeted regression tests (golden dataset, threshold monitoring)",
+      "CI/CD integration: run unit tests on every commit, integration tests on PR merge, full regression suite on deployment candidates — fail the pipeline if evaluation scores drop more than 5% from the baseline"
+    ]
+  },
+  {
+    t:"LangSmith Evaluation Infrastructure",
+    w:"Week 13",
+    b:[
+      "LangSmith datasets store versioned (input, output, metadata) examples — create datasets from production traces, manual curation, or synthetic generation; version them as your app evolves",
+      "Custom evaluators are Python functions: def correctness(run, example) → EvaluationResult — receive the run output and dataset example, return a score (0-1) with optional reasoning for debugging",
+      "Running evaluations: evaluate(chain, data=dataset, evaluators=[correctness, relevance, faithfulness]) — LangSmith orchestrates execution, collects scores, and renders comparison dashboards",
+      "Experiment tracking: each evaluation run is an 'experiment' with timestamps, scores, and traces — compare experiments side-by-side to measure impact of prompt changes, model swaps, or parameter tuning",
+      "Production monitoring: LangSmith traces every production call with latency, token usage, and optional online evaluation scores — set alerts for quality drops, latency spikes, or error rate increases"
+    ]
+  },
+  {
+    t:"Lab & Week 13 Summary",
+    w:"Week 13",
+    b:[
+      "Lab: create an evaluation dataset with 20+ diverse examples covering normal cases, edge cases, and adversarial inputs — store in LangSmith with metadata tags for filtering and stratified analysis",
+      "Implement 3 evaluation metrics: a reference-based semantic similarity scorer, an LLM-as-judge faithfulness evaluator with a detailed rubric, and a custom heuristic checker for format compliance",
+      "Run a full evaluation in LangSmith: execute your chain against the dataset, collect scores across all three metrics, identify the lowest-scoring examples, and iterate on your prompt to improve them",
+      "Key takeaways: evaluation is not optional — it's the foundation of reliable AI apps; combine automated metrics with human review; test at every level; use LangSmith to track quality over time",
+      "Next week: Deployment & Production — taking your evaluated, tested LLM application from notebook to production with serving infrastructure, monitoring, scaling strategies, and operational best practices"
+    ]
+  }
+];
+
+const e=React.createElement;
+function App(){
+const[i,setI]=React.useState(0);
+const s=S[i];
+React.useEffect(()=>{
+const h=ev=>{if(ev.key==='ArrowRight'&&i<S.length-1)setI(i+1);if(ev.key==='ArrowLeft'&&i>0)setI(i-1)};
+window.addEventListener('keydown',h);return()=>window.removeEventListener('keydown',h);
+},[i]);
+return e('div',{className:'deck'},
+e('div',{className:'slide'},
+s.w&&e('div',{className:'week-tag'},s.w),
+e('h1',null,s.t),
+e('ul',null,...s.b.map((x,j)=>e('li',{key:j},x)))
+),
+e('div',{className:'nav'},
+e('button',{onClick:()=>setI(i-1),disabled:i===0},'← Prev'),
+e('span',null,(i+1)+' / '+S.length),
+e('button',{onClick:()=>setI(i+1),disabled:i===S.length-1},'Next →')
+),
+e('div',{className:'back-links'},
+e('a',{href:'../index.html'},'← Full Deck'),
+e('a',{href:'../../site/index.html'},'Course Home')
+)
+);
+}
+ReactDOM.createRoot(document.getElementById('root')).render(e(App));
+</script>
+</body>
+</html>

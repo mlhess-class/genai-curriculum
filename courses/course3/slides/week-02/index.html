@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>GENAI 301 — Week 2: Introduction to LangChain</title>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Segoe UI',system-ui,sans-serif;background:#00274C;color:#FFF;overflow:hidden}.deck{height:100vh;display:flex;flex-direction:column}.slide{flex:1;display:flex;flex-direction:column;justify-content:center;padding:60px 80px}.slide h1{font-size:2.4rem;color:#FFCB05;margin-bottom:8px}.slide h2{font-size:1.6rem;margin-bottom:24px;font-weight:400;opacity:.85}.slide ul{list-style:none;font-size:1.15rem;line-height:2}.slide ul li::before{content:"▸ ";color:#FFCB05}.nav{display:flex;justify-content:space-between;align-items:center;padding:12px 30px;background:rgba(0,0,0,.3)}.nav button{background:#FFCB05;color:#00274C;border:none;padding:8px 20px;border-radius:4px;font-size:1rem;cursor:pointer;font-weight:600}.nav button:disabled{opacity:.3;cursor:default}.nav span{font-size:.9rem;opacity:.7}.week-tag{font-size:.85rem;opacity:.5;margin-bottom:4px}.back-links{text-align:center;padding:8px;background:rgba(0,0,0,.2)}.back-links a{color:#FFCB05;font-size:.85rem;text-decoration:none;opacity:.6;margin:0 12px}.back-links a:hover{opacity:1}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+const S = [
+  {
+    t:"Welcome: What Is LangChain & Why It Matters",
+    w:"Week 2 — Introduction to LangChain",
+    b:[
+      "LangChain is an open-source framework (Python & JS/TS) that provides composable building blocks for LLM-powered applications — chains, agents, retrieval, memory, and tool use",
+      "Without a framework, LLM apps devolve into tangled prompt strings, manual retry logic, and brittle API glue code; LangChain abstracts these patterns into reusable, testable components",
+      "Real-world adoption: thousands of production apps use LangChain for RAG pipelines, autonomous agents, structured data extraction, and multi-model orchestration across OpenAI, Anthropic, and Google",
+      "Key value proposition — swap models, vector stores, or tools without rewriting application logic; the abstraction layer decouples your business logic from any single provider",
+      "By the end of today you will install LangChain, make LLM calls through its abstractions, build your first chain with LCEL, and parse structured output — the foundation for everything that follows"
+    ]
+  },
+  {
+    t:"LangChain Architecture: Packages & Abstractions",
+    w:"Week 2 — Introduction to LangChain",
+    b:[
+      "Core abstractions form a layered stack: Models (LLMs & ChatModels) → Prompts (templates & few-shot) → Output Parsers → Chains → Agents → Retrieval — each layer builds on the one below",
+      "langchain-core (pip install langchain-core) contains the base interfaces — Runnable, BaseMessage, PromptTemplate, BaseChatModel — with zero third-party LLM dependencies for a minimal footprint",
+      "Provider packages (langchain-openai, langchain-anthropic, langchain-google-genai) implement the interfaces for specific APIs; install only what you need to keep environments lean",
+      "Design philosophy: 'opinionated but not rigid' — LangChain provides sensible defaults (retry, streaming, callbacks) while exposing every knob for customization when you need fine-grained control",
+      "The Runnable Protocol is the unifying contract: every component implements invoke(), batch(), stream(), and their async variants — making any piece interchangeable and composable via LCEL"
+    ]
+  },
+  {
+    t:"The LangChain Ecosystem: Core, Community & Tooling",
+    w:"Week 2 — Introduction to LangChain",
+    b:[
+      "langchain-community houses 700+ third-party integrations — vector stores (Pinecone, Chroma, Weaviate), document loaders (PDF, web, S3), tools (search, calculators, APIs) — contributed by the open-source community",
+      "LangSmith is the observability platform: it captures full execution traces (every LLM call, retriever hit, chain step) with latency, token counts, and cost — essential for debugging complex chains and agents",
+      "LangServe wraps any LCEL chain as a production REST API with auto-generated docs, streaming endpoints, and playground UI — go from notebook prototype to deployed microservice in minutes",
+      "LangGraph extends LangChain for stateful, multi-step agent workflows using a graph-based execution model with cycles, conditional edges, and persistent state — the successor to legacy AgentExecutor",
+      "Versioning strategy: langchain-core follows semver strictly (breaking changes = major bump), while community and provider packages iterate independently — always pin your core version in production"
+    ]
+  },
+  {
+    t:"LCEL Fundamentals: The Pipe Operator & Runnables",
+    w:"Week 2 — Introduction to LangChain",
+    b:[
+      "LCEL (LangChain Expression Language) uses the | pipe operator to chain Runnables: prompt | model | parser reads left-to-right, each component's output becomes the next component's input",
+      "Every Runnable exposes a consistent interface — invoke(input) for single calls, batch([inputs]) for parallel execution, stream(input) for token-by-token output, and astream/ainvoke for async",
+      "RunnablePassthrough passes input unchanged (useful for routing data around steps); RunnableParallel runs multiple branches concurrently and merges results into a dict — key patterns for RAG",
+      "Type safety with Pydantic: LCEL chains carry input/output schemas that propagate through the pipeline, enabling auto-validation, IDE autocomplete, and self-documenting API contracts via LangServe",
+      "Under the hood, | calls __or__ which constructs a RunnableSequence — the DAG is built at definition time, enabling LangSmith to visualize the full execution graph before a single token is generated"
+    ]
+  },
+  {
+    t:"Making LLM Calls: ChatOpenAI, ChatAnthropic & More",
+    w:"Week 2 — Introduction to LangChain",
+    b:[
+      "ChatOpenAI(model='gpt-4o') wraps the OpenAI Chat Completions API — pass temperature, max_tokens, top_p as constructor args; all calls return AIMessage objects with .content and .response_metadata",
+      "ChatAnthropic(model='claude-sonnet-4-20250514') follows the same BaseChatModel interface — swap one line to switch providers; your chains, parsers, and agents continue working without modification",
+      "ChatGoogleGenerativeAI(model='gemini-2.0-flash') adds Google's models to the mix — supports multimodal inputs (images via HumanMessage with image_url), streaming, and tool calling out of the box",
+      "Message types matter: SystemMessage sets behavior, HumanMessage carries user input, AIMessage holds model responses — LangChain auto-converts prompt templates into the correct message sequence for each provider",
+      "Practical tips: set OPENAI_API_KEY / ANTHROPIC_API_KEY as environment variables; use model.with_fallbacks([backup_model]) for automatic failover; enable streaming with 'for chunk in model.stream(messages)' for responsive UIs"
+    ]
+  },
+  {
+    t:"Your First Chain: Prompt → Model → Parser",
+    w:"Week 2 — Introduction to LangChain",
+    b:[
+      "ChatPromptTemplate.from_messages([('system','...'),('human','{input}')]) creates a reusable template with typed variables — no more f-string spaghetti; templates validate inputs and support few-shot examples",
+      "Output parsers transform raw model text into structured data: StrOutputParser() extracts .content as a string; JsonOutputParser(pydantic_object=MySchema) enforces a Pydantic model with automatic retry on malformed JSON",
+      "Build the chain: chain = prompt | model | parser — invoke it with chain.invoke({'input':'Explain LangChain in one sentence'}) and get a clean, typed result instead of raw API response objects",
+      "Compare the abstraction: raw OpenAI API needs 8+ lines (client init, message formatting, API call, error handling, response parsing); the equivalent LCEL chain is 3 lines with built-in retries and streaming",
+      "PydanticOutputParser generates format instructions automatically — inject them into your prompt with parser.get_format_instructions(), and the model returns validated JSON that maps directly to your Python dataclass"
+    ]
+  },
+  {
+    t:"Debugging & Tracing with LangSmith",
+    w:"Week 2 — Introduction to LangChain",
+    b:[
+      "Enable tracing by setting LANGCHAIN_TRACING_V2=true and LANGCHAIN_API_KEY=<key> — every chain.invoke() call is captured with full input/output, latency, token usage, and cost at each step",
+      "The LangSmith trace viewer shows a hierarchical flame graph: expand any node to see the exact prompt sent, the raw model response, parser transformations, and retry attempts — invaluable for diagnosing prompt issues",
+      "Create datasets and run evaluations: upload input/expected-output pairs, run your chain against them, and score results with built-in metrics (correctness, faithfulness, relevance) or custom evaluators",
+      "set_debug(True) enables verbose local logging to stdout — useful for quick iteration without LangSmith; combine with callbacks like StdOutCallbackHandler() to see every step as it executes in your terminal",
+      "Production monitoring: LangSmith tracks success rates, P50/P95 latencies, cost per run, and error distributions over time — set up alerts for regressions and use A/B testing to compare prompt versions at scale"
+    ]
+  },
+  {
+    t:"Week 2 Summary & What's Next",
+    w:"Week 2 — Introduction to LangChain",
+    b:[
+      "Today we built a mental model of LangChain's architecture: langchain-core for interfaces, provider packages for models, langchain-community for integrations, and LCEL as the composition glue",
+      "You wrote your first LCEL chain (prompt | model | parser), compared it to raw API calls, and experienced the power of swappable components — change one piece without touching the rest",
+      "Key takeaway: the Runnable protocol (invoke/batch/stream) is the universal contract — every component speaks the same language, making complex pipelines as simple as snapping Lego bricks together",
+      "Lab deliverable: a working Python script that installs LangChain, makes LLM calls to at least two providers, parses structured output via PydanticOutputParser, and produces a clean LangSmith trace",
+      "Next week we dive into Prompt Engineering & Templates — advanced template composition, few-shot learning, output parsing strategies, and building a reusable prompt library for your projects"
+    ]
+  }
+];
+const e=React.createElement;function App(){const[i,setI]=React.useState(0);const s=S[i];React.useEffect(()=>{const h=ev=>{if(ev.key==='ArrowRight'&&i<S.length-1)setI(i+1);if(ev.key==='ArrowLeft'&&i>0)setI(i-1)};window.addEventListener('keydown',h);return()=>window.removeEventListener('keydown',h)},[i]);return e('div',{className:'deck'},e('div',{className:'slide'},s.w&&e('div',{className:'week-tag'},s.w),e('h1',null,s.t),e('ul',null,...s.b.map((x,j)=>e('li',{key:j},x)))),e('div',{className:'nav'},e('button',{onClick:()=>setI(i-1),disabled:i===0},'← Prev'),e('span',null,(i+1)+' / '+S.length),e('button',{onClick:()=>setI(i+1),disabled:i===S.length-1},'Next →')),e('div',{className:'back-links'},e('a',{href:'../index.html'},'← Full Deck'),e('a',{href:'../../site/index.html'},'Course Home')))}ReactDOM.createRoot(document.getElementById('root')).render(e(App));
+</script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GENAI 101 — Week 2: How LLMs Work</title>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#00274C;color:#e8e8e8;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center}
+#root{width:100%;max-width:960px;padding:20px}
+.slide-container{background:linear-gradient(135deg,#001a33 0%,#00274C 50%,#001a33 100%);border:1px solid #FFCB05;border-radius:12px;padding:48px;min-height:520px;display:flex;flex-direction:column;justify-content:flex-start;box-shadow:0 8px 32px rgba(0,0,0,0.4)}
+.week-label{color:#FFCB05;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px}
+.slide-title{font-size:28px;font-weight:700;color:#FFCB05;margin-bottom:28px;line-height:1.3;border-bottom:2px solid rgba(255,203,5,0.3);padding-bottom:12px}
+.slide-bullets{list-style:none;flex:1}
+.slide-bullets li{font-size:17px;line-height:1.6;margin-bottom:14px;padding-left:24px;position:relative;color:#d4d4d4}
+.slide-bullets li::before{content:"\25B8";position:absolute;left:0;color:#FFCB05;font-size:14px}
+.controls{display:flex;align-items:center;justify-content:space-between;margin-top:20px}
+.controls button{background:#FFCB05;color:#00274C;border:none;padding:10px 24px;border-radius:6px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s}
+.controls button:hover{background:#ffd633;transform:translateY(-1px)}
+.controls button:disabled{opacity:0.3;cursor:default;transform:none}
+.slide-counter{color:#FFCB05;font-size:14px;font-weight:600}
+.header{text-align:center;margin-bottom:24px}
+.header h1{font-size:22px;color:#FFCB05;font-weight:700}
+.header p{color:#8899aa;font-size:13px;margin-top:4px}
+.back-link{text-align:center;margin-top:16px}
+.back-link a{color:#FFCB05;font-size:14px;text-decoration:none;opacity:0.7}
+.back-link a:hover{opacity:1;text-decoration:underline}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const slides = [{w:"Week 2",t:"What Is a Large Language Model (LLM)?",b:["An LLM is a neural network trained on massive text datasets to predict the next token in a sequence","'Large' refers to parameter count: GPT-4 has over 1 trillion parameters; even 'small' models have billions","LLMs are foundation models — trained generally, then adapted to specific tasks via prompting or fine-tuning","They do not 'understand' language the way humans do; they model statistical patterns in text","Despite this, emergent behaviors arise at scale: reasoning, translation, coding, and creative writing"]},
+{w:"Week 2",t:"Tokenization: How Text Becomes Numbers",b:["Computers process numbers, not words — tokenization converts text into numerical tokens","A token is typically a word piece: 'unhappiness' might become ['un', 'happi', 'ness']","Common words are single tokens; rare words get split into subword pieces","GPT-4 uses ~100,000 token vocabulary; the average English word is about 1.3 tokens","Token limits matter: a model with a 128K context window can process ~96,000 words at once"]},
+{w:"Week 2",t:"Embeddings: Meaning as Geometry",b:["Each token is mapped to a high-dimensional vector (embedding) that captures semantic meaning","Similar concepts cluster together: 'king' and 'queen' are closer than 'king' and 'banana'","The famous example: vector('king') - vector('man') + vector('woman') ≈ vector('queen')","Embeddings are learned during training — the model discovers relationships, not a human programmer","These vectors have hundreds or thousands of dimensions, capturing nuances humans cannot visualize"]},
+{w:"Week 2",t:"The Transformer Architecture",b:["Transformers process all tokens in a sequence simultaneously (parallel), unlike older sequential models","Self-attention is the key mechanism: each token 'attends' to every other token to understand context","'The bank by the river' vs 'The bank approved my loan' — attention resolves 'bank' differently","Multi-head attention runs multiple attention patterns in parallel, capturing different relationships","Layer by layer, the model builds increasingly abstract representations of meaning"]},
+{w:"Week 2",t:"How Text Generation Works",b:["Generation is autoregressive: the model predicts one token at a time, then feeds it back as input","At each step, the model outputs a probability distribution over all possible next tokens","Temperature controls randomness: low temperature (0.0) = deterministic; high (1.0+) = creative/random","Top-p (nucleus sampling) limits choices to tokens whose cumulative probability exceeds a threshold","The model has no memory between conversations — each prompt is processed independently"]},
+{w:"Week 2",t:"Context Windows and Attention",b:["The context window is the maximum number of tokens a model can process in one interaction","GPT-4 Turbo: 128K tokens; Claude 3: 200K tokens; Gemini 1.5 Pro: up to 1M tokens","Longer context windows allow processing entire books, codebases, or lengthy conversations","Attention cost scales quadratically with sequence length — longer contexts are more expensive","In practice, models may lose focus on middle sections of very long contexts ('lost in the middle')"]},
+{w:"Week 2",t:"Pre-training, Fine-tuning, and RLHF",b:["Pre-training: model learns language patterns from trillions of tokens scraped from the internet","Fine-tuning: model is further trained on curated datasets for specific tasks or behaviors","RLHF (Reinforcement Learning from Human Feedback): humans rate outputs to align the model","RLHF is why ChatGPT feels helpful and safe — it was trained to prefer helpful, harmless responses","Constitutional AI (Anthropic/Claude) uses AI-generated feedback guided by explicit principles"]},
+{w:"Week 2",t:"Week 2 Summary and Key Takeaways",b:["LLMs convert text to tokens, embed them as vectors, and use attention to model relationships","Generation is probabilistic next-token prediction — not retrieval or rule-following","Temperature and top-p control the creativity vs. determinism tradeoff","Context windows define how much information the model can consider at once","RLHF and fine-tuning shape model behavior from raw language modeling to helpful assistant"]}];
+
+function App() {
+  const [idx, setIdx] = React.useState(0);
+  const total = slides.length;
+  const slide = slides[idx];
+
+  React.useEffect(() => {
+    const handler = (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); setIdx(i => Math.min(i + 1, total - 1)); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); setIdx(i => Math.max(i - 1, 0)); }
+      if (e.key === 'Home') { e.preventDefault(); setIdx(0); }
+      if (e.key === 'End') { e.preventDefault(); setIdx(total - 1); }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [total]);
+
+  return (
+    <div id="root-inner">
+      <div className="header">
+        <h1>GENAI 101 — Week 2: How LLMs Work</h1>
+        <p>University of Michigan &bull; Foundations of Generative AI</p>
+      </div>
+      <div className="slide-container">
+        <div className="week-label">{slide.w}</div>
+        <div className="slide-title">{slide.t}</div>
+        <ul className="slide-bullets">
+          {slide.b.map((bullet, i) => <li key={i}>{bullet}</li>)}
+        </ul>
+      </div>
+      <div className="controls">
+        <button disabled={idx === 0} onClick={() => setIdx(idx - 1)}>&larr; Previous</button>
+        <span className="slide-counter">Slide {idx + 1} of {total}</span>
+        <button disabled={idx === total - 1} onClick={() => setIdx(idx + 1)}>Next &rarr;</button>
+      </div>
+      <div className="back-link"><a href="../index.html">&larr; Full Slide Deck</a> &nbsp;|&nbsp; <a href="../../site/index.html">Course Home</a></div>
+    </div>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+</script>
+</body>
+</html>

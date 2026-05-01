@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>GENAI 301 — Week 8: Midterm Review & Project</title>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#00274C;color:#FFF;overflow:hidden}
+.deck{height:100vh;display:flex;flex-direction:column}
+.slide{flex:1;display:flex;flex-direction:column;justify-content:center;padding:60px 80px}
+.slide h1{font-size:2.4rem;color:#FFCB05;margin-bottom:8px}
+.slide h2{font-size:1.6rem;margin-bottom:24px;font-weight:400;opacity:.85}
+.slide ul{list-style:none;font-size:1.15rem;line-height:2}
+.slide ul li::before{content:"▸ ";color:#FFCB05}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:12px 30px;background:rgba(0,0,0,.3)}
+.nav button{background:#FFCB05;color:#00274C;border:none;padding:8px 20px;border-radius:4px;font-size:1rem;cursor:pointer;font-weight:600}
+.nav button:disabled{opacity:.3;cursor:default}
+.nav span{font-size:.9rem;opacity:.7}
+.week-tag{font-size:.85rem;opacity:.5;margin-bottom:4px}
+.back-links{text-align:center;padding:8px;background:rgba(0,0,0,.2)}
+.back-links a{color:#FFCB05;font-size:.85rem;text-decoration:none;opacity:.6;margin:0 12px}
+.back-links a:hover{opacity:1}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+const S = [
+  {
+    t:"Midterm Review & Project — Building a Complete RAG Application",
+    w:"Week 8",
+    b:[
+      "Welcome to the midterm checkpoint: you've mastered Python, LangChain, and RAG fundamentals over Weeks 1–7 — now you synthesize everything into one cohesive application",
+      "Midterm project: build a complete RAG application from scratch with a minimum of 3 document sources, a conversational interface, and persistent chat history",
+      "This is an open-book, open-resource project — you may use any tools, libraries, or references, but all code must be your own and you must explain every design decision",
+      "Today's session: rapid review of core concepts from each week, followed by architecture planning and Q&A for your midterm implementation",
+      "Deliverables are due at the start of Week 10: working application, README with architecture diagram, 2-page reflection document, and a recorded 5-minute demo walkthrough"
+    ]
+  },
+  {
+    t:"Review — Week 1: Python Foundations for AI Development",
+    w:"Week 8",
+    b:[
+      "Variables, data types, and collections: dicts for API payloads, lists for chat histories, f-strings for prompt templates — these primitives are the atoms of every AI application",
+      "Functions with type hints and default arguments: def query_rag(question: str, top_k: int = 5) -> str: — composable functions are how you structure your midterm's pipeline",
+      "Environment setup: virtual environments isolate dependencies, .env files protect API keys, project structure (src/, tests/, .gitignore) keeps your codebase professional and portable",
+      "Working with APIs and JSON: requests.post() for HTTP calls, json.loads()/dumps() for serialization, status code handling and exponential backoff for resilient applications",
+      "Key midterm connection: your project's foundation is clean Python — well-structured functions, proper error handling, and secure configuration management are baseline expectations"
+    ]
+  },
+  {
+    t:"Review — Weeks 2–3: LangChain Core Concepts",
+    w:"Week 8",
+    b:[
+      "LangChain's abstraction layers: Models (LLM wrappers), Prompts (templates with variables), Output Parsers (structured extraction), and Chains (composable pipelines) form the framework's spine",
+      "Prompt engineering within LangChain: ChatPromptTemplate.from_messages() builds system/human/AI message sequences — your midterm's conversational quality depends on well-crafted prompts",
+      "Chains and LCEL (LangChain Expression Language): the pipe operator (|) composes retriever | prompt | llm | parser into readable, debuggable data flows you'll use end-to-end",
+      "Memory and chat history: ConversationBufferMemory, ConversationSummaryMemory, and window-based variants — your midterm requires multi-turn conversation, so choose a memory strategy wisely",
+      "Key midterm connection: LangChain is your project's orchestration layer — selecting the right chain pattern and memory type determines whether your app feels like a chatbot or a knowledge engine"
+    ]
+  },
+  {
+    t:"Review — Weeks 4–5: Advanced LangChain & Tool Integration",
+    w:"Week 8",
+    b:[
+      "Agents and tool calling: LangChain agents decide which tools to invoke at runtime — understand the ReAct loop (Reason → Act → Observe) even if your midterm uses a simpler chain pattern",
+      "Document loaders: PyPDFLoader, TextLoader, CSVLoader, WebBaseLoader — your midterm requires minimum 3 sources, so plan which loaders match your chosen document types",
+      "Text splitting strategies: RecursiveCharacterTextSplitter with chunk_size and chunk_overlap parameters directly impacts retrieval quality — experiment with 500–1000 char chunks and 100–200 overlap",
+      "Callbacks and debugging: LangChain's verbose mode and callback handlers let you trace every step of your chain — essential for diagnosing why retrieval returns irrelevant results",
+      "Key midterm connection: document loading and splitting are the data preparation backbone — garbage in, garbage out applies doubly to RAG; invest time in chunking strategy before writing retrieval code"
+    ]
+  },
+  {
+    t:"Review — Weeks 6–7: RAG Pipeline End-to-End",
+    w:"Week 8",
+    b:[
+      "Embedding models convert text to vectors: OpenAIEmbeddings or HuggingFace sentence-transformers map chunks into high-dimensional space where semantic similarity becomes geometric distance",
+      "Vector stores (Chroma, FAISS, Pinecone): ingest embedded chunks, perform similarity search with score thresholds — your midterm must demonstrate loading documents into a vector store and querying them",
+      "Retrieval strategies: basic similarity search, MMR (maximal marginal relevance) for diversity, metadata filtering for scoped queries — choose based on your document corpus characteristics",
+      "The full RAG chain: user question → embed query → retrieve top-k chunks → inject into prompt context → LLM generates grounded answer — this is the core architecture your midterm implements",
+      "Key midterm connection: Weeks 6–7 gave you the complete RAG pattern — your project extends it with multiple sources, conversation history, and a user-facing interface that ties everything together"
+    ]
+  },
+  {
+    t:"Midterm Architecture Guidance — Designing Your RAG Application",
+    w:"Week 8",
+    b:[
+      "Start with data: select 3+ document sources (e.g., PDF manuals, web pages, CSV data) that share a coherent domain — a focused corpus produces better retrieval than random documents",
+      "Pipeline architecture: Ingest Layer (load → split → embed → store) → Retrieval Layer (query → search → rank → filter) → Generation Layer (context + history → prompt → LLM → response)",
+      "Conversational interface options: Streamlit for rapid prototyping, Gradio for quick chat UIs, or a simple CLI loop — pick what lets you focus on RAG quality, not frontend polish",
+      "Chat history integration: store messages in a list, pass recent N turns as context, or use LangChain's ConversationBufferWindowMemory — the LLM must understand follow-up questions like 'tell me more about that'",
+      "Modular code structure: separate modules for ingestion (ingest.py), retrieval (retriever.py), generation (chain.py), and interface (app.py) — this makes debugging, testing, and grading straightforward"
+    ]
+  },
+  {
+    t:"Common Pitfalls & Debugging Tips",
+    w:"Week 8",
+    b:[
+      "Pitfall #1 — oversized chunks: if chunks exceed 1500 characters, retrieved context floods the prompt window and dilutes answer quality; keep chunks focused and test with real queries early",
+      "Pitfall #2 — ignoring metadata: attach source filename, page number, and section title to each chunk so your app can cite sources — grading rewards traceability and attribution",
+      "Pitfall #3 — no error handling: API rate limits, empty retrievals, and malformed inputs will crash your demo — wrap external calls in try/except, provide fallback responses, and log errors",
+      "Debugging workflow: enable LangChain verbose=True, print retrieved chunks before generation, compare raw retrieval scores, and test edge cases (empty queries, off-topic questions, very long inputs)",
+      "Performance tip: persist your vector store to disk after initial ingestion so you don't re-embed on every restart — Chroma's persist_directory and FAISS's save_local/load_local save minutes per iteration"
+    ]
+  },
+  {
+    t:"Grading Criteria, Deliverables & What's Ahead",
+    w:"Week 8",
+    b:[
+      "Grading breakdown: working application (40%), code quality and architecture (20%), README and documentation (15%), reflection paper (15%), recorded demo (10%) — a running app is the minimum bar",
+      "Deliverables checklist: Git repository with clean commit history, requirements.txt or pyproject.toml, .env.example (no real keys), README with setup instructions and architecture diagram, reflection PDF",
+      "Excellence signals: source citations in answers, graceful handling of out-of-scope questions, meaningful evaluation (test queries with expected answers), and a thoughtful reflection on design tradeoffs",
+      "You have built every component individually over 7 weeks — the midterm is integration, not invention; trust your fundamentals and focus on clean wiring between the pieces you already understand",
+      "Looking ahead: Weeks 9–15 cover evaluation metrics, advanced retrieval (hybrid search, re-ranking), production deployment, fine-tuning, and your capstone — the midterm is your launchpad for the second half"
+    ]
+  }
+];
+
+const e=React.createElement;
+function App(){
+const[i,setI]=React.useState(0);
+const s=S[i];
+React.useEffect(()=>{
+const h=ev=>{if(ev.key==='ArrowRight'&&i<S.length-1)setI(i+1);if(ev.key==='ArrowLeft'&&i>0)setI(i-1)};
+window.addEventListener('keydown',h);return()=>window.removeEventListener('keydown',h);
+},[i]);
+return e('div',{className:'deck'},
+e('div',{className:'slide'},
+s.w&&e('div',{className:'week-tag'},s.w),
+e('h1',null,s.t),
+e('ul',null,...s.b.map((x,j)=>e('li',{key:j},x)))
+),
+e('div',{className:'nav'},
+e('button',{onClick:()=>setI(i-1),disabled:i===0},'← Prev'),
+e('span',null,(i+1)+' / '+S.length),
+e('button',{onClick:()=>setI(i+1),disabled:i===S.length-1},'Next →')
+),
+e('div',{className:'back-links'},
+e('a',{href:'../index.html'},'← Full Deck'),
+e('a',{href:'../../site/index.html'},'Course Home')
+)
+);
+}
+ReactDOM.createRoot(document.getElementById('root')).render(e(App));
+</script>
+</body>
+</html>

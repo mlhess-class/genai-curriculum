@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GENAI 101 — Week 9: Ethics: Bias & Fairness</title>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#00274C;color:#e8e8e8;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center}
+#root{width:100%;max-width:960px;padding:20px}
+.slide-container{background:linear-gradient(135deg,#001a33 0%,#00274C 50%,#001a33 100%);border:1px solid #FFCB05;border-radius:12px;padding:48px;min-height:520px;display:flex;flex-direction:column;justify-content:flex-start;box-shadow:0 8px 32px rgba(0,0,0,0.4)}
+.week-label{color:#FFCB05;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px}
+.slide-title{font-size:28px;font-weight:700;color:#FFCB05;margin-bottom:28px;line-height:1.3;border-bottom:2px solid rgba(255,203,5,0.3);padding-bottom:12px}
+.slide-bullets{list-style:none;flex:1}
+.slide-bullets li{font-size:17px;line-height:1.6;margin-bottom:14px;padding-left:24px;position:relative;color:#d4d4d4}
+.slide-bullets li::before{content:"\25B8";position:absolute;left:0;color:#FFCB05;font-size:14px}
+.controls{display:flex;align-items:center;justify-content:space-between;margin-top:20px}
+.controls button{background:#FFCB05;color:#00274C;border:none;padding:10px 24px;border-radius:6px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s}
+.controls button:hover{background:#ffd633;transform:translateY(-1px)}
+.controls button:disabled{opacity:0.3;cursor:default;transform:none}
+.slide-counter{color:#FFCB05;font-size:14px;font-weight:600}
+.header{text-align:center;margin-bottom:24px}
+.header h1{font-size:22px;color:#FFCB05;font-weight:700}
+.header p{color:#8899aa;font-size:13px;margin-top:4px}
+.back-link{text-align:center;margin-top:16px}
+.back-link a{color:#FFCB05;font-size:14px;text-decoration:none;opacity:0.7}
+.back-link a:hover{opacity:1;text-decoration:underline}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const slides = [{w:"Week 9",t:"Why AI Ethics Matters",b:["AI systems make or influence decisions affecting millions — hiring, lending, healthcare, criminal justice","Unlike traditional software, AI behavior emerges from data patterns that may encode societal biases","The speed of AI deployment outpaces regulation — ethical frameworks must be built proactively","AI ethics is not abstract philosophy — it directly impacts real people's lives and opportunities","As AI practitioners, you have a professional responsibility to consider the impact of the tools you use"]},
+{w:"Week 9",t:"Bias in AI Systems",b:["Training data reflects historical biases: if past hiring data favored men, the AI will too","Amazon scrapped an AI hiring tool in 2018 after discovering it penalized resumes containing the word 'women's'","Representation bias: underrepresented groups in training data get worse model performance","Measurement bias: using proxy variables (zip code for race) can encode discrimination indirectly","Bias is not just a technical problem — it requires diverse teams, auditing, and ongoing monitoring"]},
+{w:"Week 9",t:"Fairness: Definitions and Trade-offs",b:["Individual fairness: similar people should receive similar predictions or outcomes","Group fairness: outcomes should be equivalent across protected groups (race, gender, age)","These definitions can mathematically conflict — you cannot always satisfy all fairness criteria simultaneously","Disparate impact: a neutral-seeming criterion that disproportionately affects a protected group","Context matters: what counts as 'fair' in medical diagnosis differs from criminal sentencing"]},
+{w:"Week 9",t:"Transparency and Explainability",b:["LLMs are 'black boxes' — even their creators cannot fully explain why they produce specific outputs","Explainability: can you understand WHY the model made a particular prediction or recommendation?","The 'right to explanation' is increasingly enshrined in law (EU AI Act, GDPR Article 22)","Techniques: attention visualization, feature importance, counterfactual explanations","Trade-off: more powerful models (deep learning) tend to be less interpretable than simpler ones"]},
+{w:"Week 9",t:"Accountability and Governance",b:["When AI makes a harmful decision, who is responsible? The developer? The deployer? The user?","Current legal frameworks struggle with AI accountability — liability is often unclear","AI governance frameworks: NIST AI RMF, EU AI Act, IEEE Ethically Aligned Design","Organizations need AI review boards, impact assessments, and clear escalation procedures","Documentation matters: model cards, datasheets for datasets, and audit trails enable accountability"]},
+{w:"Week 9",t:"Environmental and Labor Impact",b:["Training GPT-4 is estimated to have cost $100M+ in compute and significant energy consumption","A single ChatGPT query uses ~10x the energy of a Google search","AI training relies on human labelers — often low-paid workers in developing countries","Content moderation for AI safety has documented psychological harm to workers reviewing toxic content","The environmental and human costs of AI should factor into decisions about when and how to use it"]},
+{w:"Week 9",t:"Week 9 Summary and Key Takeaways",b:["AI systems can perpetuate and amplify existing societal biases present in training data","Fairness has multiple valid definitions that can conflict — context determines the right approach","Transparency and explainability are both ethical requirements and increasingly legal requirements","Accountability frameworks are still evolving — documentation and governance structures are essential","Every AI user shares responsibility for ethical use — not just AI developers and companies"]}];
+
+function App() {
+  const [idx, setIdx] = React.useState(0);
+  const total = slides.length;
+  const slide = slides[idx];
+
+  React.useEffect(() => {
+    const handler = (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); setIdx(i => Math.min(i + 1, total - 1)); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); setIdx(i => Math.max(i - 1, 0)); }
+      if (e.key === 'Home') { e.preventDefault(); setIdx(0); }
+      if (e.key === 'End') { e.preventDefault(); setIdx(total - 1); }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [total]);
+
+  return (
+    <div id="root-inner">
+      <div className="header">
+        <h1>GENAI 101 — Week 9: Ethics: Bias & Fairness</h1>
+        <p>University of Michigan &bull; Foundations of Generative AI</p>
+      </div>
+      <div className="slide-container">
+        <div className="week-label">{slide.w}</div>
+        <div className="slide-title">{slide.t}</div>
+        <ul className="slide-bullets">
+          {slide.b.map((bullet, i) => <li key={i}>{bullet}</li>)}
+        </ul>
+      </div>
+      <div className="controls">
+        <button disabled={idx === 0} onClick={() => setIdx(idx - 1)}>&larr; Previous</button>
+        <span className="slide-counter">Slide {idx + 1} of {total}</span>
+        <button disabled={idx === total - 1} onClick={() => setIdx(idx + 1)}>Next &rarr;</button>
+      </div>
+      <div className="back-link"><a href="../index.html">&larr; Full Slide Deck</a> &nbsp;|&nbsp; <a href="../../site/index.html">Course Home</a></div>
+    </div>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+</script>
+</body>
+</html>

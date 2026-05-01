@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>GENAI 301 — Week 9: Advanced RAG Techniques</title>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#00274C;color:#FFF;overflow:hidden}
+.deck{height:100vh;display:flex;flex-direction:column}
+.slide{flex:1;display:flex;flex-direction:column;justify-content:center;padding:60px 80px}
+.slide h1{font-size:2.4rem;color:#FFCB05;margin-bottom:8px}
+.slide h2{font-size:1.6rem;margin-bottom:24px;font-weight:400;opacity:.85}
+.slide ul{list-style:none;font-size:1.15rem;line-height:2}
+.slide ul li::before{content:"▸ ";color:#FFCB05}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:12px 30px;background:rgba(0,0,0,.3)}
+.nav button{background:#FFCB05;color:#00274C;border:none;padding:8px 20px;border-radius:4px;font-size:1rem;cursor:pointer;font-weight:600}
+.nav button:disabled{opacity:.3;cursor:default}
+.nav span{font-size:.9rem;opacity:.7}
+.week-tag{font-size:.85rem;opacity:.5;margin-bottom:4px}
+.back-links{text-align:center;padding:8px;background:rgba(0,0,0,.2)}
+.back-links a{color:#FFCB05;font-size:.85rem;text-decoration:none;opacity:.6;margin:0 12px}
+.back-links a:hover{opacity:1}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+const S = [
+  {
+    t:"Advanced RAG Techniques — Beyond Naive Retrieval",
+    w:"Week 9",
+    b:[
+      "Naive RAG (embed → retrieve → generate) works for simple queries but degrades significantly on real-world workloads with complex questions and large corpora",
+      "\"Lost in the middle\" problem: LLMs attend strongly to the beginning and end of context windows, ignoring relevant information placed in the middle of retrieved chunks",
+      "Poor query formulation: user questions are often vague, misspelled, or use different vocabulary than the source documents — cosine similarity on raw queries misses relevant content",
+      "Irrelevant chunk retrieval: top-k similarity search returns semantically adjacent but factually useless passages, diluting context and increasing hallucination rates",
+      "This week we build an advanced RAG pipeline using multi-query retrieval, HyDE, re-ranking, and contextual compression to dramatically improve answer quality and faithfulness"
+    ]
+  },
+  {
+    t:"Limitations of Naive RAG — Why Simple Retrieval Fails",
+    w:"Week 9",
+    b:[
+      "Single-vector queries create a vocabulary mismatch: user asks 'how do I fix a slow database' but documents say 'query optimization techniques' — embedding similarity alone can't bridge this gap",
+      "Fixed chunk sizes lose context: a 512-token chunk may split a critical explanation across two passages, retrieving the half without the key insight and leaving the model to guess",
+      "Top-k retrieval has no notion of relevance quality: returning 10 chunks ranked by cosine similarity treats a 0.82 match the same as a 0.79 match, even when the latter is noise",
+      "No answer exists in the corpus: naive RAG has no abstention mechanism — it retrieves the closest passages and the LLM confidently fabricates an answer from tangentially related content",
+      "Evaluation is hard without baselines: teams deploy naive RAG, get 'good enough' demo results, then discover 40–60% answer degradation on production queries with real user phrasing"
+    ]
+  },
+  {
+    t:"Multi-Query Retrieval — Rephrasing from Multiple Angles",
+    w:"Week 9",
+    b:[
+      "Core idea: use an LLM to generate 3–5 alternative phrasings of the user's question, run retrieval for each, then union the results — cast a wider net across the embedding space",
+      "Example: 'What causes memory leaks in Python?' generates variants like 'Python garbage collection failures', 'unreleased object references in Python', 'debugging Python memory usage' — each surfaces different relevant chunks",
+      "LangChain's MultiQueryRetriever wraps any base retriever: pass an LLM and a base retriever, it auto-generates query variants, retrieves for each, and deduplicates by document ID",
+      "Implementation: from langchain.retrievers.multi_query import MultiQueryRetriever; retriever = MultiQueryRetriever.from_llm(retriever=base_retriever, llm=ChatOpenAI(temperature=0))",
+      "Trade-offs: 3–5x more embedding lookups per query (latency and cost increase), but recall typically improves 20–40% — use caching and async retrieval to mitigate the latency penalty"
+    ]
+  },
+  {
+    t:"HyDE — Hypothetical Document Embeddings",
+    w:"Week 9",
+    b:[
+      "HyDE flips the retrieval problem: instead of embedding the question, ask the LLM to generate a hypothetical answer, then embed that answer and search for similar real documents",
+      "Why it works: a generated answer lives in the same semantic space as actual documents — 'The primary cause of Python memory leaks is circular references...' matches source docs better than the raw question",
+      "The hypothetical document doesn't need to be factually correct — it just needs to use the right vocabulary and concepts to pull the real documents closer in embedding space",
+      "Implementation pattern: prompt = 'Write a short passage answering: {query}'; hypo_doc = llm.invoke(prompt); results = vectorstore.similarity_search(hypo_doc) — surprisingly simple for a powerful technique",
+      "Best for: technical documentation, academic papers, and domain-specific corpora where user queries use casual language but documents use formal terminology — bridges the register gap"
+    ]
+  },
+  {
+    t:"Query Decomposition for Complex Questions",
+    w:"Week 9",
+    b:[
+      "Complex questions contain multiple sub-intents: 'Compare the memory usage and speed of PostgreSQL vs MongoDB for time-series data' requires retrieving facts about both databases across two dimensions",
+      "Decomposition strategy: use an LLM to break the original query into atomic sub-questions, retrieve for each independently, then synthesize a unified answer from all retrieved contexts",
+      "LangChain pattern: create a decomposition chain that outputs a list of sub-queries, map each through the retriever, collect all unique documents, then pass the combined context to the final generation step",
+      "Step-back prompting is a related technique: ask 'What general principles apply?' before the specific question — retrieves foundational context that helps the LLM reason about the specific case",
+      "Recursive decomposition handles deeply nested questions: each sub-question can itself be decomposed if still too complex — set a max depth of 2–3 to avoid infinite recursion and latency explosion"
+    ]
+  },
+  {
+    t:"Re-Ranking with Cross-Encoders",
+    w:"Week 9",
+    b:[
+      "Bi-encoder retrieval (embeddings) is fast but shallow: it compresses each text into a single vector independently — cross-encoders process the query and document together for deeper relevance scoring",
+      "Two-stage pipeline: first retrieve top-20 candidates with fast vector search (recall-oriented), then re-rank with a cross-encoder to push the most relevant 3–5 to the top (precision-oriented)",
+      "Cross-encoder models like ms-marco-MiniLM or BGE-reranker score (query, document) pairs directly: they see word interactions between query and passage that bi-encoders fundamentally miss",
+      "LangChain + Cohere/BGE reranking: from langchain.retrievers import ContextualCompressionRetriever; wrap your base retriever with a CrossEncoderReranker as the compressor — drop-in upgrade",
+      "Impact: re-ranking typically improves answer accuracy by 15–30% with minimal latency cost (scoring 20 pairs takes ~50ms on GPU) — it's the single highest-ROI improvement to any RAG pipeline"
+    ]
+  },
+  {
+    t:"Contextual Compression & Parent Document Retriever",
+    w:"Week 9",
+    b:[
+      "Contextual compression extracts only the relevant sentences from retrieved chunks: instead of feeding 512 tokens of partially relevant text, compress to the 2–3 sentences that actually answer the question",
+      "LLM-based compressor: pass each retrieved chunk through a prompt like 'Extract only the parts relevant to: {query}' — reduces noise in the context window and improves generation faithfulness",
+      "Parent document retriever solves the chunk-size dilemma: embed small chunks (200 tokens) for precise matching, but retrieve the parent document (2000 tokens) for full context — best of both worlds",
+      "Implementation: store small child chunks with metadata pointing to parent doc IDs; on retrieval, look up child matches then fetch corresponding parent documents from a separate docstore",
+      "Combining techniques: use multi-query to improve recall → parent document retriever to get full context → cross-encoder re-ranking to prioritize → contextual compression to extract — a full advanced RAG stack"
+    ]
+  },
+  {
+    t:"Week 9 Recap — Lab: Naive vs Advanced RAG Comparison",
+    w:"Week 9",
+    b:[
+      "Lab exercise: build two pipelines side-by-side — a naive RAG baseline (embed → top-k → generate) and an advanced pipeline with multi-query retrieval and cross-encoder re-ranking",
+      "Evaluation framework: prepare 20 test questions with ground-truth answers, measure retrieval recall@k, answer faithfulness (does it match sources?), and answer relevance (does it address the question?)",
+      "Implementation steps: (1) load and chunk a technical documentation corpus, (2) build vector store, (3) implement MultiQueryRetriever, (4) add re-ranking with a cross-encoder, (5) compare metrics",
+      "Expected results: advanced pipeline should show 25–40% improvement in retrieval recall and 15–30% improvement in answer accuracy — quantify the gains to justify the added complexity and cost",
+      "Next week: evaluation and observability for RAG systems — RAGAS metrics, LangSmith tracing, systematic testing frameworks, and building feedback loops to continuously improve retrieval quality"
+    ]
+  }
+];
+
+const e=React.createElement;
+function App(){
+const[i,setI]=React.useState(0);
+const s=S[i];
+React.useEffect(()=>{
+const h=ev=>{if(ev.key==='ArrowRight'&&i<S.length-1)setI(i+1);if(ev.key==='ArrowLeft'&&i>0)setI(i-1)};
+window.addEventListener('keydown',h);return()=>window.removeEventListener('keydown',h);
+},[i]);
+return e('div',{className:'deck'},
+e('div',{className:'slide'},
+s.w&&e('div',{className:'week-tag'},s.w),
+e('h1',null,s.t),
+e('ul',null,...s.b.map((x,j)=>e('li',{key:j},x)))
+),
+e('div',{className:'nav'},
+e('button',{onClick:()=>setI(i-1),disabled:i===0},'← Prev'),
+e('span',null,(i+1)+' / '+S.length),
+e('button',{onClick:()=>setI(i+1),disabled:i===S.length-1},'Next →')
+),
+e('div',{className:'back-links'},
+e('a',{href:'../index.html'},'← Full Deck'),
+e('a',{href:'../../site/index.html'},'Course Home')
+)
+);
+}
+ReactDOM.createRoot(document.getElementById('root')).render(e(App));
+</script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GENAI 301 — Week 7: Vector Databases & Embeddings</title>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#00274C;color:#e8e8e8;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center}
+#root{width:100%;max-width:960px;padding:20px}
+.slide-container{background:linear-gradient(135deg,#001a33 0%,#00274C 50%,#001a33 100%);border:1px solid #FFCB05;border-radius:12px;padding:48px;min-height:520px;display:flex;flex-direction:column;justify-content:flex-start;box-shadow:0 8px 32px rgba(0,0,0,0.4)}
+.week-label{color:#FFCB05;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px}
+.slide-title{font-size:28px;font-weight:700;color:#FFCB05;margin-bottom:28px;line-height:1.3;border-bottom:2px solid rgba(255,203,5,0.3);padding-bottom:12px}
+.slide-bullets{list-style:none;flex:1}
+.slide-bullets li{font-size:17px;line-height:1.6;margin-bottom:14px;padding-left:24px;position:relative;color:#d4d4d4}
+.slide-bullets li::before{content:"\25B8";position:absolute;left:0;color:#FFCB05;font-size:14px}
+.controls{display:flex;align-items:center;justify-content:space-between;margin-top:20px}
+.controls button{background:#FFCB05;color:#00274C;border:none;padding:10px 24px;border-radius:6px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s}
+.controls button:hover{background:#ffd633;transform:translateY(-1px)}
+.controls button:disabled{opacity:0.3;cursor:default;transform:none}
+.slide-counter{color:#FFCB05;font-size:14px;font-weight:600}
+.header{text-align:center;margin-bottom:24px}
+.header h1{font-size:22px;color:#FFCB05;font-weight:700}
+.header p{color:#8899aa;font-size:13px;margin-top:4px}
+.back-link{text-align:center;margin-top:16px}
+.back-link a{color:#FFCB05;font-size:14px;text-decoration:none;opacity:0.7}
+.back-link a:hover{opacity:1;text-decoration:underline}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const slides = [{w:"Week 7",t:"What Are Vector Databases and Why They Matter",b:["Traditional databases search by exact match (SQL WHERE, primary keys) — but semantic meaning can't be captured by keywords alone","Vector databases store high-dimensional numerical representations (embeddings) and enable similarity-based retrieval at scale","Core use cases: semantic search, recommendation systems, RAG pipelines, image similarity, anomaly detection, and deduplication","Without vector DBs, you'd brute-force compare every embedding pair — O(n²) is unusable at millions of documents","Vector DBs use approximate nearest neighbor (ANN) algorithms like HNSW and IVF to search billions of vectors in milliseconds"]},
+{w:"Week 7",t:"How Embeddings Work: From Text to Vectors",b:["An embedding model converts text (or images, audio) into a dense numerical vector — typically 384 to 3072 dimensions","Semantically similar inputs land close together in vector space: 'happy' and 'joyful' have high cosine similarity (~0.92)","The embedding process: tokenize input → pass through transformer layers → pool final hidden states into a single fixed-length vector","Distance metrics define 'closeness': cosine similarity (angle), Euclidean distance (magnitude), and dot product (combined)","Embedding quality is everything — garbage embeddings mean garbage retrieval, no matter how good your vector DB is"]},
+{w:"Week 7",t:"Embedding Model Comparison: Choosing the Right One",b:["OpenAI text-embedding-3-small/large: best-in-class quality, easy API, 1536/3072 dims — but adds cost and external dependency","Cohere embed-v3: strong multilingual support, built-in input types (search_document vs search_query), competitive with OpenAI","Open-source (HuggingFace): BGE, E5, GTE models — free, private, runnable locally, but require GPU for production throughput","Key tradeoffs: dimension size affects storage/speed, API models add latency/cost, open-source needs infrastructure","Benchmark on YOUR data: MTEB leaderboard scores help, but domain-specific evaluation (e.g., medical, legal) is what actually matters"]},
+{w:"Week 7",t:"ChromaDB: Local-First Vector Database",b:["Chroma is an open-source, embedded vector DB — pip install chromadb and you're running in 30 seconds, no server needed","Persistent storage: chromadb.PersistentClient(path='./chroma_db') saves collections to disk across sessions","Core API: collection.add(ids, documents, embeddings, metadatas) → collection.query(query_texts, n_results, where) for retrieval","Chroma auto-embeds documents using its default model, or you can supply pre-computed embeddings from any provider","Ideal for prototyping, local RAG apps, and small-to-medium datasets (up to ~1M vectors) — graduate to managed DBs for scale"]},
+{w:"Week 7",t:"Pinecone and Managed Vector Database Options",b:["Pinecone: fully managed, serverless vector DB — handles scaling, replication, and infrastructure so you focus on embeddings","Pinecone workflow: create index with dimension/metric → upsert vectors with metadata → query with top_k and filters","Weaviate: open-source with built-in vectorization modules, GraphQL API, hybrid search, and multi-tenant support out of the box","pgvector: PostgreSQL extension — add vector columns to existing tables, use familiar SQL with cosine/L2 distance operators","Decision framework: Chroma for local dev, pgvector if you already run Postgres, Pinecone/Weaviate for production-scale managed infra"]},
+{w:"Week 7",t:"Search Strategies: Similarity, MMR, and Hybrid",b:["Basic similarity search returns the k nearest vectors by cosine distance — fast and intuitive, but results can be redundant","Maximal Marginal Relevance (MMR) balances relevance with diversity: it penalizes results that are too similar to each other","MMR formula: score = λ × similarity(query, doc) − (1−λ) × max(similarity(doc, already_selected)) — tune λ between 0 and 1","Hybrid search combines dense vector similarity with sparse keyword matching (BM25) — catches both semantic and exact-match intent","When to use which: similarity for simple Q&A, MMR for summarization/context windows, hybrid for production RAG with mixed query types"]},
+{w:"Week 7",t:"Metadata Filtering and Advanced Queries",b:["Every vector can carry a metadata dict: {'source': 'textbook', 'chapter': 5, 'date': '2024-01-15', 'access_level': 'public'}","Pre-filter narrows the search space BEFORE similarity computation: where={'chapter': {'$gte': 3}, 'source': 'textbook'}","Supported operators vary by DB: $eq, $ne, $gt, $gte, $lt, $lte, $in, $nin — combine with $and/$or for complex queries","Metadata filtering is critical for multi-tenant RAG: filter by user_id or org_id to enforce data isolation at query time","Advanced patterns: time-decay weighting (prefer recent docs), namespace partitioning, and tag-based collection routing"]},
+{w:"Week 7",t:"Lab Exercise and Week 7 Summary",b:["Lab: Install Chroma with persistent storage, load 50+ documents from multiple sources with rich metadata per chunk","Implement three retrieval strategies: basic similarity, MMR with λ=0.5, and filtered queries using metadata conditions","Compare result quality: measure overlap, diversity, and relevance across strategies — document your findings in a notebook","Key takeaways: embeddings are the foundation of modern retrieval; vector DB choice depends on scale, cost, and ops maturity","Next week: we combine vector stores with LLMs in full RAG pipelines — retrieval is the R in RAG, and now you own it"]}];
+
+function App() {
+  const [idx, setIdx] = React.useState(0);
+  const total = slides.length;
+  const slide = slides[idx];
+
+  React.useEffect(() => {
+    const handler = (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); setIdx(i => Math.min(i + 1, total - 1)); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); setIdx(i => Math.max(i - 1, 0)); }
+      if (e.key === 'Home') { e.preventDefault(); setIdx(0); }
+      if (e.key === 'End') { e.preventDefault(); setIdx(total - 1); }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [total]);
+
+  return (
+    <div id="root-inner">
+      <div className="header">
+        <h1>GENAI 301 — Week 7: Vector Databases &amp; Embeddings</h1>
+        <p>University of Michigan &bull; Advanced LLM Engineering</p>
+      </div>
+      <div className="slide-container">
+        <div className="week-label">{slide.w}</div>
+        <div className="slide-title">{slide.t}</div>
+        <ul className="slide-bullets">
+          {slide.b.map((bullet, i) => <li key={i}>{bullet}</li>)}
+        </ul>
+      </div>
+      <div className="controls">
+        <button disabled={idx === 0} onClick={() => setIdx(idx - 1)}>&larr; Previous</button>
+        <span className="slide-counter">Slide {idx + 1} of {total}</span>
+        <button disabled={idx === total - 1} onClick={() => setIdx(idx + 1)}>Next &rarr;</button>
+      </div>
+      <div className="back-link"><a href="../index.html">&larr; Full Slide Deck</a> &nbsp;|&nbsp; <a href="../../site/index.html">Course Home</a></div>
+    </div>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+</script>
+</body>
+</html>

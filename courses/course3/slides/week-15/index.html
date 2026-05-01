@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>GENAI 301 — Week 15: Course Wrap-Up & Final Projects</title>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#00274C;color:#FFF;overflow:hidden}
+.deck{height:100vh;display:flex;flex-direction:column}
+.slide{flex:1;display:flex;flex-direction:column;justify-content:center;padding:60px 80px}
+.slide h1{font-size:2.4rem;color:#FFCB05;margin-bottom:8px}
+.slide h2{font-size:1.6rem;margin-bottom:24px;font-weight:400;opacity:.85}
+.slide ul{list-style:none;font-size:1.15rem;line-height:2}
+.slide ul li::before{content:"▸ ";color:#FFCB05}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:12px 30px;background:rgba(0,0,0,.3)}
+.nav button{background:#FFCB05;color:#00274C;border:none;padding:8px 20px;border-radius:4px;font-size:1rem;cursor:pointer;font-weight:600}
+.nav button:disabled{opacity:.3;cursor:default}
+.nav span{font-size:.9rem;opacity:.7}
+.week-tag{font-size:.85rem;opacity:.5;margin-bottom:4px}
+.back-links{text-align:center;padding:8px;background:rgba(0,0,0,.2)}
+.back-links a{color:#FFCB05;font-size:.85rem;text-decoration:none;opacity:.6;margin:0 12px}
+.back-links a:hover{opacity:1}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+const S = [
+  {
+    t:"Course Wrap-Up & Final Projects — The Journey from Python to Production",
+    w:"Week 15",
+    b:[
+      "Fifteen weeks ago you wrote your first Python function — today you architect production AI systems with RAG pipelines, autonomous agents, and deployment infrastructure",
+      "The learning arc: Python fundamentals → LangChain abstractions → vector databases & RAG → tool-using agents → evaluation, observability, and production hardening",
+      "Each layer built on the last: you can't build reliable RAG without understanding embeddings, can't build agents without mastering chains, can't deploy without testing and monitoring",
+      "Today's agenda: celebrate what you've built, present final projects to peers, give and receive constructive feedback, and chart your path forward in AI engineering",
+      "This isn't an ending — it's a checkpoint; the skills you've built are the foundation for multi-agent systems, advanced retrieval, and real-world AI product development"
+    ]
+  },
+  {
+    t:"Key Skills Acquired — Your AI Engineering Toolkit",
+    w:"Week 15",
+    b:[
+      "Python mastery: async/await concurrency, type-hinted codebases, virtual environments, dependency management, and professional project structure with testing",
+      "LangChain fluency: chains, prompt templates, output parsers, memory systems, callbacks, and the LCEL pipeline syntax for composing complex LLM workflows",
+      "RAG architecture: document loading, chunking strategies, embedding models, vector store selection (Pinecone, Chroma, pgvector), retrieval tuning, and hybrid search",
+      "Agent development: ReAct pattern, tool creation and binding, multi-step planning, error recovery, structured output extraction, and human-in-the-loop approval flows",
+      "Production skills: LangSmith tracing, evaluation datasets, CI/CD pipelines, cost monitoring, latency optimization, guardrails, and deployment to cloud infrastructure"
+    ]
+  },
+  {
+    t:"Final Project Presentation Guidelines",
+    w:"Week 15",
+    b:[
+      "Each team has 12 minutes: 8-minute live demo with narration, 2-minute architecture walkthrough, 2-minute Q&A — practice your timing beforehand, going over cuts into Q&A",
+      "Start with the problem: who is your user, what pain point does your application solve, and why is an LLM-powered solution better than traditional approaches",
+      "Show the architecture diagram: data sources → ingestion pipeline → vector store → retrieval → LLM chain → output — reviewers want to see your design decisions, not just the UI",
+      "Highlight technical depth: what chunking strategy did you choose and why, how do you handle hallucination, what evaluation metrics prove your system works reliably",
+      "Code quality matters: reviewers will scan your repo — clean README, typed functions, test coverage, .env.example, and clear separation of concerns signal professional engineering"
+    ]
+  },
+  {
+    t:"Live Demo Best Practices — Make It Count",
+    w:"Week 15",
+    b:[
+      "Record a backup demo video before presenting — live demos fail at the worst moment; having a fallback shows professionalism and ensures your work gets seen regardless",
+      "Pre-load your data and warm up API connections: cold-start latency kills demo energy — have your vector store indexed, models loaded, and a few cached responses ready as safety nets",
+      "Choose 2-3 compelling queries that showcase range: one straightforward retrieval, one multi-step reasoning task, and one edge case that demonstrates graceful error handling",
+      "Narrate what's happening under the hood: 'Right now it's embedding the query, retrieving from 50K documents, reranking the top 10, then generating with GPT-4' — make the invisible visible",
+      "Show LangSmith traces live: pull up the trace for your demo query and walk through token counts, latency breakdown, and retrieval scores — this separates good demos from great ones"
+    ]
+  },
+  {
+    t:"Peer Review Process — Giving and Receiving Feedback",
+    w:"Week 15",
+    b:[
+      "Use the structured rubric: architecture design (25%), technical implementation (25%), demo quality and UX (20%), code quality and testing (15%), presentation clarity (15%)",
+      "Be specific and actionable: 'Your chunking at 512 tokens may split code blocks — consider semantic chunking for your code-heavy corpus' beats 'chunking could be better'",
+      "Acknowledge what works first: every team solved real problems under real constraints — lead with genuine appreciation for clever solutions before suggesting improvements",
+      "Ask questions that reveal depth: 'How would this scale to 1M documents?', 'What happens if the LLM refuses to use a tool?', 'How do you handle contradictory retrieved passages?'",
+      "Written feedback is submitted by end of day: each student reviews two other teams using the provided template — this feedback counts toward your participation grade and helps peers grow"
+    ]
+  },
+  {
+    t:"Career Paths & Next Courses — Where You Go from Here",
+    w:"Week 15",
+    b:[
+      "GENAI 401: Multi-Agent Systems — orchestration frameworks (CrewAI, AutoGen), inter-agent communication, task decomposition, and building collaborative AI teams that solve complex problems",
+      "GENAI 490: Capstone Project — a full-semester, industry-partnered project where you design, build, deploy, and maintain a production AI system with real users and real stakes",
+      "AI Engineer roles are exploding: companies need people who bridge ML research and software engineering — your RAG and agent skills are exactly what the market demands right now",
+      "Adjacent paths: ML platform engineering (infra that serves models), AI product management (translating capabilities into products), and applied research (pushing what's possible)",
+      "Build your portfolio now: open-source your final project, write a blog post about your architecture decisions, contribute to LangChain or other frameworks — visibility creates opportunity"
+    ]
+  },
+  {
+    t:"Staying Current in AI Engineering — The Field Moves Fast",
+    w:"Week 15",
+    b:[
+      "Follow the primary sources: OpenAI, Anthropic, Google DeepMind, and Meta AI blogs announce capabilities that reshape best practices overnight — read release notes, not just summaries",
+      "Subscribe to curated newsletters: The Batch (Andrew Ng), AI Engineering (Swyx), Latent Space podcast — these filter signal from noise and contextualize why new developments matter",
+      "Build something every month: the gap between reading about RAG and building RAG is enormous — side projects with new models, tools, and patterns keep your skills sharp and current",
+      "Engage with the community: LangChain Discord, AI Engineering meetups, open-source contributions, and conference talks (AI Engineer Summit, NeurIPS) connect you with practitioners solving real problems",
+      "Develop evaluation instincts: every new model or technique needs benchmarking on your use case — the engineer who can quickly assess 'does this actually help my pipeline?' has a permanent advantage"
+    ]
+  },
+  {
+    t:"Final Reflections — What You've Built and What Comes Next",
+    w:"Week 15",
+    b:[
+      "You started with print('hello') and ended building autonomous agents that reason over knowledge bases, use tools, and explain their decisions — that transformation is real and earned",
+      "The hardest concepts — embedding spaces, retrieval-augmented generation, agent planning loops — are now tools in your hands; mastery comes from building with them, not just studying them",
+      "Architecture decisions are the real skill: choosing between fine-tuning and RAG, selecting chunk sizes, deciding when an agent needs human approval — these judgment calls define senior engineers",
+      "AI engineering is a team sport: the best systems emerge from collaboration between domain experts, ML engineers, infrastructure specialists, and product thinkers — keep building with others",
+      "Go build something that matters: you have the skills, the frameworks, and the engineering discipline — the world needs AI applications built by people who care about reliability, safety, and users"
+    ]
+  }
+];
+
+const e=React.createElement;
+function App(){
+const[i,setI]=React.useState(0);
+const s=S[i];
+React.useEffect(()=>{
+const h=ev=>{if(ev.key==='ArrowRight'&&i<S.length-1)setI(i+1);if(ev.key==='ArrowLeft'&&i>0)setI(i-1)};
+window.addEventListener('keydown',h);return()=>window.removeEventListener('keydown',h);
+},[i]);
+return e('div',{className:'deck'},
+e('div',{className:'slide'},
+s.w&&e('div',{className:'week-tag'},s.w),
+e('h1',null,s.t),
+e('ul',null,...s.b.map((x,j)=>e('li',{key:j},x)))
+),
+e('div',{className:'nav'},
+e('button',{onClick:()=>setI(i-1),disabled:i===0},'← Prev'),
+e('span',null,(i+1)+' / '+S.length),
+e('button',{onClick:()=>setI(i+1),disabled:i===S.length-1},'Next →')
+),
+e('div',{className:'back-links'},
+e('a',{href:'../index.html'},'← Full Deck'),
+e('a',{href:'../../site/index.html'},'Course Home')
+)
+);
+}
+ReactDOM.createRoot(document.getElementById('root')).render(e(App));
+</script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>GENAI 301 — Week 12: LangGraph</title>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#00274C;color:#FFF;overflow:hidden}
+.deck{height:100vh;display:flex;flex-direction:column}
+.slide{flex:1;display:flex;flex-direction:column;justify-content:center;padding:60px 80px}
+.slide h1{font-size:2.4rem;color:#FFCB05;margin-bottom:8px}
+.slide h2{font-size:1.6rem;margin-bottom:24px;font-weight:400;opacity:.85}
+.slide ul{list-style:none;font-size:1.15rem;line-height:2}
+.slide ul li::before{content:"▸ ";color:#FFCB05}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:12px 30px;background:rgba(0,0,0,.3)}
+.nav button{background:#FFCB05;color:#00274C;border:none;padding:8px 20px;border-radius:4px;font-size:1rem;cursor:pointer;font-weight:600}
+.nav button:disabled{opacity:.3;cursor:default}
+.nav span{font-size:.9rem;opacity:.7}
+.week-tag{font-size:.85rem;opacity:.5;margin-bottom:4px}
+.back-links{text-align:center;padding:8px;background:rgba(0,0,0,.2)}
+.back-links a{color:#FFCB05;font-size:.85rem;text-decoration:none;opacity:.6;margin:0 12px}
+.back-links a:hover{opacity:1}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+const S = [
+  {
+    t:"What LangGraph Is and Why It Exists",
+    w:"Week 12",
+    b:[
+      "LangGraph is a framework for building stateful, multi-step AI agents — it models agent logic as a directed graph where nodes are processing steps and edges are transitions between them",
+      "Traditional chains (prompt → LLM → output) are linear and stateless: they can't loop, branch conditionally, or maintain memory across steps — real agent workflows demand all three",
+      "LangGraph was created by the LangChain team to solve the 'agent chaos' problem: autonomous ReAct loops are unpredictable, but hardcoded chains are too rigid — graphs give you controlled flexibility",
+      "Core mental model: think of your agent as a flowchart — each box is a function that reads and updates shared state, each arrow decides what happens next based on the current state",
+      "Key differentiator from vanilla LangChain: LangGraph gives you explicit control over execution flow, built-in state persistence, and first-class support for human-in-the-loop interruptions"
+    ]
+  },
+  {
+    t:"Graphs vs Chains vs Agents — Choosing the Right Abstraction",
+    w:"Week 12",
+    b:[
+      "Chains are sequential pipelines: input → step A → step B → output — great for simple, predictable workflows like summarization or translation, but they can't branch or loop",
+      "ReAct agents are autonomous loops: the LLM decides which tool to call next and when to stop — powerful but unpredictable, hard to debug, and prone to infinite loops or wasted tokens",
+      "Graph-based agents sit in the sweet spot: you define the possible paths explicitly (nodes and edges), but the agent can still make dynamic decisions at each branching point",
+      "When to use graphs: multi-step workflows with conditional logic (if research fails → try different source), retry mechanisms, parallel tool calls, or any flow requiring human approval gates",
+      "Real-world example: a customer support agent that classifies intent (node 1), retrieves context (node 2), drafts response (node 3), checks policy compliance (node 4), then either sends or escalates — impossible to express cleanly as a chain"
+    ]
+  },
+  {
+    t:"StateGraph and State Management — The Foundation",
+    w:"Week 12",
+    b:[
+      "StateGraph is LangGraph's core class: you define a typed state schema (TypedDict or Pydantic model), and every node in the graph reads from and writes to this shared state object",
+      "State schema example: class AgentState(TypedDict): messages: Annotated[list, add_messages]; query: str; documents: list; final_answer: str — each field tracks a different aspect of the workflow",
+      "The Annotated[list, add_messages] pattern defines a reducer: instead of replacing the messages list, new messages are appended — reducers control how concurrent or sequential updates merge",
+      "State is passed between nodes automatically: when node A returns {'documents': [doc1, doc2]}, LangGraph merges that into the shared state before invoking node B — no manual wiring needed",
+      "Built-in checkpointing: LangGraph can persist state to SQLite, PostgreSQL, or memory — enabling pause/resume workflows, crash recovery, and time-travel debugging across multi-step agent runs"
+    ]
+  },
+  {
+    t:"Nodes as Processing Functions — Building Blocks of the Graph",
+    w:"Week 12",
+    b:[
+      "A node is any Python function that takes the current state dict as input and returns a partial state update: def retrieve(state): docs = vectorstore.search(state['query']); return {'documents': docs}",
+      "Nodes can do anything: call an LLM, query a database, run a tool, validate data, transform outputs, or even invoke another graph — they're just functions with a state-in, state-out contract",
+      "Special nodes: START is the entry point (no logic, just routes to the first real node), END terminates execution — every graph must have at least one path from START to END",
+      "Adding nodes to a graph: graph.add_node('retrieve', retrieve_fn); graph.add_node('generate', generate_fn); graph.add_node('grade', grade_documents_fn) — names are strings used for edge routing",
+      "Best practice: keep nodes focused on a single responsibility — a node that retrieves, grades, and generates is three nodes pretending to be one; split them for testability, reusability, and clearer graph visualization"
+    ]
+  },
+  {
+    t:"Edges and Conditional Routing — Controlling Agent Flow",
+    w:"Week 12",
+    b:[
+      "Simple edges define fixed transitions: graph.add_edge('retrieve', 'generate') means after retrieval always run generation — use these for steps that always follow each other",
+      "Conditional edges enable dynamic routing: graph.add_conditional_edges('grade', route_fn, {'relevant': 'generate', 'irrelevant': 're_query', 'no_results': END}) — the route function inspects state and returns a key",
+      "Route functions are pure Python: def route_fn(state): if state['doc_score'] > 0.7: return 'relevant'; elif state['retries'] < 3: return 'irrelevant'; else: return 'no_results' — full programmatic control",
+      "Cycles are allowed and intentional: a 'grade' node that routes back to 'retrieve' on low-quality results creates a retry loop — add a counter in state to prevent infinite cycling (max_retries pattern)",
+      "Entry edges from START: graph.add_edge(START, 'classify') — you can also use conditional edges from START to route different input types to different initial processing nodes"
+    ]
+  },
+  {
+    t:"Human-in-the-Loop Patterns — When Agents Need Approval",
+    w:"Week 12",
+    b:[
+      "LangGraph's interrupt_before and interrupt_after mechanisms pause graph execution at specified nodes: the agent proposes an action, a human reviews it, then execution resumes or redirects",
+      "Setup: graph.compile(checkpointer=MemorySaver(), interrupt_before=['send_email']) — execution halts before the send_email node, saving full state so a human can inspect and approve",
+      "Resuming after approval: thread = {'configurable': {'thread_id': '1'}}; graph.invoke(None, thread) — passing None with the same thread_id resumes from the checkpoint, executing the interrupted node",
+      "Rejection and redirection: before resuming, you can modify the state — graph.update_state(thread, {'approved': False, 'feedback': 'too aggressive'}) — the next node sees the updated state and adjusts",
+      "Use cases: approving financial transactions, reviewing auto-generated emails before sending, validating tool calls that modify production systems, or any high-stakes action where autonomous execution is too risky"
+    ]
+  },
+  {
+    t:"Building a Complete Graph Agent — End-to-End Walkthrough",
+    w:"Week 12",
+    b:[
+      "Step 1 — Define state: class ResearchState(TypedDict): question: str; search_queries: list; documents: Annotated[list, operator.add]; draft: str; quality_score: float; iteration: int",
+      "Step 2 — Create nodes: plan_search (LLM generates search queries), execute_search (runs queries against APIs), draft_answer (LLM synthesizes documents into answer), evaluate (LLM scores draft quality)",
+      "Step 3 — Wire edges: START → plan_search → execute_search → draft_answer → evaluate; from evaluate, conditional edge: score ≥ 0.8 → END, score < 0.8 and iteration < 3 → plan_search (retry loop)",
+      "Step 4 — Compile and run: graph = builder.compile(checkpointer=MemorySaver()); result = graph.invoke({'question': 'Compare transformer architectures for code generation', 'iteration': 0})",
+      "Step 5 — Observe execution: LangGraph integrates with LangSmith for tracing — visualize which nodes fired, what state looked like at each step, where the agent looped, and how many tokens each node consumed"
+    ]
+  },
+  {
+    t:"Week 12 Recap — Lab: Multi-Step Agent with LangGraph",
+    w:"Week 12",
+    b:[
+      "Lab exercise: build a research agent that takes a question, generates search queries, retrieves documents, drafts an answer, self-evaluates quality, and loops back to improve if the score is below threshold",
+      "Implement conditional edges: route from the evaluator node — if quality score ≥ 0.8 proceed to final output, if score < 0.8 and retries remain route back to query planning, if retries exhausted route to END with best-effort answer",
+      "Add human-in-the-loop: insert an interrupt_before gate on the final output node — the agent pauses, displays its draft answer and sources, and waits for human approval before delivering the response",
+      "Stretch goal: add a parallel branch where one node searches the web while another searches a local vector store, then merge results in a consolidation node — explore LangGraph's fan-out/fan-in patterns",
+      "Next week: deployment and productionization — packaging agents as APIs with LangServe, streaming responses, error handling strategies, monitoring with LangSmith, and scaling agent workloads in production"
+    ]
+  }
+];
+
+const e=React.createElement;
+function App(){
+const[i,setI]=React.useState(0);
+const s=S[i];
+React.useEffect(()=>{
+const h=ev=>{if(ev.key==='ArrowRight'&&i<S.length-1)setI(i+1);if(ev.key==='ArrowLeft'&&i>0)setI(i-1)};
+window.addEventListener('keydown',h);return()=>window.removeEventListener('keydown',h);
+},[i]);
+return e('div',{className:'deck'},
+e('div',{className:'slide'},
+s.w&&e('div',{className:'week-tag'},s.w),
+e('h1',null,s.t),
+e('ul',null,...s.b.map((x,j)=>e('li',{key:j},x)))
+),
+e('div',{className:'nav'},
+e('button',{onClick:()=>setI(i-1),disabled:i===0},'← Prev'),
+e('span',null,(i+1)+' / '+S.length),
+e('button',{onClick:()=>setI(i+1),disabled:i===S.length-1},'Next →')
+),
+e('div',{className:'back-links'},
+e('a',{href:'../index.html'},'← Full Deck'),
+e('a',{href:'../../site/index.html'},'Course Home')
+)
+);
+}
+ReactDOM.createRoot(document.getElementById('root')).render(e(App));
+</script>
+</body>
+</html>

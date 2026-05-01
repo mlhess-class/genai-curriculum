@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GENAI 101 — Week 5: Advanced Prompt Techniques</title>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#00274C;color:#e8e8e8;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center}
+#root{width:100%;max-width:960px;padding:20px}
+.slide-container{background:linear-gradient(135deg,#001a33 0%,#00274C 50%,#001a33 100%);border:1px solid #FFCB05;border-radius:12px;padding:48px;min-height:520px;display:flex;flex-direction:column;justify-content:flex-start;box-shadow:0 8px 32px rgba(0,0,0,0.4)}
+.week-label{color:#FFCB05;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px}
+.slide-title{font-size:28px;font-weight:700;color:#FFCB05;margin-bottom:28px;line-height:1.3;border-bottom:2px solid rgba(255,203,5,0.3);padding-bottom:12px}
+.slide-bullets{list-style:none;flex:1}
+.slide-bullets li{font-size:17px;line-height:1.6;margin-bottom:14px;padding-left:24px;position:relative;color:#d4d4d4}
+.slide-bullets li::before{content:"\25B8";position:absolute;left:0;color:#FFCB05;font-size:14px}
+.controls{display:flex;align-items:center;justify-content:space-between;margin-top:20px}
+.controls button{background:#FFCB05;color:#00274C;border:none;padding:10px 24px;border-radius:6px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s}
+.controls button:hover{background:#ffd633;transform:translateY(-1px)}
+.controls button:disabled{opacity:0.3;cursor:default;transform:none}
+.slide-counter{color:#FFCB05;font-size:14px;font-weight:600}
+.header{text-align:center;margin-bottom:24px}
+.header h1{font-size:22px;color:#FFCB05;font-weight:700}
+.header p{color:#8899aa;font-size:13px;margin-top:4px}
+.back-link{text-align:center;margin-top:16px}
+.back-link a{color:#FFCB05;font-size:14px;text-decoration:none;opacity:0.7}
+.back-link a:hover{opacity:1;text-decoration:underline}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const slides = [{w:"Week 5",t:"Chain-of-Thought (CoT) Prompting",b:["CoT prompting asks the model to show its reasoning step by step before giving a final answer","Simply adding 'Let's think step by step' can improve accuracy on math and logic problems by 20-40%","CoT works because it forces the model to allocate computation to intermediate reasoning steps","For complex problems, explicitly outline the steps: 'First analyze X, then consider Y, finally conclude Z'","CoT is especially effective for math, logic puzzles, multi-step analysis, and planning tasks"]},
+{w:"Week 5",t:"Few-Shot and Zero-Shot Strategies",b:["Zero-shot: no examples provided — relies entirely on the model's training and your instructions","One-shot: a single example sets the pattern for format and style","Few-shot (2-5 examples): provides enough variation for the model to generalize the pattern","The optimal number of examples depends on task complexity and how unusual the desired format is","For novel or unusual tasks, more examples help; for common tasks, zero-shot with clear instructions suffices"]},
+{w:"Week 5",t:"System Prompts and Message Roles",b:["API-based interactions use three message roles: system, user, and assistant","System prompt sets persistent instructions: persona, rules, format, and behavioral guidelines","System prompts are processed once and influence all subsequent user/assistant exchanges","Effective system prompts: 'You are a legal assistant. Always cite relevant statutes. Never give definitive legal advice.'","In ChatGPT, custom instructions serve a similar purpose to system prompts"]},
+{w:"Week 5",t:"Temperature, Top-p, and Sampling Parameters",b:["Temperature (0.0–2.0): controls randomness in token selection during generation","Temperature 0: always picks the most probable token — deterministic, focused, repetitive","Temperature 0.7-1.0: balanced creativity — good for writing, brainstorming, conversation","Top-p (nucleus sampling): only considers tokens whose cumulative probability exceeds the threshold","In practice, adjust temperature OR top-p, not both — they serve similar purposes"]},
+{w:"Week 5",t:"Prompt Chaining and Decomposition",b:["Complex tasks benefit from being broken into a pipeline of simpler prompts","Example: (1) Extract key facts → (2) Analyze implications → (3) Generate recommendations","Each step's output becomes the next step's input — like a relay race for AI reasoning","Chaining improves reliability: each step is simpler, so each step is more likely to be correct","This approach also makes debugging easier — you can identify which step went wrong"]},
+{w:"Week 5",t:"Self-Consistency and Verification Prompts",b:["Ask the model to generate multiple answers and pick the most common one (majority voting)","Verification prompt: 'Now review your answer and check for errors or inconsistencies'","Ask the model to argue against its own answer: 'What are the strongest counterarguments?'","Meta-prompting: 'Rate your confidence in this answer from 1-10 and explain why'","These techniques catch errors that single-pass generation misses"]},
+{w:"Week 5",t:"Week 5 Summary and Key Takeaways",b:["Chain-of-thought prompting significantly improves reasoning by making thinking explicit","System prompts provide persistent behavioral guidelines across a conversation","Temperature and top-p control the creativity/determinism tradeoff in generation","Prompt chaining decomposes complex tasks into reliable, debuggable pipelines","Self-consistency and verification techniques reduce errors — always verify important outputs"]}];
+
+function App() {
+  const [idx, setIdx] = React.useState(0);
+  const total = slides.length;
+  const slide = slides[idx];
+
+  React.useEffect(() => {
+    const handler = (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); setIdx(i => Math.min(i + 1, total - 1)); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); setIdx(i => Math.max(i - 1, 0)); }
+      if (e.key === 'Home') { e.preventDefault(); setIdx(0); }
+      if (e.key === 'End') { e.preventDefault(); setIdx(total - 1); }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [total]);
+
+  return (
+    <div id="root-inner">
+      <div className="header">
+        <h1>GENAI 101 — Week 5: Advanced Prompt Techniques</h1>
+        <p>University of Michigan &bull; Foundations of Generative AI</p>
+      </div>
+      <div className="slide-container">
+        <div className="week-label">{slide.w}</div>
+        <div className="slide-title">{slide.t}</div>
+        <ul className="slide-bullets">
+          {slide.b.map((bullet, i) => <li key={i}>{bullet}</li>)}
+        </ul>
+      </div>
+      <div className="controls">
+        <button disabled={idx === 0} onClick={() => setIdx(idx - 1)}>&larr; Previous</button>
+        <span className="slide-counter">Slide {idx + 1} of {total}</span>
+        <button disabled={idx === total - 1} onClick={() => setIdx(idx + 1)}>Next &rarr;</button>
+      </div>
+      <div className="back-link"><a href="../index.html">&larr; Full Slide Deck</a> &nbsp;|&nbsp; <a href="../../site/index.html">Course Home</a></div>
+    </div>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+</script>
+</body>
+</html>

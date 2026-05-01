@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>GENAI 301 — Week 10: Agents & Tools</title>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#00274C;color:#FFF;overflow:hidden}
+.deck{height:100vh;display:flex;flex-direction:column}
+.slide{flex:1;display:flex;flex-direction:column;justify-content:center;padding:60px 80px}
+.slide h1{font-size:2.4rem;color:#FFCB05;margin-bottom:8px}
+.slide h2{font-size:1.6rem;margin-bottom:24px;font-weight:400;opacity:.85}
+.slide ul{list-style:none;font-size:1.15rem;line-height:2}
+.slide ul li::before{content:"▸ ";color:#FFCB05}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:12px 30px;background:rgba(0,0,0,.3)}
+.nav button{background:#FFCB05;color:#00274C;border:none;padding:8px 20px;border-radius:4px;font-size:1rem;cursor:pointer;font-weight:600}
+.nav button:disabled{opacity:.3;cursor:default}
+.nav span{font-size:.9rem;opacity:.7}
+.week-tag{font-size:.85rem;opacity:.5;margin-bottom:4px}
+.back-links{text-align:center;padding:8px;background:rgba(0,0,0,.2)}
+.back-links a{color:#FFCB05;font-size:.85rem;text-decoration:none;opacity:.6;margin:0 12px}
+.back-links a:hover{opacity:1}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+const S = [
+  {
+    t:"Welcome to Week 10 — Agents & Tools",
+    w:"Week 10",
+    b:[
+      "Agents are LLMs that autonomously decide which actions to take — unlike chains with fixed steps, agents dynamically reason about what to do next based on observations",
+      "Tools give agents capabilities beyond text generation: web search, calculators, databases, APIs, file systems — each tool is a function the agent can invoke on demand",
+      "The ReAct pattern drives modern agents: Reason about the task → Act by calling a tool → Observe the result → Repeat until the goal is achieved or a stopping condition is met",
+      "This week bridges passive LLM usage to active AI systems — agents represent the shift from 'answer my question' to 'accomplish my goal' in production applications",
+      "By end of week you will build a multi-tool agent, create custom tools with @tool, and evaluate agent decision quality across different agent architectures"
+    ]
+  },
+  {
+    t:"Agents vs Chains — Why Autonomy Matters",
+    w:"Week 10",
+    b:[
+      "Chains execute a predetermined sequence: Prompt → LLM → Parser → done — the developer decides the control flow at design time, and every input follows the same path",
+      "Agents delegate control flow to the LLM: given a goal and a toolkit, the model decides which tool to call, interprets the result, and determines whether to continue or stop",
+      "The key difference is branching: a chain always runs steps A→B→C, while an agent might run A→C→A→B depending on intermediate results — this handles unpredictable queries",
+      "Trade-offs are real: agents are more flexible but less predictable, harder to debug, more expensive (multiple LLM calls per query), and can loop or hallucinate tool calls",
+      "Use chains when the workflow is known and fixed; use agents when the user's intent requires dynamic tool selection or multi-step reasoning that can't be predetermined"
+    ]
+  },
+  {
+    t:"The ReAct Reasoning Loop",
+    w:"Week 10",
+    b:[
+      "ReAct (Reason + Act) interleaves chain-of-thought reasoning with action execution — the LLM thinks out loud about what to do, does it, then reasons about what happened",
+      "Step 1 — Thought: the agent reasons about the current state: 'I need to find the current stock price, I should use the web_search tool with query AAPL stock price'",
+      "Step 2 — Action: the agent emits a structured tool call with name and arguments — the framework intercepts this, executes the tool, and returns the result as an Observation",
+      "Step 3 — Observe & Repeat: the agent sees the tool output appended to context, reasons about whether the goal is met, and either calls another tool or produces a final answer",
+      "ReAct outperforms pure chain-of-thought on tasks requiring external knowledge because it grounds reasoning in real data — no more hallucinating facts the model doesn't know"
+    ]
+  },
+  {
+    t:"Built-in LangChain Tools — Your Agent's Starter Toolkit",
+    w:"Week 10",
+    b:[
+      "LangChain provides dozens of pre-built tools: DuckDuckGoSearchRun for web search, WikipediaQueryRun for knowledge lookup, PythonREPLTool for code execution, and many more",
+      "Each tool has a name, description, and args_schema — the description is what the LLM reads to decide when to use the tool, so clarity here directly impacts agent accuracy",
+      "SerpAPI and Tavily offer structured search results with metadata; the built-in Calculator wraps numexpr for safe math; RequestsGetTool makes arbitrary HTTP calls",
+      "Tool loading pattern: from langchain_community.tools import DuckDuckGoSearchRun; tools = [DuckDuckGoSearchRun(), ...] — pass the tools list when constructing your agent",
+      "Pro tip: fewer tools = better decisions — agents with 3-5 focused tools outperform agents with 20+ tools because the LLM has less ambiguity about which tool fits the task"
+    ]
+  },
+  {
+    t:"Creating Custom Tools with @tool",
+    w:"Week 10",
+    b:[
+      "The @tool decorator converts any Python function into a LangChain tool: @tool def get_weather(city: str) -> str: — the function name becomes the tool name the agent sees",
+      "Docstrings are critical: the decorator extracts the docstring as the tool description — write it from the agent's perspective: 'Use this to get current weather for a city name'",
+      "Type hints drive the input schema: LangChain auto-generates a Pydantic model from your function signature — city: str becomes {type: 'string'}, count: int becomes {type: 'integer'}",
+      "For complex inputs, define an explicit args_schema with Pydantic: class SearchInput(BaseModel): query: str = Field(description='search query'); limit: int = Field(default=5, ge=1, le=20)",
+      "Return strings for simple tools or structured dicts for rich results — the agent receives your return value as its Observation, so format output for LLM consumption, not human display"
+    ]
+  },
+  {
+    t:"Agent Types — Tool-Calling vs ReAct vs Plan-and-Execute",
+    w:"Week 10",
+    b:[
+      "Tool-calling agents use the model's native function-calling API (OpenAI tools/functions): the LLM outputs structured JSON tool calls, the framework executes them — most reliable for GPT-4/Claude",
+      "ReAct agents use prompt-based reasoning: the LLM generates Thought/Action/Observation text in a loop — model-agnostic but more fragile, prone to format errors with weaker models",
+      "Plan-and-execute agents separate planning from execution: a planner LLM creates a step-by-step plan, then an executor agent handles each step — better for complex multi-step tasks",
+      "create_tool_calling_agent() is the recommended default in LangChain — it leverages native model capabilities, handles parallel tool calls, and produces the most consistent results",
+      "Choosing the right type: tool-calling for most production use cases, ReAct when you need model-agnostic flexibility, plan-and-execute when tasks require 5+ sequential steps with dependencies"
+    ]
+  },
+  {
+    t:"Agent Guardrails, Limitations & Safety",
+    w:"Week 10",
+    b:[
+      "Max iterations prevent infinite loops: set max_iterations=10 so a confused agent stops after N reasoning cycles instead of burning tokens forever — always set this in production",
+      "Token budget awareness: each ReAct cycle adds tool descriptions + observations to context — a 5-tool agent with 3 iterations can consume 8K+ tokens per query, monitor usage carefully",
+      "Tool validation with Pydantic schemas catches malformed arguments before execution — never trust the LLM to produce valid inputs without schema enforcement, especially for database or API tools",
+      "Hallucinated tool calls happen: the agent may invent tool names that don't exist or pass nonsensical arguments — handle ToolException gracefully and return clear error messages the agent can learn from",
+      "Human-in-the-loop for high-stakes actions: use HumanApprovalCallbackHandler or custom approval logic before executing tools that modify data, send emails, or make purchases — autonomy needs boundaries"
+    ]
+  },
+  {
+    t:"Week 10 Recap — Lab Exercise & Looking Ahead",
+    w:"Week 10",
+    b:[
+      "Lab: build a multi-tool agent with DuckDuckGoSearchRun + LLM-Math calculator, then create a custom @tool that queries a SQLite database and returns formatted results",
+      "Evaluation criteria: does the agent select the right tool for each query? Does it handle ambiguous inputs gracefully? Are tool call arguments valid? Measure decision quality across 10 test prompts",
+      "Key takeaways: agents = LLMs with autonomy, tools = callable capabilities, ReAct = reason-act-observe loop, @tool + Pydantic schemas = production-ready custom tools",
+      "The agent spectrum: chains for predictable workflows → tool-calling agents for dynamic single tasks → plan-and-execute for complex multi-step goals — match architecture to complexity",
+      "Next week: Retrieval-Augmented Generation (RAG) — connecting agents to your own data using vector databases, embedding models, and retrieval chains for grounded, factual AI applications"
+    ]
+  }
+];
+
+const e=React.createElement;
+function App(){
+const[i,setI]=React.useState(0);
+const s=S[i];
+React.useEffect(()=>{
+const h=ev=>{if(ev.key==='ArrowRight'&&i<S.length-1)setI(i+1);if(ev.key==='ArrowLeft'&&i>0)setI(i-1)};
+window.addEventListener('keydown',h);return()=>window.removeEventListener('keydown',h);
+},[i]);
+return e('div',{className:'deck'},
+e('div',{className:'slide'},
+s.w&&e('div',{className:'week-tag'},s.w),
+e('h1',null,s.t),
+e('ul',null,...s.b.map((x,j)=>e('li',{key:j},x)))
+),
+e('div',{className:'nav'},
+e('button',{onClick:()=>setI(i-1),disabled:i===0},'← Prev'),
+e('span',null,(i+1)+' / '+S.length),
+e('button',{onClick:()=>setI(i+1),disabled:i===S.length-1},'Next →')
+),
+e('div',{className:'back-links'},
+e('a',{href:'../index.html'},'← Full Deck'),
+e('a',{href:'../../site/index.html'},'Course Home')
+)
+);
+}
+ReactDOM.createRoot(document.getElementById('root')).render(e(App));
+</script>
+</body>
+</html>

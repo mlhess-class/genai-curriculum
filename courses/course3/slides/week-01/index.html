@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>GENAI 301 — Week 1: Python Fundamentals for AI Development</title>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#00274C;color:#FFF;overflow:hidden}
+.deck{height:100vh;display:flex;flex-direction:column}
+.slide{flex:1;display:flex;flex-direction:column;justify-content:center;padding:60px 80px}
+.slide h1{font-size:2.4rem;color:#FFCB05;margin-bottom:8px}
+.slide h2{font-size:1.6rem;margin-bottom:24px;font-weight:400;opacity:.85}
+.slide ul{list-style:none;font-size:1.15rem;line-height:2}
+.slide ul li::before{content:"▸ ";color:#FFCB05}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:12px 30px;background:rgba(0,0,0,.3)}
+.nav button{background:#FFCB05;color:#00274C;border:none;padding:8px 20px;border-radius:4px;font-size:1rem;cursor:pointer;font-weight:600}
+.nav button:disabled{opacity:.3;cursor:default}
+.nav span{font-size:.9rem;opacity:.7}
+.week-tag{font-size:.85rem;opacity:.5;margin-bottom:4px}
+.back-links{text-align:center;padding:8px;background:rgba(0,0,0,.2)}
+.back-links a{color:#FFCB05;font-size:.85rem;text-decoration:none;opacity:.6;margin:0 12px}
+.back-links a:hover{opacity:1}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+const S = [
+  {
+    t:"Welcome to GENAI 301 — Python Fundamentals for AI Development",
+    w:"Week 1",
+    b:[
+      "Course overview: build production AI applications using LangChain, vector databases, and modern Python tooling",
+      "This week we establish core Python fluency — variables, data structures, control flow, functions, and environment setup",
+      "Prerequisites: basic programming familiarity; no prior Python or AI experience required for this module",
+      "By end of week you will have a working dev environment, call the OpenAI API directly, and handle streaming responses",
+      "Assessment: in-class coding exercises (40%), take-home lab completing an API-integrated Python project (60%)"
+    ]
+  },
+  {
+    t:"Python Basics — Variables, Data Types & Strings",
+    w:"Week 1",
+    b:[
+      "Python is dynamically typed: x = 42 creates an int, x = 'hello' rebinds to str — no declaration needed, but type() and isinstance() let you inspect at runtime",
+      "Core scalar types: int (arbitrary precision), float (64-bit IEEE 754), bool (True/False, subclass of int), NoneType — understand truthy/falsy rules for AI data pipelines",
+      "Strings are immutable sequences: use f-strings for interpolation (f'Model: {name}'), triple quotes for prompt templates, and .strip()/.split()/.join() for text preprocessing",
+      "Type conversion matters when parsing API responses: int('42'), float('3.14'), str(200), bool('') → False — silent bugs hide in mismatched types",
+      "Variables are references, not boxes: a = [1,2]; b = a makes both point to the same list — use copy() or slicing to avoid mutation surprises in shared state"
+    ]
+  },
+  {
+    t:"Collections — Lists, Dictionaries, Tuples & Sets",
+    w:"Week 1",
+    b:[
+      "Lists are ordered, mutable sequences: append(), extend(), insert(), pop(), slice with [start:stop:step] — the workhorse for storing chat histories and batch API results",
+      "Dictionaries map keys to values with O(1) lookup: response['choices'][0]['message']['content'] is how you navigate every JSON API response you'll encounter",
+      "Tuples are immutable sequences ideal for fixed records: (model_name, temperature, max_tokens) — use tuple unpacking: name, temp, tokens = config_tuple",
+      "Sets provide unique membership and fast lookups: use them to deduplicate embeddings, track seen document IDs, or compute overlap with intersection/union/difference",
+      "Nested structures are everywhere in AI: List[Dict[str, Any]] represents batched API responses — practice accessing deeply nested JSON early, it's 80% of debugging LLM code"
+    ]
+  },
+  {
+    t:"Control Flow — Conditionals, Loops & Comprehensions",
+    w:"Week 1",
+    b:[
+      "if/elif/else with boolean expressions: chain conditions to route model responses — if response.status_code == 200: ... elif status == 429: handle_rate_limit() else: raise",
+      "for loops iterate any iterable: for msg in chat_history:, for key, value in config.items():, for i, chunk in enumerate(stream): — Python's iteration protocol powers everything",
+      "while loops for polling and retry patterns: while not complete and retries < max_retries: call API, check result, increment counter — essential for resilient AI applications",
+      "List comprehensions condense transform-filter pipelines: [doc.page_content for doc in results if doc.score > 0.8] replaces 5 lines of loop code with one readable expression",
+      "Dict and set comprehensions complete the toolkit: {k: v.strip() for k, v in raw.items()}, {token for token in text.split() if len(token) > 2} — write Pythonic data transforms from day one"
+    ]
+  },
+  {
+    t:"Functions — Definitions, Arguments & Type Hints",
+    w:"Week 1",
+    b:[
+      "def defines reusable logic: def call_llm(prompt: str, model: str = 'gpt-4') -> str: — named functions are how you wrap every API interaction into testable, composable units",
+      "Positional, keyword, default, *args, **kwargs: understand the call signature spectrum — LangChain callbacks use **kwargs extensively, so comfort with flexible signatures is mandatory",
+      "Type hints document intent and enable IDE support: def embed_texts(texts: list[str]) -> list[list[float]]: — not enforced at runtime but critical for AI codebases where shapes matter",
+      "Return values and early returns: return response.json() exits immediately — use Optional[str] return types when functions might return None (e.g., cache misses, failed lookups)",
+      "Lambda and higher-order functions: sorted(docs, key=lambda d: d.score, reverse=True) — map(), filter(), and passing functions as arguments appear constantly in LangChain chains"
+    ]
+  },
+  {
+    t:"Development Environment — VS Code, venv & Project Structure",
+    w:"Week 1",
+    b:[
+      "Python virtual environments isolate dependencies: python -m venv .venv && source .venv/bin/activate — never install AI packages globally, version conflicts will break your work",
+      "pip and pyproject.toml for dependency management: pip install -r requirements.txt for quick starts, pyproject.toml with [project.dependencies] for production — pin versions like openai>=1.30,<2.0",
+      "VS Code setup: install Python + Jupyter extensions, set interpreter to .venv, enable format-on-save with Black, configure Pylance for type checking — your IDE catches bugs before runtime",
+      "Project layout: src/ for modules, tests/ for pytest, .env for secrets (never committed), .gitignore for .venv/ and .env — git init from day one, commit early and often",
+      "Environment variables protect API keys: python-dotenv loads .env files, os.environ['OPENAI_API_KEY'] reads them — hardcoded keys in source code is the #1 security mistake in AI projects"
+    ]
+  },
+  {
+    t:"Working with APIs — Requests, JSON & First LLM Call",
+    w:"Week 1",
+    b:[
+      "The requests library is Python's HTTP swiss army knife: response = requests.post(url, headers=headers, json=payload) — every LLM API is just an HTTP POST with JSON in and JSON out",
+      "JSON round-tripping: json.loads(text) parses strings to dicts, json.dumps(obj, indent=2) serializes back — API responses are JSON, prompt templates build JSON, your data lives in JSON",
+      "Making your first OpenAI call: construct headers with Authorization: Bearer token, build the messages array, POST to /v1/chat/completions, extract response['choices'][0]['message']['content']",
+      "Handling errors and rate limits: check status codes, catch requests.exceptions.HTTPError, implement exponential backoff with time.sleep(2 ** attempt) — production AI code must be resilient",
+      "Streaming responses with iter_lines(): pass stream=True, iterate over response chunks, decode and parse SSE data — streaming is how ChatGPT feels fast, and you'll implement it in today's lab"
+    ]
+  },
+  {
+    t:"Week 1 Recap — Key Takeaways & Lab Preview",
+    w:"Week 1",
+    b:[
+      "Python's dynamic typing, rich built-in collections, and expressive syntax make it the dominant language for AI — mastering fundamentals now pays compound interest all semester",
+      "Every AI application is built on the same primitives: dicts for API payloads, lists for message histories, functions for composable logic, and environment variables for secrets",
+      "Your development environment is your foundation: venv isolation + VS Code tooling + git version control + .env secrets management = professional AI development workflow",
+      "Lab assignment: set up a complete Python project with venv and dependencies, call the OpenAI API directly using requests, implement streaming response handling — due next class",
+      "Next week: async/await for concurrent API calls, error handling patterns, and introduction to the LangChain framework that abstracts everything you built by hand this week"
+    ]
+  }
+];
+
+const e=React.createElement;
+function App(){
+const[i,setI]=React.useState(0);
+const s=S[i];
+React.useEffect(()=>{
+const h=ev=>{if(ev.key==='ArrowRight'&&i<S.length-1)setI(i+1);if(ev.key==='ArrowLeft'&&i>0)setI(i-1)};
+window.addEventListener('keydown',h);return()=>window.removeEventListener('keydown',h);
+},[i]);
+return e('div',{className:'deck'},
+e('div',{className:'slide'},
+s.w&&e('div',{className:'week-tag'},s.w),
+e('h1',null,s.t),
+e('ul',null,...s.b.map((x,j)=>e('li',{key:j},x)))
+),
+e('div',{className:'nav'},
+e('button',{onClick:()=>setI(i-1),disabled:i===0},'← Prev'),
+e('span',null,(i+1)+' / '+S.length),
+e('button',{onClick:()=>setI(i+1),disabled:i===S.length-1},'Next →')
+),
+e('div',{className:'back-links'},
+e('a',{href:'../index.html'},'← Full Deck'),
+e('a',{href:'../../site/index.html'},'Course Home')
+)
+);
+}
+ReactDOM.createRoot(document.getElementById('root')).render(e(App));
+</script>
+</body>
+</html>

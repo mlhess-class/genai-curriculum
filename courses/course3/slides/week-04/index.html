@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GENAI 301 — Week 4: Prompt Templates & Output Parsers</title>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#00274C;color:#e8e8e8;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center}
+#root{width:100%;max-width:960px;padding:20px}
+.slide-container{background:linear-gradient(135deg,#001a33 0%,#00274C 50%,#001a33 100%);border:1px solid #FFCB05;border-radius:12px;padding:48px;min-height:520px;display:flex;flex-direction:column;justify-content:flex-start;box-shadow:0 8px 32px rgba(0,0,0,0.4)}
+.week-label{color:#FFCB05;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px}
+.slide-title{font-size:28px;font-weight:700;color:#FFCB05;margin-bottom:28px;line-height:1.3;border-bottom:2px solid rgba(255,203,5,0.3);padding-bottom:12px}
+.slide-bullets{list-style:none;flex:1}
+.slide-bullets li{font-size:17px;line-height:1.6;margin-bottom:14px;padding-left:24px;position:relative;color:#d4d4d4}
+.slide-bullets li::before{content:"\25B8";position:absolute;left:0;color:#FFCB05;font-size:14px}
+.controls{display:flex;align-items:center;justify-content:space-between;margin-top:20px}
+.controls button{background:#FFCB05;color:#00274C;border:none;padding:10px 24px;border-radius:6px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s}
+.controls button:hover{background:#ffd633;transform:translateY(-1px)}
+.controls button:disabled{opacity:0.3;cursor:default;transform:none}
+.slide-counter{color:#FFCB05;font-size:14px;font-weight:600}
+.header{text-align:center;margin-bottom:24px}
+.header h1{font-size:22px;color:#FFCB05;font-weight:700}
+.header p{color:#8899aa;font-size:13px;margin-top:4px}
+.back-link{text-align:center;margin-top:16px}
+.back-link a{color:#FFCB05;font-size:14px;text-decoration:none;opacity:0.7}
+.back-link a:hover{opacity:1;text-decoration:underline}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const slides = [{w:"Week 4",t:"PromptTemplate Basics",b:["PromptTemplate is LangChain's core class for string-based prompt formatting with named variables","Use PromptTemplate.from_template('Tell me about {topic}') for automatic variable detection from f-string syntax","Alternatively, pass input_variables=['topic'] and template='Tell me about {topic}' for explicit validation","Templates are reusable — define once, invoke with different variable values across your entire application","PromptTemplate.format() returns a plain string; .invoke() returns a StringPromptValue compatible with chains"]},
+{w:"Week 4",t:"ChatPromptTemplate & Message Roles",b:["ChatPromptTemplate builds structured multi-message prompts with system, human, and AI message roles","Use ChatPromptTemplate.from_messages([('system', '...'), ('human', '...')]) with role-content tuples","SystemMessage sets the persona and constraints; HumanMessage carries user input; AIMessage provides few-shot context","MessagesPlaceholder inserts dynamic message lists — essential for conversation history and memory integration","ChatPromptTemplate enforces role ordering and validates input variables at construction time, catching errors early"]},
+{w:"Week 4",t:"Few-Shot Prompting in LangChain",b:["FewShotPromptTemplate dynamically selects and injects example input-output pairs into your prompt","Define examples as a list of dicts, then pair with an example_prompt PromptTemplate to format each one","Use ExampleSelector (e.g., SemanticSimilarityExampleSelector) to choose the most relevant examples per query","MaxMarginalRelevanceExampleSelector balances relevance with diversity to avoid redundant similar examples","Few-shot prompting dramatically improves output consistency for classification, extraction, and structured generation tasks"]},
+{w:"Week 4",t:"Advanced Templating: Partial, Composition & Pipeline",b:["Partial prompts pre-fill some variables early — useful when certain values are known at setup, others at runtime","Use template.partial(context='...') to bind variables incrementally; remaining variables are filled at invocation","Prompt composition combines multiple templates with + operator: system_prompt + user_prompt merges into one","PipelinePromptTemplate chains named sub-prompts, feeding each output as a variable into a final template","Pipeline approach enables modular prompt engineering — swap components without rewriting the entire prompt"]},
+{w:"Week 4",t:"Output Parsers: String, JSON & Pydantic",b:["StrOutputParser extracts raw text from LLM responses — the simplest parser, ideal for plain-text generation tasks","JsonOutputParser parses LLM output into Python dicts; provide a Pydantic model to inject format instructions automatically","PydanticOutputParser validates output against a Pydantic schema, returning typed Python objects with field-level validation","Each parser provides get_format_instructions() — a string you inject into the prompt so the LLM knows the expected format","Chain pattern: prompt | llm | parser — the pipe operator connects template, model, and parser into a single runnable"]},
+{w:"Week 4",t:"Error Handling & Retry with Parsers",b:["LLM output is non-deterministic — parsers will occasionally fail on malformed JSON, missing fields, or extra text","OutputFixingParser wraps another parser and auto-retries by sending the error back to the LLM for correction","RetryWithErrorOutputParser passes both the original prompt and the error, giving the LLM full context for a fix","Implement fallback strategies: try Pydantic parser first, fall back to JSON parser, then to regex extraction","Set temperature=0 for structured output tasks to minimize format variation and reduce parser failure rates"]},
+{w:"Week 4",t:"Lab: Few-Shot Templates with Pydantic Parsing",b:["Build a product review classifier: input is raw review text, output is a structured Pydantic model with sentiment, topics, and summary","Create a FewShotPromptTemplate with 3-5 curated examples covering positive, negative, and mixed sentiment reviews","Use SemanticSimilarityExampleSelector with a vector store to dynamically pick the best examples per input","Chain the template through ChatOpenAI into a PydanticOutputParser with a ReviewAnalysis schema","Add OutputFixingParser as a safety net, then test with 10+ diverse reviews and measure parsing success rate"]},
+{w:"Week 4",t:"Week 4 Summary & What's Next",b:["PromptTemplate and ChatPromptTemplate are the building blocks for reusable, parameterized prompt engineering","FewShotPromptTemplate with example selectors makes your prompts adaptive — the right examples for every query","Output parsers close the loop: transform free-text LLM responses into validated, structured Python objects","Error-handling parsers (OutputFixing, RetryWithError) make production pipelines resilient to LLM output variance","Next week: Chains & LCEL — composing templates, models, and parsers into complex multi-step workflows"]}];
+
+function App() {
+  const [idx, setIdx] = React.useState(0);
+  const total = slides.length;
+  const slide = slides[idx];
+
+  React.useEffect(() => {
+    const handler = (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); setIdx(i => Math.min(i + 1, total - 1)); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); setIdx(i => Math.max(i - 1, 0)); }
+      if (e.key === 'Home') { e.preventDefault(); setIdx(0); }
+      if (e.key === 'End') { e.preventDefault(); setIdx(total - 1); }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [total]);
+
+  return (
+    <div id="root-inner">
+      <div className="header">
+        <h1>GENAI 301 — Week 4: Prompt Templates & Output Parsers</h1>
+        <p>University of Michigan &bull; Applied LLM Engineering</p>
+      </div>
+      <div className="slide-container">
+        <div className="week-label">{slide.w}</div>
+        <div className="slide-title">{slide.t}</div>
+        <ul className="slide-bullets">
+          {slide.b.map((bullet, i) => <li key={i}>{bullet}</li>)}
+        </ul>
+      </div>
+      <div className="controls">
+        <button disabled={idx === 0} onClick={() => setIdx(idx - 1)}>&larr; Previous</button>
+        <span className="slide-counter">Slide {idx + 1} of {total}</span>
+        <button disabled={idx === total - 1} onClick={() => setIdx(idx + 1)}>Next &rarr;</button>
+      </div>
+      <div className="back-link"><a href="../index.html">&larr; Full Slide Deck</a> &nbsp;|&nbsp; <a href="../../site/index.html">Course Home</a></div>
+    </div>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+</script>
+</body>
+</html>

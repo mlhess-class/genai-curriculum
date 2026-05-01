@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GENAI 301 — Week 5: Chains & LCEL</title>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#00274C;color:#e8e8e8;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center}
+#root{width:100%;max-width:960px;padding:20px}
+.slide-container{background:linear-gradient(135deg,#001a33 0%,#00274C 50%,#001a33 100%);border:1px solid #FFCB05;border-radius:12px;padding:48px;min-height:520px;display:flex;flex-direction:column;justify-content:flex-start;box-shadow:0 8px 32px rgba(0,0,0,0.4)}
+.week-label{color:#FFCB05;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px}
+.slide-title{font-size:28px;font-weight:700;color:#FFCB05;margin-bottom:28px;line-height:1.3;border-bottom:2px solid rgba(255,203,5,0.3);padding-bottom:12px}
+.slide-bullets{list-style:none;flex:1}
+.slide-bullets li{font-size:17px;line-height:1.6;margin-bottom:14px;padding-left:24px;position:relative;color:#d4d4d4}
+.slide-bullets li::before{content:"\25B8";position:absolute;left:0;color:#FFCB05;font-size:14px}
+.controls{display:flex;align-items:center;justify-content:space-between;margin-top:20px}
+.controls button{background:#FFCB05;color:#00274C;border:none;padding:10px 24px;border-radius:6px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s}
+.controls button:hover{background:#ffd633;transform:translateY(-1px)}
+.controls button:disabled{opacity:0.3;cursor:default;transform:none}
+.slide-counter{color:#FFCB05;font-size:14px;font-weight:600}
+.header{text-align:center;margin-bottom:24px}
+.header h1{font-size:22px;color:#FFCB05;font-weight:700}
+.header p{color:#8899aa;font-size:13px;margin-top:4px}
+.back-link{text-align:center;margin-top:16px}
+.back-link a{color:#FFCB05;font-size:14px;text-decoration:none;opacity:0.7}
+.back-link a:hover{opacity:1;text-decoration:underline}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const slides = [{w:"Week 5",t:"What Are Chains and Why LCEL?",b:["A chain is a sequence of operations that process data through an LLM pipeline — prompt → model → parse → act","LangChain's legacy Chain classes (LLMChain, SequentialChain) were rigid, hard to customize, and difficult to debug","LangChain Expression Language (LCEL) replaces legacy chains with a composable pipe syntax using the | operator","LCEL chains are Runnables: every component implements invoke(), stream(), batch(), and async variants for free","Benefits of LCEL: unified interface, automatic streaming, built-in parallelism, easy serialization, and observability"]},
+{w:"Week 5",t:"Sequential Chains: The Pipe Operator",b:["Sequential chains pass output from one step as input to the next: prompt | model | parser","The pipe operator (|) connects any two Runnables — the output type of the left must match the input type of the right","Example: ChatPromptTemplate.from_template('Summarize: {text}') | llm | StrOutputParser()","Each step transforms data: PromptTemplate → ChatModel → OutputParser → final string result","invoke() runs the full pipeline synchronously; stream() yields tokens as they arrive from each streaming-capable step"]},
+{w:"Week 5",t:"Parallel Execution with RunnableParallel",b:["RunnableParallel runs multiple chains simultaneously and collects results into a dictionary","Syntax: RunnableParallel(summary=summary_chain, keywords=keyword_chain, sentiment=sentiment_chain)","Each branch receives the same input and executes independently — total time equals the slowest branch, not the sum","Output is a dict with keys matching the names you assigned: {'summary': ..., 'keywords': ..., 'sentiment': ...}","Use RunnableParallel to fan out work: analyze a document from multiple angles, query multiple sources, or generate alternatives"]},
+{w:"Week 5",t:"Conditional Branching with RunnableBranch",b:["RunnableBranch routes input to different chains based on conditions — like an if/elif/else for LLM pipelines","Constructor takes (condition, runnable) tuples and a default: RunnableBranch((is_question, qa_chain), (is_code, code_chain), default=general_chain)","Conditions are callables that return True/False based on the input data or classification results","Common pattern: use a classifier LLM call first, then branch based on the classified category","Alternative to RunnableBranch: use RunnableLambda with custom routing logic for more complex decision trees"]},
+{w:"Week 5",t:"Utility Runnables: Passthrough, Lambda, itemgetter",b:["RunnablePassthrough passes input through unchanged — essential for preserving original data alongside transformations","Pattern: RunnableParallel(context=retriever, question=RunnablePassthrough()) feeds both retrieved docs and the original question to a prompt","RunnableLambda wraps any Python function as a Runnable: RunnableLambda(lambda x: x.upper()) — instant composability","Use RunnableLambda for custom parsing, data reshaping, API calls, or any transformation between chain steps","itemgetter('key') from the operator module extracts specific fields from dict inputs — cleaner than lambda x: x['key']"]},
+{w:"Week 5",t:"Fallbacks and Error Handling in Chains",b:["Any Runnable supports .with_fallbacks([backup_chain]) — if the primary fails, the backup runs automatically","Use case: primary chain calls GPT-4 for quality; fallback uses GPT-3.5 for cost savings when the primary errors or times out","Chain-level retry with .with_retry(stop_after_attempt=3) adds automatic retries with exponential backoff","Combine fallbacks with retries: chain.with_retry(stop_after_attempt=2).with_fallbacks([cheaper_chain])","Error handling makes production chains resilient — rate limits, timeouts, and model outages are handled gracefully"]},
+{w:"Week 5",t:"Lab: Build a Multi-Step Research Chain",b:["Task 1: Build a sequential research chain — search query → web retrieval → summarization → formatted report","Task 2: Use RunnableParallel to analyze a topic from three angles simultaneously (pros, cons, neutral summary)","Task 3: Implement conditional branching — classify input as question, task, or creative, then route to specialized chains","Stretch goal: add fallback chains and retry logic to make your research pipeline production-ready","Deliverable: a notebook demonstrating all three chain patterns with real LLM calls and documented outputs"]},
+{w:"Week 5",t:"Week 5 Summary and Key Takeaways",b:["LCEL replaces legacy Chain classes with a composable, streaming-first pipe syntax using the | operator","Sequential chains (a | b | c) are the backbone — each step transforms data for the next","RunnableParallel enables concurrent execution; RunnableBranch enables conditional routing based on input","Utility Runnables (Passthrough, Lambda, itemgetter) are the glue that reshapes data between steps","Fallbacks and retries make chains production-ready — always plan for failures in real-world LLM applications"]}];
+
+function App() {
+  const [idx, setIdx] = React.useState(0);
+  const total = slides.length;
+  const slide = slides[idx];
+
+  React.useEffect(() => {
+    const handler = (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); setIdx(i => Math.min(i + 1, total - 1)); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); setIdx(i => Math.max(i - 1, 0)); }
+      if (e.key === 'Home') { e.preventDefault(); setIdx(0); }
+      if (e.key === 'End') { e.preventDefault(); setIdx(total - 1); }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [total]);
+
+  return (
+    <div id="root-inner">
+      <div className="header">
+        <h1>GENAI 301 — Week 5: Chains &amp; LCEL</h1>
+        <p>University of Michigan &bull; Advanced LLM Engineering</p>
+      </div>
+      <div className="slide-container">
+        <div className="week-label">{slide.w}</div>
+        <div className="slide-title">{slide.t}</div>
+        <ul className="slide-bullets">
+          {slide.b.map((bullet, i) => <li key={i}>{bullet}</li>)}
+        </ul>
+      </div>
+      <div className="controls">
+        <button disabled={idx === 0} onClick={() => setIdx(idx - 1)}>&larr; Previous</button>
+        <span className="slide-counter">Slide {idx + 1} of {total}</span>
+        <button disabled={idx === total - 1} onClick={() => setIdx(idx + 1)}>Next &rarr;</button>
+      </div>
+      <div className="back-link"><a href="../index.html">&larr; Full Slide Deck</a> &nbsp;|&nbsp; <a href="../../site/index.html">Course Home</a></div>
+    </div>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+</script>
+</body>
+</html>

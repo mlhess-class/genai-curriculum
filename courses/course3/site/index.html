@@ -84,7 +84,7 @@ footer{text-align:center;padding:40px 0;color:var(--muted);font-size:.85rem;bord
   <div class="prof-card">
     <div class="prof-info">
       <p>Instructor information will be provided at the start of the semester.</p>
-      <p style="margin-top:8px"><a href="mailto:instructor-genai301@umich.edu">instructor-genai301@umich.edu</a> · Office Hours: TBD</p>
+      <p style="margin-top:8px"><a href="mailto:instructor-genai301@umich.edu">instructor-genai301@umich.edu</a> · Office Hours: TBA</p>
     </div>
   </div>
 </div>
@@ -130,7 +130,7 @@ footer{text-align:center;padding:40px 0;color:var(--muted);font-size:.85rem;bord
   <h2>Prerequisites</h2>
   <div class="prereq">
     <ul>
-      <li><strong>GENAI 201</strong> — Foundations of Generative AI (or equivalent)</li>
+      <li><strong>GENAI 201</strong> — AI-Powered Workflows &amp; Automation (or equivalent)</li>
       <li>Intermediate Python (functions, classes, decorators, async basics)</li>
       <li>Familiarity with REST APIs and JSON</li>
       <li>Basic understanding of how LLMs work (tokenization, attention, generation)</li>
@@ -145,12 +145,12 @@ footer{text-align:center;padding:40px 0;color:var(--muted);font-size:.85rem;bord
 <div class="container">
   <h2>Homework Assignments</h2>
   <div class="week-grid">
-    <div class="week"><span class="week-num">HW 1</span><div><div class="week-title">LangChain Foundations &amp; LLM Integration</div><div class="week-desc">Due: End of Week 3. Set up a LangChain development environment. Invoke LLMs using LCEL (LangChain Expression Language).</div></div></div>
-    <div class="week"><span class="week-num">HW 2</span><div><div class="week-title">Prompt Engineering &amp; Output Parsing</div><div class="week-desc">Due: End of Week 5. Master ChatPromptTemplate and few-shot prompting. Build robust output parsers with Pydantic.</div></div></div>
-    <div class="week"><span class="week-num">HW 3</span><div><div class="week-title">RAG Pipeline Construction</div><div class="week-desc">Due: End of Week 7. Build a complete RAG pipeline from document loading to retrieval. Compare vector stores: ChromaDB, FAISS.</div></div></div>
-    <div class="week"><span class="week-num">HW 4</span><div><div class="week-title">Agents &amp; Tools</div><div class="week-desc">Due: End of Week 10. Build custom tools for LangChain agents. Implement ReAct agents with function calling.</div></div></div>
-    <div class="week"><span class="week-num">HW 5</span><div><div class="week-title">Memory Systems &amp; LangGraph</div><div class="week-desc">Due: End of Week 12. Implement and compare LangChain memory systems. Build stateful workflows with LangGraph.</div></div></div>
-    <div class="week"><span class="week-num">HW 6</span><div><div class="week-title">Evaluation &amp; Production Patterns</div><div class="week-desc">Due: End of Week 14. Evaluate LLM applications with LangSmith. Implement production patterns: streaming, caching, cost management.</div></div></div>
+    <div class="week"><span class="week-num"><a href="../homework/hw1.md" style="color:inherit">HW 1</a></span><div><div class="week-title">LangChain Foundations &amp; LLM Integration</div><div class="week-desc">Due: End of Week 3. Set up a LangChain development environment. Invoke LLMs using LCEL (LangChain Expression Language).</div></div></div>
+    <div class="week"><span class="week-num"><a href="../homework/hw2.md" style="color:inherit">HW 2</a></span><div><div class="week-title">Prompt Engineering &amp; Output Parsing</div><div class="week-desc">Due: End of Week 5. Master ChatPromptTemplate and few-shot prompting. Build robust output parsers with Pydantic.</div></div></div>
+    <div class="week"><span class="week-num"><a href="../homework/hw3.md" style="color:inherit">HW 3</a></span><div><div class="week-title">RAG Pipeline Construction</div><div class="week-desc">Due: End of Week 7. Build a complete RAG pipeline from document loading to retrieval. Compare vector stores: ChromaDB, FAISS.</div></div></div>
+    <div class="week"><span class="week-num"><a href="../homework/hw4.md" style="color:inherit">HW 4</a></span><div><div class="week-title">Agents &amp; Tools</div><div class="week-desc">Due: End of Week 10. Build custom tools for LangChain agents. Implement ReAct agents with function calling.</div></div></div>
+    <div class="week"><span class="week-num"><a href="../homework/hw5.md" style="color:inherit">HW 5</a></span><div><div class="week-title">Memory Systems &amp; LangGraph</div><div class="week-desc">Due: End of Week 12. Implement and compare LangChain memory systems. Build stateful workflows with LangGraph.</div></div></div>
+    <div class="week"><span class="week-num"><a href="../homework/hw6.md" style="color:inherit">HW 6</a></span><div><div class="week-title">Evaluation &amp; Production Patterns</div><div class="week-desc">Due: End of Week 14. Evaluate LLM applications with LangSmith. Implement production patterns: streaming, caching, cost management.</div></div></div>
   </div>
 </div>
 </section>
@@ -159,7 +159,24 @@ footer{text-align:center;padding:40px 0;color:var(--muted);font-size:.85rem;bord
 <div class="container">
   <h2>Lecture Slides</h2>
   <div class="prereq">
-    <p>All lecture slides are available on <strong>Canvas</strong> (Files → Lecture Slides). Slides are organized by week and include speaker notes.</p>
+    <p><a href="../slides/index.html" style="color:var(--green);font-weight:600">📊 Open Full Slide Deck</a> — All lectures in one deck. Or browse by week below:</p>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;margin-top:16px">
+    <a href="../slides/week-01/index.html" class="prereq" style="display:block;text-decoration:none;padding:14px 18px;border-left:3px solid var(--green)"><strong>Week 1:</strong> Python Crash Course for AI Developers</a>
+    <a href="../slides/week-02/index.html" class="prereq" style="display:block;text-decoration:none;padding:14px 18px;border-left:3px solid var(--green)"><strong>Week 2:</strong> LangChain Architecture Overview</a>
+    <a href="../slides/week-03/index.html" class="prereq" style="display:block;text-decoration:none;padding:14px 18px;border-left:3px solid var(--green)"><strong>Week 3:</strong> Working with LLMs</a>
+    <a href="../slides/week-04/index.html" class="prereq" style="display:block;text-decoration:none;padding:14px 18px;border-left:3px solid var(--green)"><strong>Week 4:</strong> Prompt Templates & Output Parsers</a>
+    <a href="../slides/week-05/index.html" class="prereq" style="display:block;text-decoration:none;padding:14px 18px;border-left:3px solid var(--green)"><strong>Week 5:</strong> Chains & LCEL</a>
+    <a href="../slides/week-06/index.html" class="prereq" style="display:block;text-decoration:none;padding:14px 18px;border-left:3px solid var(--green)"><strong>Week 6:</strong> Introduction to RAG</a>
+    <a href="../slides/week-07/index.html" class="prereq" style="display:block;text-decoration:none;padding:14px 18px;border-left:3px solid var(--green)"><strong>Week 7:</strong> Vector Databases</a>
+    <a href="../slides/week-08/index.html" class="prereq" style="display:block;text-decoration:none;padding:14px 18px;border-left:3px solid var(--green)"><strong>Week 8:</strong> Midterm — Build a RAG Application</a>
+    <a href="../slides/week-09/index.html" class="prereq" style="display:block;text-decoration:none;padding:14px 18px;border-left:3px solid var(--green)"><strong>Week 9:</strong> Advanced RAG</a>
+    <a href="../slides/week-10/index.html" class="prereq" style="display:block;text-decoration:none;padding:14px 18px;border-left:3px solid var(--green)"><strong>Week 10:</strong> Agents & Tools</a>
+    <a href="../slides/week-11/index.html" class="prereq" style="display:block;text-decoration:none;padding:14px 18px;border-left:3px solid var(--green)"><strong>Week 11:</strong> Memory Systems</a>
+    <a href="../slides/week-12/index.html" class="prereq" style="display:block;text-decoration:none;padding:14px 18px;border-left:3px solid var(--green)"><strong>Week 12:</strong> LangGraph</a>
+    <a href="../slides/week-13/index.html" class="prereq" style="display:block;text-decoration:none;padding:14px 18px;border-left:3px solid var(--green)"><strong>Week 13:</strong> Evaluation & Testing</a>
+    <a href="../slides/week-14/index.html" class="prereq" style="display:block;text-decoration:none;padding:14px 18px;border-left:3px solid var(--green)"><strong>Week 14:</strong> Production Patterns</a>
+    <a href="../slides/week-15/index.html" class="prereq" style="display:block;text-decoration:none;padding:14px 18px;border-left:3px solid var(--green)"><strong>Week 15:</strong> Final Project Presentations</a>
   </div>
 </div>
 </section>
@@ -183,9 +200,21 @@ footer{text-align:center;padding:40px 0;color:var(--muted);font-size:.85rem;bord
 
 <footer>
 <div class="container">
-  <p>GENAI 301: Building with LangChain — Spring 2026 · University of Michigan — Certificate in Generative AI Engineering</p>
+  <p>GENAI 301: Building with LangChain — Fall 2027 · University of Michigan — Certificate in Generative AI Engineering</p>
 </div>
 </footer>
+
+<section style="background:var(--navy-light)">
+<div class="container">
+  <h2>Course Policies</h2>
+  <div class="week-grid">
+    <div class="week"><div><div class="week-title">AI Usage Policy</div><div class="week-desc">You are <em>encouraged</em> to use AI tools throughout this course — it's what we're building with. However, you must <strong>always disclose</strong> when and how AI was used in any submission. Undisclosed AI use is an academic integrity violation.</div></div></div>
+    <div class="week"><div><div class="week-title">Late Work</div><div class="week-desc">Assignments lose 10% per day late, up to 3 days. After 3 days, no credit unless a prior extension was arranged. Extensions must be requested at least 24 hours before the deadline.</div></div></div>
+    <div class="week"><div><div class="week-title">Attendance</div><div class="week-desc">Attendance is expected for all lectures and labs. More than 3 unexcused absences will result in a participation grade penalty. If you must miss class, notify the instructor in advance.</div></div></div>
+    <div class="week"><div><div class="week-title">Accessibility</div><div class="week-desc">If you need accommodations, please contact the Office of Disability Services and share your letter with the instructor within the first two weeks. We are committed to making this course accessible to everyone.</div></div></div>
+  </div>
+</div>
+</section>
 
 <section style="text-align:center;padding:24px 0"><div class="container"><a href="../../index.html" style="color:var(--green);font-size:.95rem">← Back to Program Overview</a></div></section>
 </body>

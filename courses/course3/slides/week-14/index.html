@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>GENAI 301 — Week 14: Production Deployment</title>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#00274C;color:#FFF;overflow:hidden}
+.deck{height:100vh;display:flex;flex-direction:column}
+.slide{flex:1;display:flex;flex-direction:column;justify-content:center;padding:60px 80px}
+.slide h1{font-size:2.4rem;color:#FFCB05;margin-bottom:8px}
+.slide h2{font-size:1.6rem;margin-bottom:24px;font-weight:400;opacity:.85}
+.slide ul{list-style:none;font-size:1.15rem;line-height:2}
+.slide ul li::before{content:"▸ ";color:#FFCB05}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:12px 30px;background:rgba(0,0,0,.3)}
+.nav button{background:#FFCB05;color:#00274C;border:none;padding:8px 20px;border-radius:4px;font-size:1rem;cursor:pointer;font-weight:600}
+.nav button:disabled{opacity:.3;cursor:default}
+.nav span{font-size:.9rem;opacity:.7}
+.week-tag{font-size:.85rem;opacity:.5;margin-bottom:4px}
+.back-links{text-align:center;padding:8px;background:rgba(0,0,0,.2)}
+.back-links a{color:#FFCB05;font-size:.85rem;text-decoration:none;opacity:.6;margin:0 12px}
+.back-links a:hover{opacity:1}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+const S = [
+  {
+    t:"Production Deployment — Taking LangChain Apps Live",
+    w:"Week 14",
+    b:[
+      "Transition from prototype to production: bridging the gap between a working notebook and a reliable, scalable service that handles real user traffic",
+      "This week covers the full deployment stack: LangServe for API exposure, Docker for containerization, rate limiting, caching, monitoring, and async scaling patterns",
+      "Production readiness checklist: reproducible builds, health checks, graceful degradation, secret management, and observability — shipping without these is shipping a liability",
+      "Key mindset shift: in development you optimize for iteration speed; in production you optimize for reliability, cost efficiency, and mean time to recovery",
+      "By end of week you will deploy a containerized RAG application with rate limiting, cost controls, and production monitoring — a portfolio-ready deployment artifact"
+    ]
+  },
+  {
+    t:"LangServe — Deploying Chains as REST APIs",
+    w:"Week 14",
+    b:[
+      "LangServe wraps any LangChain Runnable as a REST endpoint: add_routes(app, chain, path='/rag') instantly gives you /invoke, /batch, /stream, and /stream_log routes",
+      "Built on FastAPI: you get automatic OpenAPI docs at /docs, Pydantic request/response validation, dependency injection for auth, and async support out of the box",
+      "Input/output schemas are auto-generated from your chain's type hints: clients get typed contracts, and malformed requests are rejected before hitting your model",
+      "The RemoteRunnable client lets other LangChain apps call your deployed chain as if it were local: chain = RemoteRunnable('http://api:8000/rag') — composable distributed AI",
+      "Playground UI comes free at /playground: stakeholders can test your chain in a browser without writing code — invaluable for demos, QA, and non-technical team members"
+    ]
+  },
+  {
+    t:"Docker Containerization — Reproducible AI Deployments",
+    w:"Week 14",
+    b:[
+      "Docker eliminates 'works on my machine': a Dockerfile pins your Python version, system deps, pip packages, and app code into one immutable, shippable image",
+      "Multi-stage builds keep images lean: stage 1 installs build tools and compiles dependencies, stage 2 copies only the runtime artifacts — production images under 500MB instead of 2GB+",
+      "docker-compose.yml orchestrates your stack: app server, vector database (Chroma/Qdrant), Redis cache, and monitoring — one 'docker compose up' spins up the entire environment",
+      "Secret management in containers: never bake API keys into images; use environment variables via --env-file, Docker secrets, or cloud-native secret managers (AWS SSM, Vault)",
+      "Health checks and restart policies: HEALTHCHECK in Dockerfile + restart: unless-stopped in compose ensure your service self-heals — production containers must recover without human intervention"
+    ]
+  },
+  {
+    t:"Rate Limiting & Cost Controls — Surviving Real Traffic",
+    w:"Week 14",
+    b:[
+      "LLM APIs charge per token: a single runaway loop or abusive user can burn hundreds of dollars in minutes — rate limiting is not optional, it's financial self-defense",
+      "Implement rate limiting at multiple layers: FastAPI middleware (slowapi) for per-IP/per-user throttling, plus backend token budgets that cap total spend per hour/day/user",
+      "Token counting before submission: use tiktoken to estimate prompt + max_tokens cost, reject requests that exceed budget thresholds, and return clear 429 responses with retry-after headers",
+      "Tiered access patterns: free tier gets gpt-4o-mini with 10 req/min, premium gets gpt-4o with 60 req/min — implement with API key scopes and configurable limit tables",
+      "Cost dashboards and alerts: track spend per endpoint, per user, per model in real time — set PagerDuty/Slack alerts at 50%, 80%, 100% of daily budget so surprises never reach your invoice"
+    ]
+  },
+  {
+    t:"Caching Strategies — Reducing Latency and Cost",
+    w:"Week 14",
+    b:[
+      "Exact-match caching with Redis: hash the (prompt, model, temperature) tuple as a cache key — identical requests return instantly without an API call, slashing both latency and cost",
+      "Semantic caching with embeddings: embed incoming queries and check vector similarity against cached responses — near-duplicate questions (rephrased, typos) hit cache instead of the model",
+      "LangChain's built-in cache integrations: set_llm_cache(RedisCache(redis_client)) or SQLiteCache for development — transparent caching with zero changes to your chain logic",
+      "Cache invalidation strategies: TTL-based expiry for time-sensitive data, version-tagged keys when your prompt templates change, and manual purge endpoints for content updates",
+      "Layered caching architecture: L1 in-process dict for sub-millisecond hits, L2 Redis for shared cache across replicas, L3 persistent store for expensive embeddings — each layer catches what the previous missed"
+    ]
+  },
+  {
+    t:"Monitoring with LangSmith — Observability for LLM Apps",
+    w:"Week 14",
+    b:[
+      "LangSmith provides end-to-end tracing for every chain invocation: see the exact prompts sent, tokens consumed, latencies at each step, and the full retrieval-generation pipeline",
+      "Production tracing setup: set LANGCHAIN_TRACING_V2=true and LANGCHAIN_API_KEY in your environment — traces flow automatically with zero code changes to your existing chains",
+      "Debugging in production: filter traces by latency > 5s, error status, or specific user IDs — find the exact retrieval that returned irrelevant docs or the prompt that triggered a hallucination",
+      "Evaluation datasets and regression testing: capture production inputs as test cases, run them against new chain versions, compare quality scores before deploying updates",
+      "Custom metadata and feedback: tag traces with user_id, session_id, and feedback scores — build dashboards showing quality trends, identify degradation, and close the human-in-the-loop feedback cycle"
+    ]
+  },
+  {
+    t:"Scaling & Async Patterns — Handling Production Load",
+    w:"Week 14",
+    b:[
+      "Async processing with asyncio: use chain.ainvoke() and astream() to handle concurrent requests — a single Python process can serve dozens of simultaneous LLM calls while waiting on API responses",
+      "Queue-based architecture with Celery or Redis queues: decouple request intake from LLM processing — accept requests instantly, process asynchronously, notify via webhook or polling when complete",
+      "Model routing for cost optimization: route simple queries to gpt-4o-mini first, escalate to gpt-4o only when confidence is low or the task is complex — cut costs 60-80% with minimal quality loss",
+      "Horizontal scaling with container orchestration: run multiple LangServe replicas behind a load balancer, use sticky sessions for streaming, and scale based on queue depth rather than CPU",
+      "Graceful degradation patterns: when the primary model is down or rate-limited, fall back to a secondary provider; when the vector store is slow, return a direct LLM response with a quality warning"
+    ]
+  },
+  {
+    t:"Week 14 Recap — Lab Assignment & Key Takeaways",
+    w:"Week 14",
+    b:[
+      "Lab: package your RAG application with LangServe (expose /invoke and /stream endpoints), add per-user rate limiting with slowapi, and deploy the full stack with Docker Compose",
+      "Deliverables: Dockerfile with multi-stage build, docker-compose.yml with app + vector DB + Redis, rate limiting middleware, and a README documenting your deployment architecture",
+      "Key takeaway: production deployment is not an afterthought — it's a discipline that requires caching, monitoring, cost controls, and failure handling designed in from the start",
+      "The deployment pipeline you built today — containerized app, rate-limited API, cached responses, monitored traces — is the same architecture used by production LLM services at scale",
+      "Next week: final project presentations and course retrospective — bring your deployed application URL, a 5-minute demo, and be prepared to discuss architecture decisions and trade-offs"
+    ]
+  }
+];
+
+const e=React.createElement;
+function App(){
+const[i,setI]=React.useState(0);
+const s=S[i];
+React.useEffect(()=>{
+const h=ev=>{if(ev.key==='ArrowRight'&&i<S.length-1)setI(i+1);if(ev.key==='ArrowLeft'&&i>0)setI(i-1)};
+window.addEventListener('keydown',h);return()=>window.removeEventListener('keydown',h);
+},[i]);
+return e('div',{className:'deck'},
+e('div',{className:'slide'},
+s.w&&e('div',{className:'week-tag'},s.w),
+e('h1',null,s.t),
+e('ul',null,...s.b.map((x,j)=>e('li',{key:j},x)))
+),
+e('div',{className:'nav'},
+e('button',{onClick:()=>setI(i-1),disabled:i===0},'← Prev'),
+e('span',null,(i+1)+' / '+S.length),
+e('button',{onClick:()=>setI(i+1),disabled:i===S.length-1},'Next →')
+),
+e('div',{className:'back-links'},
+e('a',{href:'../index.html'},'← Full Deck'),
+e('a',{href:'../../site/index.html'},'Course Home')
+)
+);
+}
+ReactDOM.createRoot(document.getElementById('root')).render(e(App));
+</script>
+</body>
+</html>

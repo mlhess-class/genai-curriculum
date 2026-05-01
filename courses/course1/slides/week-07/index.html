@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GENAI 101 — Week 7: AI for Code Generation</title>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#00274C;color:#e8e8e8;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center}
+#root{width:100%;max-width:960px;padding:20px}
+.slide-container{background:linear-gradient(135deg,#001a33 0%,#00274C 50%,#001a33 100%);border:1px solid #FFCB05;border-radius:12px;padding:48px;min-height:520px;display:flex;flex-direction:column;justify-content:flex-start;box-shadow:0 8px 32px rgba(0,0,0,0.4)}
+.week-label{color:#FFCB05;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px}
+.slide-title{font-size:28px;font-weight:700;color:#FFCB05;margin-bottom:28px;line-height:1.3;border-bottom:2px solid rgba(255,203,5,0.3);padding-bottom:12px}
+.slide-bullets{list-style:none;flex:1}
+.slide-bullets li{font-size:17px;line-height:1.6;margin-bottom:14px;padding-left:24px;position:relative;color:#d4d4d4}
+.slide-bullets li::before{content:"\25B8";position:absolute;left:0;color:#FFCB05;font-size:14px}
+.controls{display:flex;align-items:center;justify-content:space-between;margin-top:20px}
+.controls button{background:#FFCB05;color:#00274C;border:none;padding:10px 24px;border-radius:6px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s}
+.controls button:hover{background:#ffd633;transform:translateY(-1px)}
+.controls button:disabled{opacity:0.3;cursor:default;transform:none}
+.slide-counter{color:#FFCB05;font-size:14px;font-weight:600}
+.header{text-align:center;margin-bottom:24px}
+.header h1{font-size:22px;color:#FFCB05;font-weight:700}
+.header p{color:#8899aa;font-size:13px;margin-top:4px}
+.back-link{text-align:center;margin-top:16px}
+.back-link a{color:#FFCB05;font-size:14px;text-decoration:none;opacity:0.7}
+.back-link a:hover{opacity:1;text-decoration:underline}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const slides = [{w:"Week 7",t:"AI-Assisted Code Generation",b:["AI can generate functional code from natural language descriptions across most programming languages","Best practice: describe WHAT you want, specify the language, and include constraints (no external libraries, etc.)","AI-generated code should always be reviewed, tested, and understood before deployment","Tools: GitHub Copilot (inline), ChatGPT/Claude (conversational), Cursor (AI-native IDE)","Start simple: ask for a function, test it, then build up to more complex programs"]},
+{w:"Week 7",t:"Debugging with AI",b:["Paste error messages and code — AI excels at identifying common bugs and suggesting fixes","Provide the full error traceback, the relevant code, and what you expected to happen","AI can explain cryptic error messages in plain English: 'Explain this error like I am a beginner'","For complex bugs, describe the expected vs. actual behavior and ask for diagnostic steps","Rubber duck debugging enhanced: explaining your problem to AI often reveals the solution"]},
+{w:"Week 7",t:"Code Explanation and Documentation",b:["AI can explain unfamiliar code line by line: 'Explain what this regex does in plain English'","Generate docstrings, comments, and README files from existing code","Translate between languages: 'Convert this Python function to JavaScript'","Explain architectural patterns: 'Why does this codebase use the repository pattern?'","For legacy code, AI can help understand and document systems that lack documentation"]},
+{w:"Week 7",t:"Code Refactoring and Optimization",b:["AI can suggest cleaner, more efficient, or more idiomatic versions of your code","Prompt: 'Refactor this function to use list comprehensions and reduce nesting'","Performance optimization: 'This function is slow with large inputs. Suggest optimizations.'","Security review: 'Check this code for common security vulnerabilities (SQL injection, XSS, etc.)'","AI catches patterns a tired human might miss — but it can also introduce subtle bugs"]},
+{w:"Week 7",t:"Testing and Test Generation",b:["AI can generate unit tests from function signatures and descriptions","Prompt: 'Write pytest tests for this function, including edge cases and error handling'","Test-driven development with AI: write tests first, then ask AI to implement the function","AI can suggest edge cases you might not think of: boundary values, empty inputs, concurrent access","Always run the generated tests — AI may write tests that look right but test the wrong behavior"]},
+{w:"Week 7",t:"Limitations of AI-Generated Code",b:["AI does not execute code — it predicts plausible code based on training patterns","It may generate code that looks correct but has subtle logical errors","Security vulnerabilities may be introduced if you do not review carefully","AI code may use deprecated APIs, outdated libraries, or non-existent functions (hallucination)","For production systems, AI-generated code should go through the same review process as human code"]},
+{w:"Week 7",t:"Week 7 Summary and Key Takeaways",b:["AI is a powerful coding assistant for generation, debugging, explanation, and refactoring","Always review, test, and understand AI-generated code — never deploy blindly","The best workflow: describe intent clearly, review output critically, test thoroughly","AI-assisted coding makes experienced developers faster and helps beginners learn","Understanding what AI can and cannot do with code is itself a valuable professional skill"]}];
+
+function App() {
+  const [idx, setIdx] = React.useState(0);
+  const total = slides.length;
+  const slide = slides[idx];
+
+  React.useEffect(() => {
+    const handler = (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); setIdx(i => Math.min(i + 1, total - 1)); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); setIdx(i => Math.max(i - 1, 0)); }
+      if (e.key === 'Home') { e.preventDefault(); setIdx(0); }
+      if (e.key === 'End') { e.preventDefault(); setIdx(total - 1); }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [total]);
+
+  return (
+    <div id="root-inner">
+      <div className="header">
+        <h1>GENAI 101 — Week 7: AI for Code Generation</h1>
+        <p>University of Michigan &bull; Foundations of Generative AI</p>
+      </div>
+      <div className="slide-container">
+        <div className="week-label">{slide.w}</div>
+        <div className="slide-title">{slide.t}</div>
+        <ul className="slide-bullets">
+          {slide.b.map((bullet, i) => <li key={i}>{bullet}</li>)}
+        </ul>
+      </div>
+      <div className="controls">
+        <button disabled={idx === 0} onClick={() => setIdx(idx - 1)}>&larr; Previous</button>
+        <span className="slide-counter">Slide {idx + 1} of {total}</span>
+        <button disabled={idx === total - 1} onClick={() => setIdx(idx + 1)}>Next &rarr;</button>
+      </div>
+      <div className="back-link"><a href="../index.html">&larr; Full Slide Deck</a> &nbsp;|&nbsp; <a href="../../site/index.html">Course Home</a></div>
+    </div>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+</script>
+</body>
+</html>

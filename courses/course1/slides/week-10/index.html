@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GENAI 101 — Week 10: Academic Integrity & AI</title>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#00274C;color:#e8e8e8;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center}
+#root{width:100%;max-width:960px;padding:20px}
+.slide-container{background:linear-gradient(135deg,#001a33 0%,#00274C 50%,#001a33 100%);border:1px solid #FFCB05;border-radius:12px;padding:48px;min-height:520px;display:flex;flex-direction:column;justify-content:flex-start;box-shadow:0 8px 32px rgba(0,0,0,0.4)}
+.week-label{color:#FFCB05;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px}
+.slide-title{font-size:28px;font-weight:700;color:#FFCB05;margin-bottom:28px;line-height:1.3;border-bottom:2px solid rgba(255,203,5,0.3);padding-bottom:12px}
+.slide-bullets{list-style:none;flex:1}
+.slide-bullets li{font-size:17px;line-height:1.6;margin-bottom:14px;padding-left:24px;position:relative;color:#d4d4d4}
+.slide-bullets li::before{content:"\25B8";position:absolute;left:0;color:#FFCB05;font-size:14px}
+.controls{display:flex;align-items:center;justify-content:space-between;margin-top:20px}
+.controls button{background:#FFCB05;color:#00274C;border:none;padding:10px 24px;border-radius:6px;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s}
+.controls button:hover{background:#ffd633;transform:translateY(-1px)}
+.controls button:disabled{opacity:0.3;cursor:default;transform:none}
+.slide-counter{color:#FFCB05;font-size:14px;font-weight:600}
+.header{text-align:center;margin-bottom:24px}
+.header h1{font-size:22px;color:#FFCB05;font-weight:700}
+.header p{color:#8899aa;font-size:13px;margin-top:4px}
+.back-link{text-align:center;margin-top:16px}
+.back-link a{color:#FFCB05;font-size:14px;text-decoration:none;opacity:0.7}
+.back-link a:hover{opacity:1;text-decoration:underline}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const slides = [{w:"Week 10",t:"AI and Academic Integrity: The New Landscape",b:["AI tools have fundamentally changed what 'original work' means in academic contexts","Universities are rapidly developing AI policies — but there is no consensus yet","The spectrum ranges from complete bans to full integration with disclosure requirements","This is not just about cheating — it is about developing genuine understanding and skills","Your responsibility: know your institution's policy AND develop your own ethical framework"]},
+{w:"Week 10",t:"University AI Policies: A Spectrum",b:["Restrictive: no AI use permitted on any assignments (increasingly rare and hard to enforce)","Permitted with disclosure: AI use allowed if you document what tools you used and how","Encouraged with guidelines: AI integrated into coursework with specific usage frameworks","Course-specific: policies vary by instructor — always check the syllabus and ask if unclear","The trend is toward integration with transparency — most universities are adopting disclosure-based policies"]},
+{w:"Week 10",t:"What Constitutes AI-Assisted vs. AI-Generated Work?",b:["AI-assisted: you use AI for brainstorming, outlining, or checking grammar — the ideas and writing are yours","AI-generated: the substantive content, arguments, or text come primarily from AI output","The gray area is large: using AI to rephrase your ideas, expand your outline, or suggest counterarguments","A useful test: can you explain and defend every claim in your submission without the AI?","Documentation tip: keep a log of your AI interactions for each assignment — screenshots help"]},
+{w:"Week 10",t:"Detection Tools and Their Limitations",b:["AI detection tools (GPTZero, Turnitin AI, Originality.ai) analyze text for statistical AI patterns","Current accuracy is imperfect: false positives wrongly accuse human writers, especially non-native English speakers","False negatives: paraphrasing, mixing AI and human text, or using less common models evades detection","Detection tools should not be the sole basis for academic integrity decisions","The arms race: as detection improves, so do methods to evade detection — trust and education work better"]},
+{w:"Week 10",t:"Developing Your Own AI Ethics Framework",b:["Ask yourself: am I learning what this assignment is designed to teach me?","The 'explain it' test: if you cannot explain your work in a follow-up conversation, AI did too much","Use AI to learn, not to bypass learning — there is a meaningful difference","Consider your future self: skills you skip developing now become gaps in your professional capability","Build habits of intellectual honesty now — they compound throughout your career"]},
+{w:"Week 10",t:"Best Practices for Ethical AI Use in Academics",b:["Always check course-specific AI policies before using AI tools on assignments","Disclose AI use proactively — transparency builds trust and protects you from accusations","Use AI as a learning accelerator: ask it to explain concepts, generate practice problems, check your reasoning","Keep records of your AI interactions — this protects you and helps you reflect on your process","When in doubt, ask your instructor — they would rather clarify expectations than handle integrity violations"]},
+{w:"Week 10",t:"Week 10 Summary and Key Takeaways",b:["AI policies are evolving rapidly — stay informed about your institution's current stance","The key distinction is whether AI is helping you learn or replacing your learning","Detection tools are imperfect — transparency and education are more effective than surveillance","Develop a personal framework: ask 'am I learning?' and 'can I explain and defend this work?'","Ethical AI use is a professional skill — the habits you build now carry into your career"]}];
+
+function App() {
+  const [idx, setIdx] = React.useState(0);
+  const total = slides.length;
+  const slide = slides[idx];
+
+  React.useEffect(() => {
+    const handler = (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); setIdx(i => Math.min(i + 1, total - 1)); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); setIdx(i => Math.max(i - 1, 0)); }
+      if (e.key === 'Home') { e.preventDefault(); setIdx(0); }
+      if (e.key === 'End') { e.preventDefault(); setIdx(total - 1); }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [total]);
+
+  return (
+    <div id="root-inner">
+      <div className="header">
+        <h1>GENAI 101 — Week 10: Academic Integrity & AI</h1>
+        <p>University of Michigan &bull; Foundations of Generative AI</p>
+      </div>
+      <div className="slide-container">
+        <div className="week-label">{slide.w}</div>
+        <div className="slide-title">{slide.t}</div>
+        <ul className="slide-bullets">
+          {slide.b.map((bullet, i) => <li key={i}>{bullet}</li>)}
+        </ul>
+      </div>
+      <div className="controls">
+        <button disabled={idx === 0} onClick={() => setIdx(idx - 1)}>&larr; Previous</button>
+        <span className="slide-counter">Slide {idx + 1} of {total}</span>
+        <button disabled={idx === total - 1} onClick={() => setIdx(idx + 1)}>Next &rarr;</button>
+      </div>
+      <div className="back-link"><a href="../index.html">&larr; Full Slide Deck</a> &nbsp;|&nbsp; <a href="../../site/index.html">Course Home</a></div>
+    </div>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+</script>
+</body>
+</html>

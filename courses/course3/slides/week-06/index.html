@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>GENAI 301 – Week 6: RAG Foundations</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #00274C; color: #fff; }
+  .deck { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+  .slide { flex: 1; padding: 60px 80px; display: flex; flex-direction: column; justify-content: center; }
+  .slide h1 { font-size: 2.6rem; color: #FFCB05; margin-bottom: 6px; font-weight: 700; }
+  .slide h2 { font-size: 1.15rem; color: #FFCB05; opacity: 0.8; margin-bottom: 36px; font-weight: 400; letter-spacing: 0.5px; }
+  .slide ul { list-style: none; padding: 0; }
+  .slide ul li { font-size: 1.35rem; line-height: 1.6; margin-bottom: 18px; padding-left: 28px; position: relative; }
+  .slide ul li::before { content: '▸'; color: #FFCB05; position: absolute; left: 0; font-size: 1.2rem; }
+  .nav { display: flex; justify-content: center; align-items: center; gap: 24px; padding: 18px; background: rgba(0,0,0,0.25); }
+  .nav button { background: #FFCB05; color: #00274C; border: none; padding: 10px 28px; font-size: 1rem; font-weight: 600; border-radius: 6px; cursor: pointer; transition: opacity 0.2s; }
+  .nav button:disabled { opacity: 0.3; cursor: default; }
+  .nav button:hover:not(:disabled) { opacity: 0.85; }
+  .nav .counter { font-size: 0.95rem; color: #FFCB05; min-width: 80px; text-align: center; }
+  .back-links { text-align: center; padding: 10px; background: rgba(0,0,0,0.18); }
+  .back-links a { color: #FFCB05; text-decoration: none; font-size: 0.85rem; margin: 0 14px; opacity: 0.8; }
+  .back-links a:hover { opacity: 1; text-decoration: underline; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script>
+const e = React.createElement;
+
+const S = [
+  {
+    t: "RAG Foundations",
+    w: "Week 6",
+    b: [
+      "Retrieval-Augmented Generation (RAG) gives LLMs access to private, current, and domain-specific data at query time",
+      "Core problem solved: LLMs alone hallucinate, have stale training data, and lack access to proprietary knowledge bases",
+      "RAG decouples knowledge from model weights — the model reasons, the retrieval system supplies facts",
+      "Enables grounded answers with citations: users can verify claims against source documents",
+      "Adopted across enterprise (legal research, medical QA, internal search) as the primary pattern for knowledge-intensive AI apps"
+    ]
+  },
+  {
+    t: "The RAG Pipeline",
+    w: "Week 6",
+    b: [
+      "Three-stage architecture: Indexing → Retrieval → Generation, each independently optimizable",
+      "Indexing (offline): load raw documents, split into chunks, generate vector embeddings, store in a vector database",
+      "Retrieval (online): convert the user query into an embedding, perform similarity search, return top-k relevant chunks",
+      "Generation: inject retrieved chunks into the LLM prompt as context, then generate a grounded answer",
+      "Key design tradeoff: retrieval precision vs. recall — too few chunks miss context, too many dilute relevance and increase cost"
+    ]
+  },
+  {
+    t: "Document Loaders in LangChain",
+    w: "Week 6",
+    b: [
+      "LangChain provides 80+ document loaders: PDFs (PyPDFLoader), web pages (WebBaseLoader), CSVs, databases, Notion, Slack, and more",
+      "Each loader returns a list of Document objects with page_content (text) and metadata (source, page number, timestamps)",
+      "Metadata is critical for filtering, citation, and access control — always preserve and enrich it during loading",
+      "Combining multiple loaders lets you build unified knowledge bases across heterogeneous data sources",
+      "Best practice: normalize and clean loaded text (strip headers/footers, fix encoding) before the splitting stage"
+    ]
+  },
+  {
+    t: "Text Splitting Strategies",
+    w: "Week 6",
+    b: [
+      "Why split? Embedding models have token limits (~512 tokens); smaller chunks improve retrieval precision",
+      "RecursiveCharacterTextSplitter: splits by paragraphs → sentences → words, preserving semantic coherence",
+      "Chunk size sweet spot: 500–1000 characters for most use cases; too small loses context, too large reduces retrieval accuracy",
+      "Chunk overlap (50–200 chars) ensures ideas spanning boundaries aren't lost — critical for multi-sentence reasoning",
+      "Advanced: semantic splitting (split on topic shifts), code-aware splitters (respect function boundaries), and parent-child chunking"
+    ]
+  },
+  {
+    t: "Embeddings & Vector Storage",
+    w: "Week 6",
+    b: [
+      "Embeddings are dense numerical vectors (768–3072 dims) that capture semantic meaning — similar concepts cluster together",
+      "Popular embedding models: OpenAI text-embedding-3-small/large, Cohere embed-v3, open-source alternatives (BGE, E5, GTE)",
+      "Vector databases (Chroma, Pinecone, Weaviate, pgvector) index embeddings for fast approximate nearest-neighbor (ANN) search",
+      "Chroma is ideal for prototyping — runs in-memory or persistent locally, integrates directly with LangChain",
+      "Embedding quality directly determines retrieval quality: choose models trained on data similar to your domain when possible"
+    ]
+  },
+  {
+    t: "Building a Retrieval Chain",
+    w: "Week 6",
+    b: [
+      "LangChain's RetrievalQA chain wires together: retriever (vector store .as_retriever()) → prompt template → LLM → output",
+      "The prompt template is key: instruct the LLM to answer ONLY from provided context, say 'I don't know' if context is insufficient",
+      "Retriever parameters: k (number of chunks), score_threshold (minimum similarity), search_type (similarity vs. MMR)",
+      "MMR (Maximal Marginal Relevance) balances relevance with diversity — avoids returning near-duplicate chunks",
+      "Chain returns both the generated answer and source documents, enabling transparency and debuggability in production"
+    ]
+  },
+  {
+    t: "Lab: Build a PDF Q&A System",
+    w: "Week 6",
+    b: [
+      "Step 1 — Load a PDF with PyPDFLoader, inspect Document objects and metadata (page numbers, source path)",
+      "Step 2 — Split documents using RecursiveCharacterTextSplitter (chunk_size=1000, chunk_overlap=200), examine chunk count and content",
+      "Step 3 — Generate embeddings with OpenAIEmbeddings and store in a Chroma vector store (persist_directory for reuse)",
+      "Step 4 — Build a RetrievalQA chain, query the PDF, and verify answers are grounded in actual document content",
+      "Step 5 — Experiment: vary chunk_size (250 vs. 2000), change k (2 vs. 10), observe how retrieval quality and answers change"
+    ]
+  },
+  {
+    t: "Week 6 Summary",
+    w: "Week 6",
+    b: [
+      "RAG is the dominant pattern for connecting LLMs to external knowledge — learn it deeply, you'll use it constantly",
+      "The pipeline (load → split → embed → store → retrieve → generate) has clear separation of concerns for iterative improvement",
+      "Chunk size, overlap, and retrieval parameters are your primary tuning levers — small changes yield large quality differences",
+      "Next week: Advanced RAG — hybrid search, re-ranking, query transformation, multi-step retrieval, and evaluation metrics",
+      "Assignment: extend the lab to support multiple PDFs, add metadata filtering, and compare answer quality across chunk sizes"
+    ]
+  }
+];
+
+function App() {
+  const [i, setI] = React.useState(0);
+  const slide = S[i];
+
+  React.useEffect(function() {
+    function onKey(ev) {
+      if (ev.key === 'ArrowRight' && i < S.length - 1) setI(i + 1);
+      if (ev.key === 'ArrowLeft' && i > 0) setI(i - 1);
+    }
+    window.addEventListener('keydown', onKey);
+    return function() { window.removeEventListener('keydown', onKey); };
+  }, [i]);
+
+  return e('div', { className: 'deck' },
+    e('div', { className: 'slide' },
+      e('h1', null, slide.t),
+      e('h2', null, slide.w + '  •  GENAI 301'),
+      e('ul', null,
+        slide.b.map(function(txt, j) {
+          return e('li', { key: j }, txt);
+        })
+      )
+    ),
+    e('div', { className: 'nav' },
+      e('button', { onClick: function() { setI(i - 1); }, disabled: i === 0 }, '← Prev'),
+      e('span', { className: 'counter' }, (i + 1) + ' / ' + S.length),
+      e('button', { onClick: function() { setI(i + 1); }, disabled: i === S.length - 1 }, 'Next →')
+    ),
+    e('div', { className: 'back-links' },
+      e('a', { href: '../index.html' }, '← Course Overview'),
+      e('a', { href: '../../site/index.html' }, '← Curriculum Home')
+    )
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(e(App));
+</script>
+</body>
+</html>
